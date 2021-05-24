@@ -40,3 +40,13 @@ conda create -n albadon python=3.7 --yes
 ```bash
 conda activate albadon
 ```
+
+3. Mysql
+
+* TODO:
+* infra/docker/mysql/docker-compose.yml 설명
+* 사용방법
+  * `-d`: Detached mode. 백그라운드에서 실행
+```
+docker-compose up -d
+```

@@ -28,6 +28,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    compileOnly('org.apache.commons:commons-lang3:3.8.1')
+    compileOnly('org.apache.commons:commons-collections4:4.3')
 }
 
 test {

@@ -20,6 +20,10 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'com.zaxxer:HikariCP'
+//    jdbcdriver "mysql:mysql-connector-java"
+    compileOnly "com.vladmihalcea:hibernate-types-52:2.4.3"
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

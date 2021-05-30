@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3743ead1-7a43-47af-a9ef-01f302d9487e" name="Default Changelist" comment="" />
+    <list default="true" id="3743ead1-7a43-47af-a9ef-01f302d9487e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/AlbadonApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/AlbadonApiApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/resources/application.properties" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,31 +22,69 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/albadon-api">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="albadon-api" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="albadon-api" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="albadon-api" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1t7M2PNxT9TM83zC7UJKQpMiOV2" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="ExpandSpringBootSpringBootSettingsPanel" value="false" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
-  <component name="RunManager" selected="Gradle.albadon-api [buildDependents]">
+  <component name="RunManager" selected="Spring Boot.albadon-api">
     <configuration name="albadon-api [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -78,6 +123,19 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="albadon-api" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="albadon-api.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.albadon.albadonapi.AlbadonApiApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.albadon-api [build]" />
+      <item itemvalue="Gradle.albadon-api [buildDependents]" />
+      <item itemvalue="Spring Boot.albadon-api" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.albadon-api [buildDependents]" />
@@ -103,9 +161,81 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="360" y="219" width="1188" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1622116220651">
-      <screen x="0" y="0" width="1792" height="1120" />
+    <state x="2178" y="211" width="1165" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1622362296905">
+      <screen x="1792" y="0" width="1920" height="1080" />
     </state>
     <state x="360" y="219" width="1188" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1622116220651" />
+    <state x="2178" y="211" width="1165" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622362296905" />
+    <state x="2498" y="346" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1622361728321">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2498" y="346" key="#com.intellij.ide.util.TreeClassChooserDialog/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622361728321" />
+    <state width="1878" height="502" key="GridCell.Tab.0.bottom" timestamp="1622363396181">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.0.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396181" />
+    <state width="1878" height="376" key="GridCell.Tab.0.bottom/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358612" />
+    <state width="1878" height="502" key="GridCell.Tab.0.center" timestamp="1622363396175">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.0.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396175" />
+    <state width="1878" height="376" key="GridCell.Tab.0.center/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358603" />
+    <state width="1878" height="502" key="GridCell.Tab.0.left" timestamp="1622363396173">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.0.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396173" />
+    <state width="1878" height="376" key="GridCell.Tab.0.left/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358599" />
+    <state width="1878" height="502" key="GridCell.Tab.0.right" timestamp="1622363396177">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.0.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396177" />
+    <state width="1878" height="376" key="GridCell.Tab.0.right/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358609" />
+    <state width="1878" height="502" key="GridCell.Tab.1.bottom" timestamp="1622363396189">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.1.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396189" />
+    <state width="1878" height="376" key="GridCell.Tab.1.bottom/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375426" />
+    <state width="1878" height="502" key="GridCell.Tab.1.center" timestamp="1622363396185">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.1.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396185" />
+    <state width="1878" height="376" key="GridCell.Tab.1.center/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375415" />
+    <state width="1878" height="502" key="GridCell.Tab.1.left" timestamp="1622363396183">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.1.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396183" />
+    <state width="1878" height="376" key="GridCell.Tab.1.left/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375410" />
+    <state width="1878" height="502" key="GridCell.Tab.1.right" timestamp="1622363396187">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="502" key="GridCell.Tab.1.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363396187" />
+    <state width="1878" height="376" key="GridCell.Tab.1.right/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375420" />
+    <state width="1878" height="376" key="GridCell.Tab.2.bottom" timestamp="1622363395719">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="376" key="GridCell.Tab.2.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395719" />
+    <state width="1878" height="376" key="GridCell.Tab.2.center" timestamp="1622363395714">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="376" key="GridCell.Tab.2.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395714" />
+    <state width="1878" height="376" key="GridCell.Tab.2.left" timestamp="1622363395711">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="376" key="GridCell.Tab.2.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395711" />
+    <state width="1878" height="376" key="GridCell.Tab.2.right" timestamp="1622363395716">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="376" key="GridCell.Tab.2.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395716" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/controller/HealthCheckController.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

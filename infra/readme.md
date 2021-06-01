@@ -44,7 +44,10 @@ conda activate albadon
 3. Mysql
 
 * TODO:
-* infra/docker/mysql/docker-compose.yml 설명
+  * infra/docker/mysql/docker-compose.yml 설명
+  * init 왜 안되는지 알아내기
+  * network 설정
+  * [참고링크](https://int-i.github.io/sql/2020-12-31/mysql-docker-compose/)
 * 사용방법
   * `-d`: Detached mode. 백그라운드에서 실행
 ```

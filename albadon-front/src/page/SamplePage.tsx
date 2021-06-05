@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SampleComponent } from "../component/SampleComponent";
 import { currentStoreId } from "../recoil/Atom";
-import { currentStore } from "../recoil/Seletor";
+import { currentStore } from "../recoil/Selector";
 
 export const SamplePage: React.FC = () => {
   const store = useRecoilValue(currentStore);

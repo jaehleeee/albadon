@@ -7,6 +7,7 @@ import { currentStore } from "../recoil/Seletor";
 export const SamplePage: React.FC = () => {
   const store = useRecoilValue(currentStore);
   const [storeId, setStoreId] = useRecoilState(currentStoreId);
+
   return (
     <div id="SamplePage">
       {[1, 2, 3, 4, 5].map((item) => {

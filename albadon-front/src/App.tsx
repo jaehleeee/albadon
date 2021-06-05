@@ -5,6 +5,7 @@ import { getHealthCheck } from "./service/HealthCheckService";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { SamplePage } from "./page/SamplePage";
 import { RecoilRoot } from "recoil";
+import { CalendarPage } from "./page/CalendarPage";
 
 function App() {
   const [value, setValue] = useState<string>("");
@@ -23,7 +24,7 @@ function App() {
             <Redirect to="/calendar" />
           </Route>
           <Route path="/calendar">
-            <SamplePage />
+            <CalendarPage />
           </Route>
           <Route path="/employee" />
           <Route path="/store" />

@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { SampleComponent } from "../component/SampleComponent";
+
 import { range } from "../util";
 import "./CalendarPage.scss";
 
@@ -19,6 +19,7 @@ export interface DaySchedule {
   employeeList: Employee[];
 }
 
+export const DATE_LIST = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 export const CalendarPage: React.FC = () => {
   const getSettings = (YYYYMM: string) => {
     const dayCount = moment(YYYYMM, "YYYYMM").daysInMonth();
@@ -32,7 +33,7 @@ export const CalendarPage: React.FC = () => {
   };
 
   const getDayComponent = (week: number, day: number, settings: Settings) => {
-    const val = week * 7 + day - settings.startDate;
+    const val = week * 7 + day - settings.startDate + 1;
     if (val > 0 && val <= settings.dayCount) {
       return (
         <div className="day-number">
@@ -152,14 +153,25 @@ export const CalendarPage: React.FC = () => {
 
   return (
     <div id="CalendarPage">
-      <div className="month-btn prev" onClick={handlePrevMonthBtnClick}>
-        ◀︎
-      </div>
-      <div className="yyyymm"> {selectedYYYYMM} </div>
-      <div className="month-btn next" onClick={handleNextMonthBtnClick}>
-        ▶︎
+      <div className="yyyymm">
+        <label className="month-btn prev" onClick={handlePrevMonthBtnClick}>
+          ◀︎
+        </label>
+        <label className="yyyymm-lbl"> {selectedYYYYMM}</label>
+        <label className="month-btn next" onClick={handleNextMonthBtnClick}>
+          ▶︎
+        </label>
       </div>
 
+      <div className="week-header">
+        {DATE_LIST.map((date) => {
+          return (
+            <div key={`${date}`} className="date">
+              {date}
+            </div>
+          );
+        })}
+      </div>
       <div className="week-wrapper">
         {range(settings.weekCount).map((week) => {
           return (

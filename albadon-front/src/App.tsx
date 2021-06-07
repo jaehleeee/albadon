@@ -5,6 +5,8 @@ import { getHealthCheck } from "./service/HealthCheckService";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { SamplePage } from "./page/SamplePage";
 import { RecoilRoot } from "recoil";
+import { CalendarPage } from "./page/CalendarPage";
+import { Header } from "./layout/Header";
 
 function App() {
   const [value, setValue] = useState<string>("");
@@ -18,19 +20,22 @@ function App() {
   return (
     <RecoilRoot>
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/calendar" />
-          </Route>
-          <Route path="/calendar">
-            <SamplePage />
-          </Route>
-          <Route path="/employee" />
-          <Route path="/store" />
-          <Route>
-            <Redirect to="/" />
-          </Route>
-        </Switch>
+        <Header />
+        <div id="container">
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/calendar" />
+            </Route>
+            <Route path="/calendar">
+              <CalendarPage />
+            </Route>
+            <Route path="/employee" />
+            <Route path="/store" />
+            <Route>
+              <Redirect to="/" />
+            </Route>
+          </Switch>
+        </div>
       </BrowserRouter>
     </RecoilRoot>
   );

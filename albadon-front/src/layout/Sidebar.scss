@@ -1,0 +1,23 @@
+@import "../variables.scss";
+
+#Sidebar{
+  width: $sidebarWidth;
+  position: absolute;
+  height: 100%;
+  background-color:  $navi;
+  color : $white;
+
+  #storeSelect{
+    position: absolute;
+    right: 20px;
+    top: 100px;
+  }
+  #navigationBar{
+    padding:  180px 20px;
+    .navi-btn{
+      padding: 4px 0px;
+      text-align: right;
+      cursor: pointer;
+    }
+  }
+}

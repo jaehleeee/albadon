@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS CONTRACT_DETAIL;
 CREATE TABLE CONTRACT_DETAIL (
   contract_detail_id bigint(20) NOT NULL AUTO_INCREMENT,
   contract_id bigint(20) DEFAULT NULL,
-  weekday varchar(45) DEFAULT NULL,
+  weekday int DEFAULT NULL,
   start_time time DEFAULT NULL,
   end_time time DEFAULT NULL,
   created_datetime datetime DEFAULT CURRENT_TIMESTAMP,
@@ -106,7 +106,7 @@ CREATE TABLE WORK (
   work_id bigint(20) NOT NULL AUTO_INCREMENT,
   store_id bigint(20) DEFAULT NULL,
   employee_id bigint(20) DEFAULT NULL,
-  weekday varchar(45) DEFAULT NULL,
+  weekday int DEFAULT NULL,
   start_datetime varchar(45) DEFAULT NULL,
   end_datetime varchar(45) DEFAULT NULL,
   created_datetime datetime DEFAULT CURRENT_TIMESTAMP,
@@ -114,3 +114,51 @@ CREATE TABLE WORK (
   PRIMARY KEY (work_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+insert into contract_detail
+(contract_id, weekday, start_time, end_time)
+values
+(3, 1, '09:00:00', '18:00:00'),
+(3, 2, '09:00:00', '18:00:00'),
+(3, 3, '09:00:00', '18:00:00'),
+(3, 4, '09:00:00', '18:00:00'),
+(3, 5, '09:00:00', '18:00:00'),
+(1, 1, '16:00:00', '23:00:00'),
+(1, 2, '17:00:00', '23:59:59'),
+(1, 3, '18:00:00', '22:00:00'),
+(2, 4, '09:00:00', '18:00:00'),
+(2, 5, '09:00:00', '18:00:00'),
+(4, 1, '09:00:00', '18:00:00'),
+(4, 2, '09:00:00', '18:00:00'),
+(4, 3, '09:00:00', '18:00:00'),
+(4, 4, '09:00:00', '18:00:00'),
+(4, 5, '09:00:00', '18:00:00'),
+(5, 1, '09:00:00', '18:00:00'),
+(5, 2, '09:00:00', '18:00:00'),
+(5, 3, '09:00:00', '18:00:00'),
+(6, 4, '09:00:00', '18:00:00'),
+(6, 5, '09:00:00', '18:00:00'),
+(7, 1, '09:00:00', '18:00:00'),
+(7, 2, '09:00:00', '18:00:00'),
+(7, 3, '09:00:00', '18:00:00'),
+(7, 4, '09:00:00', '18:00:00'),
+(7, 5, '09:00:00', '18:00:00');
+
+
+insert into work
+(store_id, employee_id, weekday, start_datetime, end_datetime)
+values
+(1, 4, 2, '2021-06-01 17:00:00', '2021-06-01 23:59:59'),
+(1, 4, 2, '2021-06-02 17:00:00', '2021-06-02 23:59:59'),
+(1, 4, 2, '2021-06-07 17:00:00', '2021-06-07 23:59:59'),
+(1, 4, 2, '2021-06-08 17:00:00', '2021-06-08 23:59:59'),
+(1, 4, 2, '2021-06-09 17:00:00', '2021-06-09 23:59:59'),
+(1, 4, 2, '2021-06-14 17:00:00', '2021-06-14 23:59:59'),
+(1, 4, 2, '2021-06-15 17:00:00', '2021-06-15 23:59:59'),
+(1, 4, 2, '2021-06-16 17:00:00', '2021-06-16 23:59:59'),
+(1, 4, 2, '2021-06-21 17:00:00', '2021-06-21 23:59:59'),
+(1, 4, 2, '2021-06-22 17:00:00', '2021-06-22 23:59:59'),
+(1, 4, 2, '2021-06-23 17:00:00', '2021-06-23 23:59:59'),
+(1, 4, 2, '2021-06-28 17:00:00', '2021-06-28 23:59:59'),
+(1, 4, 2, '2021-06-29 17:00:00', '2021-06-29 23:59:59'),
+(1, 4, 2, '2021-06-30 17:00:00', '2021-06-30 23:59:59')
+;

@@ -13,3 +13,13 @@ width : 100%;
   padding-top: 100px;
   margin-left: $sidebarWidth;
 }}
+
+
+
+.ag-theme-alpine{
+  padding: 20px;
+  height: 500px;
+  .ag-header{
+    background-color: #dbe6fd !important;
+  }
+}

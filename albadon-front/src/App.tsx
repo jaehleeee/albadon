@@ -8,6 +8,7 @@ import { RecoilRoot } from "recoil";
 import { CalendarPage } from "./page/CalendarPage";
 import { Header } from "./layout/Header";
 import { Sidebar } from "./layout/Sidebar";
+import { EmployeePage } from "./page/EmployeePage";
 
 function App() {
   const [value, setValue] = useState<string>("");
@@ -25,14 +26,17 @@ function App() {
       <Sidebar/>
         <div id="container">
           <Switch>
-            <Route exact path="/">
+            {/* <Route exact path="/">
               <Redirect to="/calendar" />
-            </Route>
+            </Route> */}
             <Route path="/calendar">
               <CalendarPage />
-              {/* <SamplePage/> */}
+              
             </Route>
-            <Route path="/employee" />
+            <Route path="/sample"><SamplePage/></Route>
+            <Route path="/employee">
+              <EmployeePage/>
+            </Route>
             <Route path="/store" />
             <Route>
               <Redirect to="/" />

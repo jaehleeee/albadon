@@ -7,6 +7,7 @@ import { SamplePage } from "./page/SamplePage";
 import { RecoilRoot } from "recoil";
 import { CalendarPage } from "./page/CalendarPage";
 import { Header } from "./layout/Header";
+import { Sidebar } from "./layout/Sidebar";
 
 function App() {
   const [value, setValue] = useState<string>("");
@@ -20,7 +21,8 @@ function App() {
   return (
     <RecoilRoot>
       <BrowserRouter>
-        <Header />
+ <div className ="app">
+      <Sidebar/>
         <div id="container">
           <Switch>
             <Route exact path="/">
@@ -28,6 +30,7 @@ function App() {
             </Route>
             <Route path="/calendar">
               <CalendarPage />
+              {/* <SamplePage/> */}
             </Route>
             <Route path="/employee" />
             <Route path="/store" />
@@ -35,7 +38,7 @@ function App() {
               <Redirect to="/" />
             </Route>
           </Switch>
-        </div>
+        </div></div>
       </BrowserRouter>
     </RecoilRoot>
   );

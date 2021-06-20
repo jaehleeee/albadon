@@ -1,6 +1,7 @@
 package com.albadon.albadonapi.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ public class HealthCheckController {
 	@Value("${spring.application.name}")
 	private String applicationName;
 
+	@CrossOrigin("*")
 	@GetMapping("health/project")
 	public String project() {
 		return applicationName;

@@ -4,6 +4,12 @@
 }
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
+@import './variables.scss';
+
+.app{ 
+  height: 100%;
+width : 100%;
 #container {
-  padding-top: 40px;
-}
+  padding-top: 100px;
+  margin-left: $sidebarWidth;
+}}

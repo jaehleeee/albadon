@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { ExcelUploadButton } from "../component/ExcelUploadButton";
+import {ExcelDownloadButton} from "../component/ExcelDownloadButton"
 import { SampleComponent } from "../component/SampleComponent";
 import { currentStoreId } from "../data/Atoms";
 import { currentStoreState } from "../data/Selectors";
@@ -10,6 +12,8 @@ export const SamplePage: React.FC = () => {
 
   return (
     <div id="SamplePage">
+      <ExcelUploadButton/>
+     <ExcelDownloadButton/>
       {[1, 2, 3, 4, 5].map((item) => {
         return <SampleComponent title={`${item}번째 sampleComponent`} />;
       })}
@@ -20,6 +24,7 @@ export const SamplePage: React.FC = () => {
           }}
         >
           storeId 늘리기
+
         </button>
         {currentStore.storeName}
       </div>

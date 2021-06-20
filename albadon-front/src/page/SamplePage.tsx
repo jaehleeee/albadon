@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SampleComponent } from "../component/SampleComponent";
-import { currentStoreId } from "../recoil/Atom";
-import { currentStore } from "../recoil/Selector";
+import { currentStoreId } from "../data/Atoms";
+import { currentStoreState } from "../data/Selectors";
 
 export const SamplePage: React.FC = () => {
-  const store = useRecoilValue(currentStore);
+  const currentStore= useRecoilValue(currentStoreState);
   const [storeId, setStoreId] = useRecoilState(currentStoreId);
 
   return (
@@ -21,7 +21,7 @@ export const SamplePage: React.FC = () => {
         >
           storeId 늘리기
         </button>
-        {store.storeName}
+        {currentStore.storeName}
       </div>
     </div>
   );

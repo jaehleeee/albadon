@@ -17,6 +17,7 @@ public class HealthCheckController {
 	@Value("${spring.application.name}")
 	private String applicationName;
 
+	@CrossOrigin("*")
 	@GetMapping("health/project")
 	public String project() {
 		return applicationName;

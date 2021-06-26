@@ -6,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,8 +23,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Work extends BaseEntity {
-	@Id @GeneratedValue
-	private Long wordId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long workId;
 
 	@OneToOne(optional = false)
 	@JoinColumn(name="store_id", nullable = false,
@@ -35,11 +38,11 @@ public class Work extends BaseEntity {
 	private Employee employee;
 
 	@Column
-	private String weekDay;
+	private Integer weekday; // 근무 요일
 
 	@Column
-	private LocalDateTime startDatetime;
+	private LocalDateTime startDatetime; // 출근 시간
 
 	@Column
-	private LocalDateTime endDatetime;
+	private LocalDateTime endDatetime; // 퇴근 시간
 }

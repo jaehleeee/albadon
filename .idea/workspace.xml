@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3743ead1-7a43-47af-a9ef-01f302d9487e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/albadon-api/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/controller/BossController.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/controller/BossController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/controller/HealthCheckController.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/controller/HealthCheckController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Boss.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Boss.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Contract.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Contract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/ContractDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/ContractDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Salary.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Salary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Store.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Work.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/persistence/entity/Work.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/BossService.java" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/BossService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/albadon-api/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/albadon-api/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +71,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1t7M2PNxT9TM83zC7UJKQpMiOV2" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -82,11 +94,56 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.albadon.albadonapi.dto" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.albadon.albadonapi.persistence.repository" />
+      <recent name="com.albadon.albadonapi.service" />
+      <recent name="com.albadon.albadonapi.controller" />
+      <recent name="com.albadon.albadonapi.dto.cond" />
       <recent name="com.albadon.albadonapi.persistence.entity" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.albadon-api">
+    <configuration name="albadon-api [bootJarMainClassName]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/albadon-api" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJarMainClassName" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="albadon-api [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/albadon-api" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="albadon-api [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -125,6 +182,25 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="albadon-api [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/albadon-api" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="albadon-api" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="albadon-api.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.albadon.albadonapi.AlbadonApiApplication" />
@@ -136,10 +212,16 @@
     <list>
       <item itemvalue="Gradle.albadon-api [build]" />
       <item itemvalue="Gradle.albadon-api [buildDependents]" />
+      <item itemvalue="Gradle.albadon-api [bootJarMainClassName]" />
+      <item itemvalue="Gradle.albadon-api [bootJar]" />
+      <item itemvalue="Gradle.albadon-api [clean]" />
       <item itemvalue="Spring Boot.albadon-api" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.albadon-api [clean]" />
+        <item itemvalue="Gradle.albadon-api [bootJar]" />
+        <item itemvalue="Gradle.albadon-api [bootJarMainClassName]" />
         <item itemvalue="Gradle.albadon-api [buildDependents]" />
         <item itemvalue="Gradle.albadon-api [build]" />
       </list>
@@ -156,6 +238,9 @@
       <option name="presentableId" value="Default" />
       <updated>1622115466802</updated>
       <workItem from="1622115468636" duration="644000" />
+      <workItem from="1622794409469" duration="1396000" />
+      <workItem from="1623070937065" duration="12914000" />
+      <workItem from="1624413043532" duration="10800000" />
     </task>
     <servers />
   </component>
@@ -172,65 +257,160 @@
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
     <state x="2498" y="346" key="#com.intellij.ide.util.TreeClassChooserDialog/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622361728321" />
-    <state width="1878" height="502" key="GridCell.Tab.0.bottom" timestamp="1622380870506">
+    <state x="656" y="433" width="603" height="262" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1623463006519">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="656" y="433" width="603" height="262" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1792.1120@0.0.1792.1120" timestamp="1623463006519" />
+    <state width="1876" height="376" key="GridCell.Tab.0.bottom" timestamp="1624685502366">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.0.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870506" />
-    <state width="1878" height="376" key="GridCell.Tab.0.bottom/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358612" />
-    <state width="1878" height="502" key="GridCell.Tab.0.center" timestamp="1622380870500">
+    <state width="1750" height="392" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009882" />
+    <state width="1750" height="381" key="GridCell.Tab.0.bottom/0.25.1792.1038@0.25.1792.1038" timestamp="1624178761611" />
+    <state width="1748" height="392" key="GridCell.Tab.0.bottom/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993152" />
+    <state width="1876" height="376" key="GridCell.Tab.0.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467222" />
+    <state width="1876" height="376" key="GridCell.Tab.0.bottom/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685502366" />
+    <state width="1876" height="376" key="GridCell.Tab.0.bottom/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681459182" />
+    <state width="1876" height="376" key="GridCell.Tab.0.center" timestamp="1624685502358">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.0.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870500" />
-    <state width="1878" height="376" key="GridCell.Tab.0.center/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358603" />
-    <state width="1878" height="502" key="GridCell.Tab.0.left" timestamp="1622380870496">
+    <state width="1750" height="392" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009878" />
+    <state width="1750" height="380" key="GridCell.Tab.0.center/0.25.1792.1038@0.25.1792.1038" timestamp="1624175282950" />
+    <state width="1748" height="392" key="GridCell.Tab.0.center/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993147" />
+    <state width="1876" height="376" key="GridCell.Tab.0.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467214" />
+    <state width="1876" height="376" key="GridCell.Tab.0.center/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685502358" />
+    <state width="1876" height="376" key="GridCell.Tab.0.center/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681459171" />
+    <state width="1876" height="376" key="GridCell.Tab.0.left" timestamp="1624685502355">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.0.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870496" />
-    <state width="1878" height="376" key="GridCell.Tab.0.left/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358599" />
-    <state width="1878" height="502" key="GridCell.Tab.0.right" timestamp="1622380870503">
+    <state width="1750" height="392" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009876" />
+    <state width="1750" height="380" key="GridCell.Tab.0.left/0.25.1792.1038@0.25.1792.1038" timestamp="1624175282943" />
+    <state width="1748" height="392" key="GridCell.Tab.0.left/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993145" />
+    <state width="1876" height="376" key="GridCell.Tab.0.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467210" />
+    <state width="1876" height="376" key="GridCell.Tab.0.left/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685502355" />
+    <state width="1876" height="376" key="GridCell.Tab.0.left/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681459162" />
+    <state width="1876" height="376" key="GridCell.Tab.0.right" timestamp="1624685502360">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.0.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870503" />
-    <state width="1878" height="376" key="GridCell.Tab.0.right/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363358609" />
-    <state width="1878" height="502" key="GridCell.Tab.1.bottom" timestamp="1622380870518">
+    <state width="1750" height="392" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009880" />
+    <state width="1750" height="380" key="GridCell.Tab.0.right/0.25.1792.1038@0.25.1792.1038" timestamp="1624175282955" />
+    <state width="1748" height="392" key="GridCell.Tab.0.right/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993149" />
+    <state width="1876" height="376" key="GridCell.Tab.0.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467219" />
+    <state width="1876" height="376" key="GridCell.Tab.0.right/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685502360" />
+    <state width="1876" height="376" key="GridCell.Tab.0.right/1792.0.1920.1080/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681459116" />
+    <state width="1876" height="376" key="GridCell.Tab.0.right/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681459179" />
+    <state width="1876" height="376" key="GridCell.Tab.1.bottom" timestamp="1624685493510">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.1.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870518" />
-    <state width="1878" height="376" key="GridCell.Tab.1.bottom/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375426" />
-    <state width="1878" height="502" key="GridCell.Tab.1.center" timestamp="1622380870511">
+    <state width="1750" height="392" key="GridCell.Tab.1.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009706" />
+    <state width="1750" height="392" key="GridCell.Tab.1.bottom/0.25.1792.1038@0.25.1792.1038" timestamp="1624180014769" />
+    <state width="1748" height="392" key="GridCell.Tab.1.bottom/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993162" />
+    <state width="1876" height="376" key="GridCell.Tab.1.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467047" />
+    <state width="1876" height="376" key="GridCell.Tab.1.bottom/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685493510" />
+    <state width="1876" height="376" key="GridCell.Tab.1.bottom/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681474726" />
+    <state width="1876" height="376" key="GridCell.Tab.1.center" timestamp="1624685493502">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.1.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870511" />
-    <state width="1878" height="376" key="GridCell.Tab.1.center/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375415" />
-    <state width="1878" height="502" key="GridCell.Tab.1.left" timestamp="1622380870508">
+    <state width="1750" height="392" key="GridCell.Tab.1.center/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009703" />
+    <state width="1750" height="392" key="GridCell.Tab.1.center/0.25.1792.1038@0.25.1792.1038" timestamp="1624180014763" />
+    <state width="1748" height="392" key="GridCell.Tab.1.center/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993157" />
+    <state width="1876" height="376" key="GridCell.Tab.1.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467022" />
+    <state width="1876" height="376" key="GridCell.Tab.1.center/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685493502" />
+    <state width="1876" height="376" key="GridCell.Tab.1.center/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681474713" />
+    <state width="1876" height="376" key="GridCell.Tab.1.left" timestamp="1624685493490">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.1.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870508" />
-    <state width="1878" height="376" key="GridCell.Tab.1.left/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375410" />
-    <state width="1878" height="502" key="GridCell.Tab.1.right" timestamp="1622380870514">
+    <state width="1750" height="392" key="GridCell.Tab.1.left/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009701" />
+    <state width="1750" height="392" key="GridCell.Tab.1.left/0.25.1792.1038@0.25.1792.1038" timestamp="1624180014738" />
+    <state width="1748" height="392" key="GridCell.Tab.1.left/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993155" />
+    <state width="1876" height="376" key="GridCell.Tab.1.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467017" />
+    <state width="1876" height="376" key="GridCell.Tab.1.left/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685493490" />
+    <state width="1876" height="376" key="GridCell.Tab.1.left/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681474711" />
+    <state width="1876" height="376" key="GridCell.Tab.1.right" timestamp="1624685493506">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="502" key="GridCell.Tab.1.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622380870514" />
-    <state width="1878" height="376" key="GridCell.Tab.1.right/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1622363375420" />
-    <state width="1878" height="376" key="GridCell.Tab.2.bottom" timestamp="1622363395719">
+    <state width="1750" height="392" key="GridCell.Tab.1.right/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009704" />
+    <state width="1750" height="392" key="GridCell.Tab.1.right/0.25.1792.1038@0.25.1792.1038" timestamp="1624180014766" />
+    <state width="1748" height="392" key="GridCell.Tab.1.right/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993159" />
+    <state width="1876" height="376" key="GridCell.Tab.1.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467025" />
+    <state width="1876" height="376" key="GridCell.Tab.1.right/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624685493506" />
+    <state width="1876" height="376" key="GridCell.Tab.1.right/1792.25.1920.1055/0.25.1792.1038@1792.25.1920.1055" timestamp="1624681474719" />
+    <state width="1876" height="376" key="GridCell.Tab.2.bottom" timestamp="1624685467069">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="376" key="GridCell.Tab.2.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395719" />
-    <state width="1878" height="376" key="GridCell.Tab.2.center" timestamp="1622363395714">
+    <state width="1750" height="392" key="GridCell.Tab.2.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009711" />
+    <state width="1748" height="392" key="GridCell.Tab.2.bottom/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993170" />
+    <state width="1876" height="376" key="GridCell.Tab.2.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467069" />
+    <state width="1876" height="376" key="GridCell.Tab.2.bottom/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624683783653" />
+    <state width="1876" height="376" key="GridCell.Tab.2.center" timestamp="1624685467056">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="376" key="GridCell.Tab.2.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395714" />
-    <state width="1878" height="376" key="GridCell.Tab.2.left" timestamp="1622363395711">
+    <state width="1750" height="392" key="GridCell.Tab.2.center/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009709" />
+    <state width="1748" height="392" key="GridCell.Tab.2.center/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993166" />
+    <state width="1876" height="376" key="GridCell.Tab.2.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467056" />
+    <state width="1876" height="376" key="GridCell.Tab.2.center/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624683783646" />
+    <state width="1876" height="376" key="GridCell.Tab.2.left" timestamp="1624685467053">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="376" key="GridCell.Tab.2.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395711" />
-    <state width="1878" height="376" key="GridCell.Tab.2.right" timestamp="1622363395716">
+    <state width="1750" height="392" key="GridCell.Tab.2.left/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009707" />
+    <state width="1748" height="392" key="GridCell.Tab.2.left/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993164" />
+    <state width="1876" height="376" key="GridCell.Tab.2.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467053" />
+    <state width="1876" height="376" key="GridCell.Tab.2.left/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624683783642" />
+    <state width="1876" height="376" key="GridCell.Tab.2.right" timestamp="1624685467059">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="376" key="GridCell.Tab.2.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622363395716" />
+    <state width="1750" height="392" key="GridCell.Tab.2.right/0.0.1792.1120@0.0.1792.1120" timestamp="1624180009710" />
+    <state width="1748" height="392" key="GridCell.Tab.2.right/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1624412993168" />
+    <state width="1876" height="376" key="GridCell.Tab.2.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685467059" />
+    <state width="1876" height="376" key="GridCell.Tab.2.right/1792.0.1920.1080/0.25.1792.1038@1792.0.1920.1080" timestamp="1624683783650" />
+    <state x="2813" y="473" width="640" height="490" key="find.popup" timestamp="1624685226064">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state x="953" y="491" width="597" height="490" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1624176580014" />
+    <state x="2813" y="473" width="640" height="490" key="find.popup/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624685226064" />
     <state x="2417" y="255" key="run.anything.popup" timestamp="1622382475288">
       <screen x="1792" y="0" width="1920" height="1080" />
     </state>
     <state x="2417" y="255" key="run.anything.popup/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1622382475288" />
+    <state x="2393" y="242" width="670" height="158" key="search.everywhere.popup" timestamp="1624679122959">
+      <screen x="1792" y="0" width="1920" height="1080" />
+    </state>
+    <state x="561" y="251" width="670" height="158" key="search.everywhere.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1624179924859" />
+    <state x="2393" y="242" width="670" height="158" key="search.everywhere.popup/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1624679122959" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/ContractService.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/ContractService.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/ContractService.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/WorkService.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/WorkService.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/albadon-api/src/main/java/com/albadon/albadonapi/service/WorkService.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

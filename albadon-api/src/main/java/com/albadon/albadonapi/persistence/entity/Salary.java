@@ -1,6 +1,7 @@
 package com.albadon.albadonapi.persistence.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,10 +40,10 @@ public class Salary extends BaseEntity {
 	private Employee employee;
 
 	@Column
-	private LocalDate paidDate; // 급여 지급일
+	private LocalDateTime paidDate; // 급여 지급일
 
 	@Column
-	private Long paidSalary; // 지급된 급여액
+	private Integer paidSalary; // 지급된 급여액
 
 	@Column
 	private LocalDate startDate; // 지급된 급여에 대한 업무 시작일

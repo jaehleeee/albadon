@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import "./Sidebar.scss";
 
@@ -11,7 +12,7 @@ export enum NavOption {
 export const Sidebar: React.FC = () => {
   const history = useHistory();
   const [navOption, setNavOption] = useState<NavOption>(NavOption.CALENDAR);
-
+  const { t } = useTranslation();
   useEffect(() => {
     switch (navOption) {
       case NavOption.CALENDAR:
@@ -45,7 +46,7 @@ export const Sidebar: React.FC = () => {
                 setNavOption(option as NavOption);
               }}
             >
-              {option}
+              {t(`sideBar.${option}`)}
             </div>
           );
         })}

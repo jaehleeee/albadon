@@ -46,7 +46,14 @@ ContractService {
 		Assert.isTrue(contract.getStore().getStoreId().equals(workCond.getStoreId()), "StoreId is not matching with contract");
 		Assert.isTrue(contract.getEmployee().getEmployeeId().equals(workCond.getEmployeeId()), "EmployeeId is not matching with contract");
 		Assert.notNull(workCond.getWeekday(), "weekday is required");
+	}
 
-
+	public void validateContractAndWork(Contract contract, Long workId) {
+		Work work = workService.findById(workId);
+		if(Objects.isNull(work)) {
+			throw new RuntimeException("validateContractAndWork error - work not found by workId");
+		}
+		Assert.isTrue(contract.getStore().getStoreId().equals(work.getStore().getStoreId()), "Store is not matching between work and contract");
+		Assert.isTrue(contract.getEmployee().getEmployeeId().equals(work.getEmployee().getEmployeeId()), "Employee is not matching between work and contract");
 	}
 }

@@ -1,10 +1,9 @@
 package com.albadon.albadonapi.controller;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,14 +45,6 @@ public class ContractController {
 		@PathVariable Long contractId,
 		@RequestParam(required = false) Integer year,
 		@RequestParam(required = false) Integer month) {
-		Calendar cal = Calendar.getInstance();
-		if(Objects.isNull(year)) {
-			year = cal.get(cal.YEAR);
-		}
-		if(Objects.isNull(month)) {
-			month = cal.get(cal.MONTH) + 1;
-		}
-
 		Contract contract = contractService.findContract(contractId);
 
 		return workService.findWorkList(contract.getStore(), contract.getEmployee(), year, month);
@@ -68,5 +59,14 @@ public class ContractController {
 
 		contractService.validateWorkCondByContract(contract, workCond);
 		return workService.saveContractWork(contract, workCond, workId);
+	}
+
+	@DeleteMapping("{contractId}/work/{workId}")
+	public void deleteContractWork(
+		@PathVariable Long contractId, @PathVariable Long workId) {
+		Contract contract = contractService.findContract(contractId);
+		contractService.validateContractAndWork(contract, workId);
+
+		workService.deleteWork(workId);
 	}
 }

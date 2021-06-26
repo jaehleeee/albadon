@@ -1,16 +1,17 @@
 package com.albadon.albadonapi.persistence.entity;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,23 +26,17 @@ public class ContractDetail extends BaseEntity {
 	@Id @GeneratedValue
 	private Long contractDetailId;
 
-	@OneToOne(optional = false)
-	@JoinColumn(name="contract_id", nullable = false,
-		foreignKey = @ForeignKey(name = "contract_detail_fk"))
-	private Contract  contract;
+	@Column
+	private String weekday; // 출근 요일
 
 	@Column
-	private LocalDateTime startDate; // 출근 시작일
+	private LocalTime startTime; // 출근 시간
 
 	@Column
-	private LocalDateTime endDate; // 퇴직일
+	private LocalTime endTime; // 퇴근 시간
 
-	@Column
-	private String weekday; // 요일
-
-	@Column
-	private Timestamp startTime; // 해당 요일 출근 시간
-
-	@Column
-	private Timestamp endTime; // 해당 요일 퇴근 시간
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="contract_id", foreignKey = @ForeignKey(name = "contract_detail_fk"))
+	@JsonBackReference
+	private Contract contract;
 }

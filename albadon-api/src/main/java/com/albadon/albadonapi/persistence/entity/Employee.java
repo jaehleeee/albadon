@@ -1,5 +1,7 @@
 package com.albadon.albadonapi.persistence.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,17 +22,17 @@ public class Employee extends BaseEntity {
 	private Long employeeId;
 
 	@Column
-	private String name;
-
-	@Column
-	private String phoneNumber;
-
-	@Column
-	private String sex;
-
-	@Column
-	private Long age;
+	private String employeeName;
 
 	@Column
 	private String role;
+
+	@Column
+	private String employeePhoneNumber;
+
+	@Column
+	private String employeeSex;
+
+	@Column
+	private LocalDateTime employeeBirthday;
 }

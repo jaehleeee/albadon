@@ -16,22 +16,22 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 	@Setter
-	@Column(nullable = false, name = "created_time")
-	protected LocalDateTime createdTime;
-	@Column(nullable = false, name = "updated_time")
-	protected LocalDateTime updatedTime;
+	@Column(nullable = false, name = "created_datetime")
+	protected LocalDateTime createdDatetime;
+	@Column(nullable = false, name = "updated_datetime")
+	protected LocalDateTime updatedDatetime;
 
 	@PrePersist
 	public void prePersist() {
-		if (this.createdTime == null) {
-			this.createdTime = KoreanDateTime.localNow();
+		if (this.createdDatetime == null) {
+			this.createdDatetime = KoreanDateTime.localNow();
 		}
-		this.updatedTime = KoreanDateTime.localNow();
+		this.updatedDatetime = KoreanDateTime.localNow();
 	}
 
 	@PreUpdate
 	public void preUpdate() {
-		this.updatedTime = KoreanDateTime.localNow();
+		this.updatedDatetime = KoreanDateTime.localNow();
 	}
 }
 

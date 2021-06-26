@@ -1,5 +1,6 @@
 package com.albadon.albadonapi.persistence.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,10 +10,10 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,21 +29,29 @@ public class Contract extends BaseEntity {
 	private Long contractId;
 
 	@OneToOne(optional = false)
-	@JoinColumn(name="store_id", nullable = false,
-		foreignKey = @ForeignKey(name = "contract_store_fk"))
+	@JoinColumn(name="store_id", nullable = false, foreignKey = @ForeignKey(name = "contract_store_fk"))
 	private Store store;
 
 	@OneToOne(optional = false)
-	@JoinColumn(name="employee_id", nullable = false,
-		foreignKey = @ForeignKey(name = "contract_employee_fk"))
+	@JoinColumn(name="employee_id", nullable = false, foreignKey = @ForeignKey(name = "contract_employee_fk"))
 	private Employee employee;
 
 	@Column
-	private String wage;
+	private Integer wage;
 
 	@Column
-	private String nightWage;
+	private Integer nightWage;
 
 	@Column
-	private String holidayWage;
+	private Integer holidayWage;
+
+	@Column
+	private LocalDateTime startDate;
+
+	@Column
+	private LocalDateTime endDate;
+
+	@OneToMany(mappedBy = "contract", targetEntity = ContractDetail.class, fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private List<ContractDetail> contractDetailList;
 }

@@ -1,10 +1,16 @@
 package com.albadon.albadonapi.persistence.entity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +26,18 @@ public class Boss extends BaseEntity {
 	Long bossId;
 
 	@Column
-	String name;
+	String bossName;
 
 	@Column
-	String phoneNumber;
+	String bossPhoneNumber;
+
+	@Column
+	String bossSex;
+
+	@Column
+	LocalDateTime bossBirthday;
+
+	@OneToMany(mappedBy = "boss", targetEntity = Store.class, fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private List<Store> storeList;
 }

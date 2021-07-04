@@ -1,10 +1,12 @@
 package com.albadon.albadonapi.persistence.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +20,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Employee extends BaseEntity {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long employeeId;
 
 	@Column
@@ -34,5 +37,5 @@ public class Employee extends BaseEntity {
 	private String employeeSex;
 
 	@Column
-	private LocalDateTime employeeBirthday;
+	private LocalDate employeeBirthday;
 }

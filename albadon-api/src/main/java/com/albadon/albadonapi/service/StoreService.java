@@ -6,8 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albadon.albadonapi.dto.ContractEmployeeDto;
-import com.albadon.albadonapi.dto.cond.EmployeeCond;
+import com.albadon.albadonapi.dto.EmployeeContractDto;
 import com.albadon.albadonapi.dto.cond.StoreCond;
 import com.albadon.albadonapi.persistence.entity.Boss;
 import com.albadon.albadonapi.persistence.entity.Contract;
@@ -43,20 +42,9 @@ public class StoreService {
 		return storeRepository.save(store);
 	}
 
-	@Transactional
-	public Employee registerNewEmployeeWithContract(Long storeId, EmployeeCond employeeCond) {
-		// employee 저장
-		Employee newEmployee = employeeService.createNewEmployee(employeeCond);
-
-		// TODO 계약 작성, requestbody 안에 contract랑 contranctDetail 모두 있어야 함.
-
-
-		return newEmployee;
-	}
-
 	@Transactional(readOnly = true)
-	public List<ContractEmployeeDto> retrieveEmployeeListInStore(Long storeId) {
-		List<ContractEmployeeDto> resultList = new ArrayList<>();
+	public List<EmployeeContractDto> retrieveEmployeeListInStore(Long storeId) {
+		List<EmployeeContractDto> resultList = new ArrayList<>();
 
 		List<Contract> contracts = contractService.findContractListByStore(storeId);
 
@@ -66,15 +54,15 @@ public class StoreService {
 			Contract contract = contracts.get(i);
 			Employee employee = contract.getEmployee();
 
-			ContractEmployeeDto dto = makeContractEmployeeDto(contract, employee);
+			EmployeeContractDto dto = makeEmployeeContractDto(contract, employee);
 			resultList.add(dto);
 		}
 
 		return resultList;
 	}
 
-	private ContractEmployeeDto makeContractEmployeeDto(Contract contract, Employee employee) {
-		return ContractEmployeeDto.builder()
+	private EmployeeContractDto makeEmployeeContractDto(Contract contract, Employee employee) {
+		return EmployeeContractDto.builder()
 			.contractId(contract.getContractId())
 			.wage(contract.getWage())
 			.holidayWage(contract.getHolidayWage())

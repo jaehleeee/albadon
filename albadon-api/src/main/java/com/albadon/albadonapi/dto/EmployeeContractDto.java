@@ -1,5 +1,6 @@
 package com.albadon.albadonapi.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,18 +16,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ContractEmployeeDto {
+public class EmployeeContractDto {
 	private Long contractId;
 	private Integer wage;
 	private Integer nightWage;
 	private Integer holidayWage;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 
 	private Long employeeId;
 	private String employeeName;
 	private String role;
 	private String employeePhoneNumber;
 	private String employeeSex;
-	private LocalDateTime employeeBirthday;
+	private LocalDate employeeBirthday;
 }

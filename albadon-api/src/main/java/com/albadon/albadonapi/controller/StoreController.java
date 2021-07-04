@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.albadon.albadonapi.dto.ContractEmployeeDto;
-import com.albadon.albadonapi.dto.cond.EmployeeCond;
+import com.albadon.albadonapi.dto.EmployeeContractDto;
+import com.albadon.albadonapi.dto.cond.EmployeeContractCond;
 import com.albadon.albadonapi.dto.cond.StoreCond;
-import com.albadon.albadonapi.persistence.entity.Employee;
+import com.albadon.albadonapi.persistence.entity.Contract;
 import com.albadon.albadonapi.persistence.entity.Store;
 import com.albadon.albadonapi.service.EmployeeService;
 import com.albadon.albadonapi.service.StoreService;
@@ -40,15 +40,14 @@ public class StoreController {
 	}
 
 	@GetMapping("/{storeId}/employees")
-	public List<ContractEmployeeDto> retrieveEmployeeListByStore(@PathVariable Long storeId) {
+	public List<EmployeeContractDto> retrieveEmployeeListByStore(@PathVariable Long storeId) {
 		return storeService.retrieveEmployeeListInStore(storeId);
 	}
 
 	@PostMapping("/{storeId}/employee")
-	public Employee registerEmployeeInStore(@PathVariable Long storeId, @RequestBody EmployeeCond employeeCond) {
+	public Contract registerEmployeeInStore(@PathVariable Long storeId, @RequestBody EmployeeContractCond employeeContractCond) {
 		Store store = storeService.retrieveStore(storeId);
-		return storeService.registerNewEmployeeWithContract(storeId, employeeCond);
+		return employeeService.registerNewEmployee(store, employeeContractCond);
 	}
-
 
 }

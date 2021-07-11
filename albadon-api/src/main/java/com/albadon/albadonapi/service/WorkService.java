@@ -1,8 +1,7 @@
 package com.albadon.albadonapi.service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,11 +23,24 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkService {
 	private final WorkRepository workRepository;
 
-	public List<Work> findWorkList(Store store, Employee employee, Integer year, Integer month) {
-		LocalDateTime before = LocalDateTime.of(year, month, 1, 0, 0);
-		LocalDateTime now = LocalDateTime.now();
+	public Work findById(Long workId) {
+		return workRepository.findById(workId).orElse(null);
+	}
 
-		return workRepository.findByStoreAndEmployeeAndStartDatetimeBetween(store, employee, before, now);
+	public List<Work> findWorkList(Store store, Employee employee, Integer year, Integer month) {
+		// year, month 비워져있으면 현재 년도와 월로 채우기
+		Calendar cal = Calendar.getInstance();
+		if(Objects.isNull(year)) {
+			year = cal.get(cal.YEAR);
+		}
+		if(Objects.isNull(month)) {
+			month = cal.get(cal.MONTH) + 1;
+		}
+
+		LocalDateTime thisMonth = LocalDateTime.of(year, month, 1, 0, 0);
+		LocalDateTime nextMonth = LocalDateTime.of(year, month+1, 1, 0, 0);
+
+		return workRepository.findByStoreAndEmployeeAndStartDatetimeBetween(store, employee, thisMonth, nextMonth);
 	}
 
 	@Transactional
@@ -43,6 +55,9 @@ public class WorkService {
 			work.setWeekday(workCond.getWeekday());
 			work.setStartDatetime(workCond.getStartDatetime());
 			work.setEndDatetime(workCond.getEndDatetime());
+
+			//TODO 근무이력이 1개라면, 동일한 날짜에 근무이력이 생성되지 않도록 할 필요가 있음.
+
 		} else {
 			work = workRepository.findById(workId).orElseThrow();
 			work.setWeekday(workCond.getWeekday());
@@ -51,5 +66,10 @@ public class WorkService {
 		}
 
 		return workRepository.save(work);
+	}
+
+
+	public void deleteWork(Long workId) {
+		workRepository.deleteById(workId);
 	}
 }

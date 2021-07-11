@@ -1,5 +1,6 @@
 package com.albadon.albadonapi.persistence.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -25,7 +27,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Contract extends BaseEntity {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long contractId;
 
 	@OneToOne(optional = false)
@@ -46,10 +49,10 @@ public class Contract extends BaseEntity {
 	private Integer holidayWage;
 
 	@Column
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 
 	@Column
-	private LocalDateTime endDate;
+	private LocalDate endDate;
 
 	@OneToMany(mappedBy = "contract", targetEntity = ContractDetail.class, fetch = FetchType.LAZY)
 	@JsonManagedReference

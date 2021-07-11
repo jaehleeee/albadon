@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { currentStoreId } from "../data/Atoms";
+import { storeListState } from "../data/Selectors";
 import "./Sidebar.scss";
 
 export enum NavOption {
@@ -10,6 +13,9 @@ export enum NavOption {
   CALCULATOR = "CALCULATOR"
 }
 export const Sidebar: React.FC = () => {
+  const storeList = useRecoilValue(storeListState);
+  const [storeId, setStoreId]= useRecoilState(currentStoreId);
+
   const history = useHistory();
   const [navOption, setNavOption] = useState<NavOption>(NavOption.CALENDAR);
   const { t } = useTranslation();
@@ -30,11 +36,16 @@ export const Sidebar: React.FC = () => {
     }
   }, [navOption]);
 
+  const handleStoreSelect = (e: any)=>{
+    setStoreId(e.target.value);
+  }
+
   return (
     <div id="Sidebar">
            <select id="storeSelect">
-        <option value="등촌점">등촌점</option>
-        <option value="목동점">목동점</option>
+             {storeList.map(store=>{
+               return <option value={store.storeId} selected={store.storeId === storeId} onSelect={handleStoreSelect}>{store.storeName}</option>
+             })}
       </select>
       <div id="navigationBar">
         {Object.keys(NavOption).map((option) => {

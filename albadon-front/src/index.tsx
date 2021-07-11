@@ -4,10 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
+import { RecoilRoot } from 'recoil';
+import { BrowserRouter } from 'react-router-dom';
+import { Loading } from './layout/Loading';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RecoilRoot>
+        <React.Suspense fallback={<Loading/>}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </React.Suspense>
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
 );

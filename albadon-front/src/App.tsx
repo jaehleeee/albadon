@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import React, { useEffect } from "react";
 import "./App.scss";
-import { getHealthCheck } from "./service/HealthCheckService";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { SamplePage } from "./page/SamplePage";
-import { RecoilRoot } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { CalendarPage } from "./page/CalendarPage";
-import { Header } from "./layout/Header";
 import { Sidebar } from "./layout/Sidebar";
 import { EmployeePage } from "./page/EmployeePage";
+import { currentStoreId } from "./data/Atoms";
+import { storeListState } from "./data/Selectors";
 
 function App() {
-  const [value, setValue] = useState<string>("");
+  const storeList = useRecoilValue(storeListState);
+  const setStoreId = useSetRecoilState(currentStoreId);
+  
   useEffect(() => {
-    getHealthCheck().then((res) => {
-      console.log(res);
-      setValue(res.data);
-    });
-  }, []);
+    if(storeList.length > 0){
+      setStoreId(storeList[0].storeId);
+    }
+  // eslint-disable-next-line
+  }, [storeList]);
 
   return (
-    <RecoilRoot>
-      <BrowserRouter>
  <div className ="app">
       <Sidebar/>
         <div id="container">
@@ -43,8 +42,6 @@ function App() {
             </Route>
           </Switch>
         </div></div>
-      </BrowserRouter>
-    </RecoilRoot>
   );
 }
 

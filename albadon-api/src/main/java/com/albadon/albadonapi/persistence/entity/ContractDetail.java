@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,11 +24,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ContractDetail extends BaseEntity {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long contractDetailId;
 
 	@Column
-	private String weekday; // 출근 요일
+	private Integer weekday; // 출근 요일
 
 	@Column
 	private LocalTime startTime; // 출근 시간

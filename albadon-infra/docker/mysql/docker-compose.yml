@@ -9,10 +9,21 @@ services:
       - MYSQL_DATABASE=albadon
       - MYSQL_ROOT_PASSWORD=password
       - TZ=Asia/Seoul
-
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./data:/var/lib/mysql
       - ./init/:/docker-entrypoint-initdb.d
+    networks: 
+      backend_network:
+        ipv4_address: 192.168.0.2
+
+networks: 
+  backend_network:
+    name: backend_network
+    driver: bridge
+    ipam: 
+      config: 
+        - subnet: "192.168.0.0/16"
+          gateway: "192.168.0.1"

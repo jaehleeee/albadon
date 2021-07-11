@@ -4,10 +4,9 @@ import { ExcelUploadButton } from "../component/ExcelUploadButton";
 import {ExcelDownloadButton} from "../component/ExcelDownloadButton"
 import { SampleComponent } from "../component/SampleComponent";
 import { currentStoreId } from "../data/Atoms";
-import { currentStoreState } from "../data/Selectors";
 
 export const SamplePage: React.FC = () => {
-  const currentStore= useRecoilValue(currentStoreState);
+
   const [storeId, setStoreId] = useRecoilState(currentStoreId);
 
   return (
@@ -20,13 +19,13 @@ export const SamplePage: React.FC = () => {
       <div id="recoilTest">
         <button
           onClick={() => {
-            setStoreId(storeId + 1);
+            // setStoreId(storeId + 1);
           }}
         >
           storeId 늘리기
 
         </button>
-        {currentStore.storeName}
+
       </div>
     </div>
   );

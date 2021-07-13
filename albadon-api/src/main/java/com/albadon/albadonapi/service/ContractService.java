@@ -1,5 +1,6 @@
 package com.albadon.albadonapi.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,105 @@ ContractService {
 	private final ContractRepository contractRepository;
 	private final ContractDetailRepository contractDetailRepository;
 	private final WorkService workService;
+	private final EmployeeService employeeService;
+	private final StoreService storeService;
+
+	@Transactional
+	public Contract createNewContract(EmployeeContractCond employeeContractCond) {
+		try {
+			Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
+			Assert.notNull(store, String.format("Store Not Found by Id({})", employeeContractCond.getStoreId()));
+
+			Employee newEmployee = employeeService.createNewEmployee(employeeContractCond);
+
+			Contract contract = new Contract();
+			contract.setStore(store);
+			contract.setWage(employeeContractCond.getWage());
+			contract.setNightWage(employeeContractCond.getNightWage());
+			contract.setHolidayWage(employeeContractCond.getHolidayWage());
+			contract.setStartDate(employeeContractCond.getStartDate());
+			contract.setEndDate(employeeContractCond.getEndDate());
+			contract.setEmployee(newEmployee);
+
+			contract = contractRepository.save(contract);
+
+			if(CollectionUtils.isNotEmpty(employeeContractCond.getContractDetailCondList())) {
+				for(ContractDetailCond cond : employeeContractCond.getContractDetailCondList()) {
+					ContractDetail detail = new ContractDetail();
+					detail.setContract(contract);
+					detail.setWeekday(cond.getWeekday());
+					detail.setStartTime(cond.getStartTime());
+					detail.setEndTime(cond.getEndTime());
+
+					contractDetailRepository.save(detail);
+				}
+			}
+
+			// TODO contract에는 detail 매핑안해도 될까나?
+
+			return contract;
+
+		} catch (Exception e) {
+			log.error("createNewContract(employeeContractCond:{}) - {}", employeeContractCond, e.getStackTrace());
+			throw e;
+		}
+	}
+
+	@Transactional
+	public void updateContract(Long contractId, EmployeeContractCond employeeContractCond) {
+		try {
+			Contract contract = contractRepository.findByContractId(contractId);
+			Assert.notNull(contract, String.format("Contract Not Found by Id({})", contractId));
+
+			Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
+			Assert.notNull(store, String.format("Store Not Found by Id({})", employeeContractCond.getStoreId()));
+			Assert.notNull(store, String.format("Store(StoreId:{}) Not Correct In Contract(storeId:{})", store.getStoreId(), contract.getStore().getStoreId()));
+
+			employeeService.updateEmployee(contract.getEmployee(), employeeContractCond);
+
+			contract.setWage(employeeContractCond.getWage());
+			contract.setNightWage(employeeContractCond.getNightWage());
+			contract.setHolidayWage(employeeContractCond.getHolidayWage());
+			contract.setStartDate(employeeContractCond.getStartDate());
+			contract.setEndDate(employeeContractCond.getEndDate());
+
+			if(CollectionUtils.isNotEmpty(employeeContractCond.getContractDetailCondList())) {
+				List<ContractDetail> contractDetails = new ArrayList<>();
+
+				for(ContractDetailCond cond : employeeContractCond.getContractDetailCondList()) {
+					ContractDetail detail = new ContractDetail();
+					detail.setContract(contract);
+					detail.setWeekday(cond.getWeekday());
+					detail.setStartTime(cond.getStartTime());
+					detail.setEndTime(cond.getEndTime());
+
+					contractDetailRepository.save(detail);
+
+					contractDetails.add(detail);
+				}
+
+				contract.setContractDetailList(contractDetails);
+			}
+
+			contract = contractRepository.save(contract);
+
+		} catch (Exception e) {
+			log.error("createNewContract(employeeContractCond:{}) - {}", employeeContractCond, e.getStackTrace());
+			throw e;
+		}
+	}
+
+	@Transactional
+	public void deleteContract(Long contractId) {
+		Contract contract = contractRepository.findByContractId(contractId);
+		Assert.notNull(contract, "Contract Not Found - contractId:" + contractId);
+
+		// employee 삭제
+		employeeService.deleteEmployee(contract.getEmployee().getEmployeeId());
+
+		// contract 삭제
+		contractRepository.deleteById(contractId);
+	}
 
 	public List<Contract> findContractListByStore(Long storeId) {
 		return contractRepository.findContractByStoreId(storeId);
@@ -65,39 +165,5 @@ ContractService {
 		Assert.isTrue(contract.getEmployee().getEmployeeId().equals(work.getEmployee().getEmployeeId()), "Employee is not matching between work and contract");
 	}
 
-	@Transactional
-	public Contract createNewContract(Store store, EmployeeContractCond employeeContractCond, Employee newEmployee) {
-		try {
-			Contract contract = new Contract();
-			contract.setStore(store);
-			contract.setWage(employeeContractCond.getWage());
-			contract.setNightWage(employeeContractCond.getNightWage());
-			contract.setHolidayWage(employeeContractCond.getHolidayWage());
-			contract.setStartDate(employeeContractCond.getStartDate());
-			contract.setEndDate(employeeContractCond.getEndDate());
-			contract.setEmployee(newEmployee);
 
-			contract = contractRepository.save(contract);
-
-			if(CollectionUtils.isNotEmpty(employeeContractCond.getContractDetailCondList())) {
-				for(ContractDetailCond cond : employeeContractCond.getContractDetailCondList()) {
-					ContractDetail detail = new ContractDetail();
-					detail.setContract(contract);
-					detail.setWeekday(cond.getWeekday());
-					detail.setStartTime(cond.getStartTime());
-					detail.setEndTime(cond.getEndTime());
-
-					contractDetailRepository.save(detail);
-				}
-			}
-
-			// TODO contract에는 detail 매핑안해도 될까나?
-
-			return contract;
-
-		} catch (Exception e) {
-			log.error("createNewContract(employeeContractCond:{}) - {}", employeeContractCond, e.getStackTrace());
-			throw e;
-		}
-	}
 }

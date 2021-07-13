@@ -2,6 +2,7 @@ package com.albadon.albadonapi.controller;
 
 import java.util.List;
 
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.albadon.albadonapi.persistence.entity.ContractDetail;
 import com.albadon.albadonapi.persistence.entity.Store;
 import com.albadon.albadonapi.persistence.entity.Work;
 import com.albadon.albadonapi.service.ContractService;
+import com.albadon.albadonapi.service.StoreService;
 import com.albadon.albadonapi.service.WorkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,16 +34,19 @@ import lombok.extern.slf4j.Slf4j;
 public class ContractController {
 	private final ContractService contractService;
 	private final WorkService workService;
+	private final StoreService storeService;
 
 
 	@PostMapping
 	public Contract registerEmployeeContractInStore(@RequestBody EmployeeContractCond employeeContractCond) {
-		return contractService.createNewContract(employeeContractCond);
+		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
+		return contractService.createNewContract(store, employeeContractCond);
 	}
 
 	@PutMapping("{contractId}")
 	public void updateEmployeeContractInStore(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
-		contractService.updateContract(contractId, employeeContractCond);
+		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
+		contractService.updateContract(store, contractId, employeeContractCond);
 	}
 
 	@DeleteMapping("{contractId}")

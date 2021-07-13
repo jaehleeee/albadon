@@ -38,6 +38,7 @@ public class BossController {
 	@GetMapping("/{bossId}/stores")
 	public List<Store> retrieveStoreListByBoss(@PathVariable Long bossId) {
 		Boss boss = bossService.retrieveBoss(bossId);
+
 		return boss.getStoreList();
 	}
 }

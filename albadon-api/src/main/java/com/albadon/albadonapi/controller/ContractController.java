@@ -7,14 +7,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.albadon.albadonapi.dto.cond.EmployeeContractCond;
 import com.albadon.albadonapi.dto.cond.WorkCond;
 import com.albadon.albadonapi.persistence.entity.Contract;
 import com.albadon.albadonapi.persistence.entity.ContractDetail;
+import com.albadon.albadonapi.persistence.entity.Store;
 import com.albadon.albadonapi.persistence.entity.Work;
 import com.albadon.albadonapi.service.ContractService;
 import com.albadon.albadonapi.service.WorkService;
@@ -29,6 +32,22 @@ import lombok.extern.slf4j.Slf4j;
 public class ContractController {
 	private final ContractService contractService;
 	private final WorkService workService;
+
+
+	@PostMapping
+	public Contract registerEmployeeContractInStore(@RequestBody EmployeeContractCond employeeContractCond) {
+		return contractService.createNewContract(employeeContractCond);
+	}
+
+	@PutMapping("{contractId}")
+	public void updateEmployeeContractInStore(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
+		contractService.updateContract(contractId, employeeContractCond);
+	}
+
+	@DeleteMapping("{contractId}")
+	public void deleteEmployeeContractInStore(@PathVariable Long contractId) {
+		contractService.deleteContract(contractId);
+	}
 
 	@GetMapping("{contractId}")
 	public Contract retrieveContract(@PathVariable Long contractId) {

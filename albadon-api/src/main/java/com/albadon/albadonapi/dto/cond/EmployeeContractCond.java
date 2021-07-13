@@ -14,6 +14,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class EmployeeContractCond {
 	@NotNull
+	private Long storeId;
+
+	@NotNull
 	private String employeeName;
 	@NotNull
 	private String role;

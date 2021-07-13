@@ -26,17 +26,17 @@ public class BossController {
 	private final BossService bossService;
 
 	@GetMapping("/{bossId}")
-	public Boss retrieveBoss(@PathVariable Long bossId) {
+	public Boss 사장님_조회(@PathVariable Long bossId) {
 		return bossService.retrieveBoss(bossId);
 	}
 
 	@PostMapping
-	public Boss createBoss(@RequestBody BossCond bossCond) {
+	public Boss 신규_사장님_생성(@RequestBody BossCond bossCond) {
 		return bossService.createBoss(bossCond);
 	}
 
 	@GetMapping("/{bossId}/stores")
-	public List<Store> retrieveStoreListByBoss(@PathVariable Long bossId) {
+	public List<Store> 사장님ID로_소속_가게_리스트_조회(@PathVariable Long bossId) {
 		Boss boss = bossService.retrieveBoss(bossId);
 
 		return boss.getStoreList();

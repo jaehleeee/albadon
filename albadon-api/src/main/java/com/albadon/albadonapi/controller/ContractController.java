@@ -38,34 +38,34 @@ public class ContractController {
 
 
 	@PostMapping
-	public Contract registerEmployeeContractInStore(@RequestBody EmployeeContractCond employeeContractCond) {
+	public Contract 신규직원계약_생성(@RequestBody EmployeeContractCond employeeContractCond) {
 		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
 		return contractService.createNewContract(store, employeeContractCond);
 	}
 
 	@PutMapping("{contractId}")
-	public void updateEmployeeContractInStore(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
+	public void 직원_및_계약_정보_수정(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
 		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
 		contractService.updateContract(store, contractId, employeeContractCond);
 	}
 
 	@DeleteMapping("{contractId}")
-	public void deleteEmployeeContractInStore(@PathVariable Long contractId) {
+	public void 직원계약_삭제(@PathVariable Long contractId) {
 		contractService.deleteContract(contractId);
 	}
 
 	@GetMapping("{contractId}")
-	public Contract retrieveContract(@PathVariable Long contractId) {
+	public Contract 직원계약_조회(@PathVariable Long contractId) {
 		return contractService.findContract(contractId);
 	}
 
 	@GetMapping("{contractId}/contractDetails")
-	public List<ContractDetail> retrieveContractDetail(@PathVariable Long contractId) {
+	public List<ContractDetail> 계약근무상세_조회(@PathVariable Long contractId) {
 		return contractService.findContractDetails(contractId);
 	}
 
 	@GetMapping("{contractId}/work")
-	public List<Work> retrieveContractWork(
+	public List<Work> 실제근무일정_조회(
 		@PathVariable Long contractId,
 		@RequestParam(required = false) Integer year,
 		@RequestParam(required = false) Integer month) {
@@ -75,7 +75,7 @@ public class ContractController {
 	}
 
 	@PostMapping("{contractId}/work")
-	public Work insertContractEmployeeWork(
+	public Work 실제근무일정_입력(
 		@PathVariable Long contractId,
 		@RequestBody WorkCond workCond,
 		@RequestParam(required = false) Long workId) {
@@ -86,7 +86,7 @@ public class ContractController {
 	}
 
 	@DeleteMapping("{contractId}/work/{workId}")
-	public void deleteContractWork(
+	public void 실제근무일정_삭제(
 		@PathVariable Long contractId, @PathVariable Long workId) {
 		Contract contract = contractService.findContract(contractId);
 		contractService.validateContractAndWork(contract, workId);

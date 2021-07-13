@@ -40,6 +40,11 @@ public class StoreController {
 		return storeService.createNewStore(storeCond);
 	}
 
+	@DeleteMapping("/{storeId}")
+	public void deleteStore(@PathVariable Long storeId) {
+		storeService.deleteStore(storeId);
+	}
+
 	@GetMapping("/{storeId}/employees")
 	public List<EmployeeContractDto> retrieveEmployeeListByStore(@PathVariable Long storeId) {
 		return storeService.retrieveEmployeeListInStore(storeId);

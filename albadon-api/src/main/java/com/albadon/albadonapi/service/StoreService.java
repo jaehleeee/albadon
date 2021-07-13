@@ -22,11 +22,32 @@ import lombok.extern.slf4j.Slf4j;
 public class StoreService {
 	private final StoreRepository storeRepository;
 	private final BossService bossService;
-	private final EmployeeService employeeService;
 	private final ContractService contractService;
+	private final EmployeeService employeeService;
 
 	public Store retrieveStore(Long storeId) {
 		return storeRepository.findById(storeId).orElse(null);
+	}
+
+	@Transactional
+	public void deleteStore(Long storeId) {
+		// 계약 리스트 조회
+		List<Contract> contracts = contractService.findContractListByStore(storeId);
+
+		for(Contract contract : contracts) {
+			//TODO 직원 삭제
+			employeeService.deleteEmployeeInStore()
+
+			// 계약근무 삭제
+
+			// 근무이력 삭제? 놔둘까..?
+
+			// 계약 삭제
+		}
+
+		// store 삭제
+		storeRepository.deleteById(storeId);
+
 	}
 
 	@Transactional

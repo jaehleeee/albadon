@@ -130,7 +130,10 @@ ContractService {
 	}
 
 	public Contract findContract(Long contractId) {
-		return contractRepository.findByContractId(contractId);
+		Contract contract = contractRepository.findById(contractId).orElse(null);
+		Assert.notNull(contract, String.format("Contract Not Found by Id({})", contractId));
+
+		return contract;
 	}
 
 	public List<ContractDetail> findContractDetails(Long contractId) {
@@ -146,7 +149,6 @@ ContractService {
 	public void validateWorkCondByContract(Contract contract, WorkCond workCond) {
 		Assert.notNull(contract, "contract not found");
 		Assert.isTrue(contract.getStore().getStoreId().equals(workCond.getStoreId()), "StoreId is not matching with contract");
-		Assert.isTrue(contract.getEmployee().getEmployeeId().equals(workCond.getEmployeeId()), "EmployeeId is not matching with contract");
 		Assert.notNull(workCond.getWeekday(), "weekday is required");
 	}
 

@@ -65,32 +65,12 @@ public class ContractController {
 	}
 
 	@GetMapping("{contractId}/work")
-	public List<Work> 실제근무일정_조회(
+	public List<Work> 실근무이력_조회(
 		@PathVariable Long contractId,
 		@RequestParam(required = false) Integer year,
 		@RequestParam(required = false) Integer month) {
 		Contract contract = contractService.findContract(contractId);
 
 		return workService.findWorkList(contract.getStore(), contract.getEmployee(), year, month);
-	}
-
-	@PostMapping("{contractId}/work")
-	public Work 실제근무일정_입력(
-		@PathVariable Long contractId,
-		@RequestBody WorkCond workCond,
-		@RequestParam(required = false) Long workId) {
-		Contract contract = contractService.findContract(contractId);
-
-		contractService.validateWorkCondByContract(contract, workCond);
-		return workService.saveContractWork(contract, workCond, workId);
-	}
-
-	@DeleteMapping("{contractId}/work/{workId}")
-	public void 실제근무일정_삭제(
-		@PathVariable Long contractId, @PathVariable Long workId) {
-		Contract contract = contractService.findContract(contractId);
-		contractService.validateContractAndWork(contract, workId);
-
-		workService.deleteWork(workId);
 	}
 }

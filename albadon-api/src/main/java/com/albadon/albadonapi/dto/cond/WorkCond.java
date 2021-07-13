@@ -15,7 +15,7 @@ public class WorkCond {
 	@NotNull
 	private Long storeId;
 	@NotNull
-	private Long employeeId;
+	private Long contractId;
 
 	private Integer weekday;
 

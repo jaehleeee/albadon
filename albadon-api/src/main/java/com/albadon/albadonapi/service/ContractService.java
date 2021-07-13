@@ -32,14 +32,10 @@ ContractService {
 	private final ContractDetailRepository contractDetailRepository;
 	private final WorkService workService;
 	private final EmployeeService employeeService;
-	private final StoreService storeService;
 
 	@Transactional
-	public Contract createNewContract(EmployeeContractCond employeeContractCond) {
+	public Contract createNewContract(Store store, EmployeeContractCond employeeContractCond) {
 		try {
-			Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
-			Assert.notNull(store, String.format("Store Not Found by Id({})", employeeContractCond.getStoreId()));
-
 			Employee newEmployee = employeeService.createNewEmployee(employeeContractCond);
 
 			Contract contract = new Contract();
@@ -76,13 +72,11 @@ ContractService {
 	}
 
 	@Transactional
-	public void updateContract(Long contractId, EmployeeContractCond employeeContractCond) {
+	public void updateContract(Store store, Long contractId, EmployeeContractCond employeeContractCond) {
 		try {
 			Contract contract = contractRepository.findByContractId(contractId);
 			Assert.notNull(contract, String.format("Contract Not Found by Id({})", contractId));
 
-			Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
-			Assert.notNull(store, String.format("Store Not Found by Id({})", employeeContractCond.getStoreId()));
 			Assert.notNull(store, String.format("Store(StoreId:{}) Not Correct In Contract(storeId:{})", store.getStoreId(), contract.getStore().getStoreId()));
 
 			employeeService.updateEmployee(contract.getEmployee(), employeeContractCond);

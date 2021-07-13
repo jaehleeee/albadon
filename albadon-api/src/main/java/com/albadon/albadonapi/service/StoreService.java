@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.albadon.albadonapi.dto.EmployeeContractDto;
 import com.albadon.albadonapi.dto.cond.StoreCond;
@@ -23,10 +24,12 @@ public class StoreService {
 	private final StoreRepository storeRepository;
 	private final BossService bossService;
 	private final ContractService contractService;
-	private final EmployeeService employeeService;
 
 	public Store retrieveStore(Long storeId) {
-		return storeRepository.findById(storeId).orElse(null);
+		Store store = storeRepository.findById(storeId).orElse(null);
+		Assert.notNull(store, String.format("Store Not Found by Id({})", storeId));
+
+		return store;
 	}
 
 	@Transactional
@@ -35,19 +38,14 @@ public class StoreService {
 		List<Contract> contracts = contractService.findContractListByStore(storeId);
 
 		for(Contract contract : contracts) {
-			//TODO 직원 삭제
-			employeeService.deleteEmployeeInStore()
+			// TODO 근무이력 삭제? 놔둘까..?
 
-			// 계약근무 삭제
-
-			// 근무이력 삭제? 놔둘까..?
-
-			// 계약 삭제
+			// 근로 계약 삭제
+			contractService.deleteContract(contract.getContractId());
 		}
 
 		// store 삭제
 		storeRepository.deleteById(storeId);
-
 	}
 
 	@Transactional
@@ -61,6 +59,19 @@ public class StoreService {
 		store.setStorePhoneNumber(storeCond.getStorePhoneNumber());
 
 		return storeRepository.save(store);
+	}
+
+	@Transactional
+	public void updateStore(Long storeId, StoreCond storeCond) {
+		Boss boss = bossService.retrieveBoss(storeCond.getBossId());
+
+		Store store = retrieveStore(storeId);
+		store.setBoss(boss);
+		store.setStoreName(storeCond.getStoreName());
+		store.setStoreAddress(storeCond.getStoreAddress());
+		store.setStorePhoneNumber(storeCond.getStorePhoneNumber());
+
+		storeRepository.save(store);
 	}
 
 	@Transactional(readOnly = true)

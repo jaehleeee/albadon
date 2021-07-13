@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.albadon.albadonapi.dto.cond.BossCond;
 import com.albadon.albadonapi.persistence.entity.Boss;
@@ -19,7 +20,10 @@ public class BossService {
 	private final BossRepository bossRepository;
 
 	public Boss retrieveBoss(Long bossId) {
-		return bossRepository.findById(bossId).orElse(null);
+		Boss boss = bossRepository.findById(bossId).orElse(null);
+		Assert.notNull(boss, String.format("Boss Not found by id({})", bossId));
+
+		return boss;
 	}
 
 	@Transactional

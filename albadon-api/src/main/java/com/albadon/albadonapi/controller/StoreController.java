@@ -32,27 +32,27 @@ public class StoreController {
 	private final StoreService storeService;
 
 	@GetMapping("/{storeId}")
-	public Store retrieveStore(@PathVariable Long storeId) {
+	public Store 가게_조회(@PathVariable Long storeId) {
 		return storeService.retrieveStore(storeId);
 	}
 
 	@PostMapping
-	public Store createNewStore(@RequestBody StoreCond storeCond) {
+	public Store 신규가계_등록(@RequestBody StoreCond storeCond) {
 		return storeService.createNewStore(storeCond);
 	}
 
 	@PutMapping("{storeId}")
-	public void updateStore(@PathVariable Long storeId, @RequestBody StoreCond storeCond) {
+	public void 가게_정보_수정(@PathVariable Long storeId, @RequestBody StoreCond storeCond) {
 		storeService.updateStore(storeId, storeCond);
 	}
 
 	@DeleteMapping("/{storeId}")
-	public void deleteStore(@PathVariable Long storeId) {
+	public void 가게_삭제(@PathVariable Long storeId) {
 		storeService.deleteStore(storeId);
 	}
 
 	@GetMapping("/{storeId}/employees")
-	public List<EmployeeContractDto> retrieveEmployeeListByStore(@PathVariable Long storeId) {
+	public List<EmployeeContractDto> 가게_소속_직원_리스트_조회(@PathVariable Long storeId) {
 		return storeService.retrieveEmployeeListInStore(storeId);
 	}
 }

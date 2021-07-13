@@ -19,8 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 public class EmployeeController {
 	private final EmployeeService employeeService;
 
+	@Deprecated
 	@GetMapping("/{employeeId}")
-	public Employee retrieveEmployee(@PathVariable Long employeeId) {
+	public Employee 직원정보_조회(@PathVariable Long employeeId) {
 		return employeeService.retrieveEmployee(employeeId);
 	}
 }

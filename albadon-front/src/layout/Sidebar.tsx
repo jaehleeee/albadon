@@ -10,11 +10,11 @@ export enum NavOption {
   CALENDAR = "CALENDAR",
   EMPLOYEE = "EMPLOYEE",
   STORE = "STORE",
-  CALCULATOR = "CALCULATOR"
+  CALCULATOR = "CALCULATOR",
 }
 export const Sidebar: React.FC = () => {
   const storeList = useRecoilValue(storeListState);
-  const [storeId, setStoreId]= useRecoilState(currentStoreId);
+  const [storeId, setStoreId] = useRecoilState(currentStoreId);
 
   const history = useHistory();
   const [navOption, setNavOption] = useState<NavOption>(NavOption.CALENDAR);
@@ -31,21 +31,29 @@ export const Sidebar: React.FC = () => {
         history.push("/store");
         break;
       case NavOption.CALCULATOR:
-          history.push("/calculator");
-      break;
+        history.push("/calculator");
+        break;
     }
   }, [navOption]);
 
-  const handleStoreSelect = (e: any)=>{
+  const handleStoreSelect = (e: any) => {
     setStoreId(e.target.value);
-  }
+  };
 
   return (
     <div id="Sidebar">
-           <select id="storeSelect">
-             {storeList.map(store=>{
-               return <option value={store.storeId} selected={store.storeId === storeId} onSelect={handleStoreSelect}>{store.storeName}</option>
-             })}
+      <select
+        id="storeSelect"
+        onChange={handleStoreSelect}
+        value={storeList.length > 0 ? storeList[0].storeId : undefined}
+      >
+        {storeList.map((store) => {
+          return (
+            <option key={store.storeName} value={store.storeId}>
+              {store.storeName}
+            </option>
+          );
+        })}
       </select>
       <div id="navigationBar">
         {Object.keys(NavOption).map((option) => {
@@ -62,7 +70,6 @@ export const Sidebar: React.FC = () => {
           );
         })}
       </div>
- 
     </div>
   );
 };

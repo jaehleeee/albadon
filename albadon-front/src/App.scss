@@ -4,22 +4,14 @@
 }
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
-@import './variables.scss';
+@import "./variables.scss";
 
-.app{ 
+.app {
   height: 100%;
-width : 100%;
-#container {
-  padding-top: 100px;
-  margin-left: $sidebarWidth;
-}}
-
-
-
-.ag-theme-alpine{
-  padding: 20px;
-  height: 500px;
-  .ag-header{
-    background-color: #dbe6fd !important;
+  width: 100%;
+  min-width: 1100px;
+  overflow-x: scroll;
+  #container {
+    margin-left: $sidebarWidth;
   }
 }

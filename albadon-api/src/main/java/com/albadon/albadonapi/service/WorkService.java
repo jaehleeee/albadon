@@ -44,30 +44,28 @@ public class WorkService {
 	}
 
 	@Transactional
-	public Work saveContractWork(Contract contract, WorkCond workCond, Long workId) {
-		Work work = null;
+	public Work saveContractWork(Contract contract, WorkCond workCond) {
+		Work work = new Work();
+		work.setStore(contract.getStore());
+		work.setEmployee(contract.getEmployee());
+		work.setWeekday(workCond.getWeekday());
+		work.setStartDatetime(workCond.getStartDatetime());
+		work.setEndDatetime(workCond.getEndDatetime());
 
-		// workId 여부로 신규 근무이력 생성인지 근무이력 수정인지 판단
-		if(Objects.isNull(workId)) {
-			work = new Work();
-			work.setStore(contract.getStore());
-			work.setEmployee(contract.getEmployee());
-			work.setWeekday(workCond.getWeekday());
-			work.setStartDatetime(workCond.getStartDatetime());
-			work.setEndDatetime(workCond.getEndDatetime());
-
-			//TODO 근무이력이 1개라면, 동일한 날짜에 근무이력이 생성되지 않도록 할 필요가 있음.
-
-		} else {
-			work = workRepository.findById(workId).orElseThrow();
-			work.setWeekday(workCond.getWeekday());
-			work.setStartDatetime(workCond.getStartDatetime());
-			work.setEndDatetime(workCond.getEndDatetime());
-		}
+		//TODO 근무이력이 1개라면, 동일한 날짜에 근무이력이 생성되지 않도록 할 필요가 있음.
 
 		return workRepository.save(work);
 	}
 
+	@Transactional
+	public void updateContractWork(Long workId, WorkCond workCond) {
+		Work work = workRepository.findById(workId).orElseThrow();
+		work.setWeekday(workCond.getWeekday());
+		work.setStartDatetime(workCond.getStartDatetime());
+		work.setEndDatetime(workCond.getEndDatetime());
+
+		workRepository.save(work);
+	}
 
 	public void deleteWork(Long workId) {
 		workRepository.deleteById(workId);

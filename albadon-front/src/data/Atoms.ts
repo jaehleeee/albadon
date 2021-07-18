@@ -7,5 +7,5 @@ export const currentMemberId = atom({
 
 export const currentStoreId = atom({
   key: "currentStoreId",
-  default: undefined,
+  default: -1,
 });

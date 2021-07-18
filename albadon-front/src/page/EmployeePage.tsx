@@ -1,42 +1,77 @@
-import { AgGridColumn, AgGridReact } from 'ag-grid-react';
-import React, { useEffect } from 'react'
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import { ValueFormatterParams } from 'ag-grid-community';
-import moment from 'moment';
-import { useRecoilValue } from 'recoil';
-import { employeeListState } from '../data/Selectors';
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { employeeListState } from "../data/Selectors";
+import {
+  ColumnType,
+  CommonDataGrid,
+} from "../component/datagrid/CommonDataGrid";
+import "./EmployeePage.scss";
 
+export const EmployeePage: React.FC = () => {
+  const employeeList = useRecoilValue(employeeListState);
 
-export const EmployeePage : React.FC = ()=>{
-    const employeeList = useRecoilValue(employeeListState);
-    const columnInfo = [
+  const columnDef = [
+    {
+      key: "employeeName",
+      name: "이름",
+      type: ColumnType.TEXT,
+      editable: true,
+    },
+    {
+      key: "employeePhoneNumber",
+      name: "연락처",
+      width: 130,
+      type: ColumnType.TEXT,
+      editable: true,
+    },
+    {
+      key: "wage",
+      name: "주간시급",
+      type: ColumnType.NUMBER,
+      editable: true,
+    },
+    {
+      key: "holidayWage",
+      name: "휴일시급",
+      type: ColumnType.NUMBER,
+      editable: true,
+    },
+    {
+      key: "nightWage",
+      name: "야간시급",
+      type: ColumnType.NUMBER,
+      editable: true,
+    },
+    {
+      key: "startDate",
+      name: "근무시작일",
+      width: 150,
+      type: ColumnType.DATE,
+      editable: true,
+    },
+    {
+      key: "endDate",
+      name: "근무종료일",
+      width: 150,
+      type: ColumnType.DATE,
+      editable: true,
+    },
+    {
+      key: "role",
+      name: "역할",
+      type: ColumnType.COMBO,
+      editable: true,
+      comboArray: [
+        { value: "manager", label: "manager" },
+        { value: "employee", label: "employee" },
+      ],
+    },
+  ];
 
-        { key : "employeeName", label: "이름", sortable: true, filter: false, width: 90, type: "string"},
-        { key : "employeePhoneNumber", label: "전화번호 ", sortable: true, filter: false, width: 160, type: "string"},
-        { key : "holidayWage", label: "주간시급", sortable: true, filter: false, width: 100, type: "number"},
-        { key : "nightWage", label: "야간시급 ", sortable: true, filter: false, width: 100, type: "number"},
-        { key : "startDate", label: "근무시작일", sortable: true, filter: false, width: 140, type: "date"},
-        { key : "endDate", label: "근무종료일 ", sortable: true, filter: false, width: 140, type: "date"},
-        { key : "role", label: "역할 ", sortable: true, filter: false,  width: 110, type: "string"},
-    ]
-    const valueFormatter = (params: ValueFormatterParams)=>{
-        if(params.colDef.type === 'date'){
-            return moment(params.value).format('YYYY/MM/DD')
-        }else{
-            return params.value
-        }
-        
-    }
-    return <div id="EmployeePage">
-       
-
-       <div className="ag-theme-alpine" >
-           <AgGridReact
-               rowData={employeeList}>
-                {columnInfo.map(column=>{
-                    return  <AgGridColumn field={column.key} headerName={column.label} sortable={column.sortable} width={column.width} filter={column.filter} valueFormatter={valueFormatter} type={column.type}></AgGridColumn>
-                })}
-           </AgGridReact>
-       </div></div>
-}
+  return (
+    <div id="EmployeePage">
+      <h1>직원 관리</h1>
+      <CommonDataGrid columns={columnDef} rows={employeeList} />
+    </div>
+  );
+};

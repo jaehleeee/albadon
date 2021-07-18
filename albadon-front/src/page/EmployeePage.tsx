@@ -70,6 +70,7 @@ export const EmployeePage: React.FC = () => {
 
   return (
     <div id="EmployeePage">
+      <h1>직원 관리</h1>
       <CommonDataGrid columns={columnDef} rows={employeeList} />
     </div>
   );

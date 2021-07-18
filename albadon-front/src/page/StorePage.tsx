@@ -13,7 +13,7 @@ export const StorePage: React.FC = () => {
   const columnDef = [
     {
       key: "storeName",
-      name: "가게명",
+      name: "상호",
       type: ColumnType.TEXT,
       editable: true,
     },
@@ -26,7 +26,7 @@ export const StorePage: React.FC = () => {
     },
     {
       key: "storePhoneNumber",
-      name: "가게 전화번호",
+      name: "전화번호",
       type: ColumnType.TEXT,
       editable: true,
     },
@@ -34,6 +34,7 @@ export const StorePage: React.FC = () => {
 
   return (
     <div id="StorePage">
+      <h1>매장 관리</h1>
       <CommonDataGrid columns={columnDef} rows={storeList} />
     </div>
   );

@@ -1,0 +1,49 @@
+#CommonDataGrid {
+  height: 100%;
+  .common-data-grid {
+    height: 600px;
+    div {
+      background-color: white;
+      color: black;
+
+      .c1wupbe700-canary49[aria-selected="true"] {
+        box-shadow: none;
+      }
+
+      &.rdg-header-row {
+        .rdg-cell {
+          background-color: #dbe6fd;
+
+          &.rdg-editor-container {
+            div {
+              input {
+                background-color: white;
+                color: black;
+              }
+            }
+          }
+        }
+      }
+    }
+    .MuiFormControl-root {
+      margin: 3px -1px;
+      width: 100%;
+    }
+    .MuiInputBase-root {
+      .MuiInputBase-input {
+        padding: 6px 8px 7px;
+        font-size: 14px;
+        font-family: "Spoqa Han Sans Neo", "sans-serif";
+      }
+    }
+    .MuiInput-underline {
+      width: 100%;
+      &::before {
+        display: none;
+      }
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

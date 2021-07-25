@@ -10,7 +10,6 @@ export enum NavOption {
   CALENDAR = "CALENDAR",
   EMPLOYEE = "EMPLOYEE",
   STORE = "STORE",
-  CALCULATOR = "CALCULATOR",
 }
 export const Sidebar: React.FC = () => {
   const storeList = useRecoilValue(storeListState);
@@ -29,9 +28,6 @@ export const Sidebar: React.FC = () => {
         break;
       case NavOption.STORE:
         history.push("/store");
-        break;
-      case NavOption.CALCULATOR:
-        history.push("/calculator");
         break;
     }
   }, [navOption]);

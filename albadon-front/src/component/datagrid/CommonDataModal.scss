@@ -1,0 +1,59 @@
+#CommonDataModal {
+  .data-modal-container {
+    position: absolute;
+    padding: 80px 120px 80px;
+    height: 320px;
+    width: 280px;
+    border-radius: 4px;
+    left: calc(50% - 260px);
+    top: calc(50% - 240px);
+    display: table;
+    background-color: white;
+    .data-row {
+      display: table-row;
+      .data-key {
+        display: table-cell;
+        width: 100px;
+        height: 40px;
+      }
+      .data-editor {
+        display: table-cell;
+
+        .phone-editor {
+          height: 100%;
+
+          .MuiInputBase-root {
+            height: 100%;
+
+            &:first-child {
+              width: 32px;
+            }
+
+            & + .MuiInputBase-root {
+              margin-left: 8px;
+            }
+
+            margin-right: 8px;
+            width: 40px;
+
+            .MuiInputBase-input {
+              padding: 0px;
+              margin: 0px;
+            }
+          }
+        }
+        .MuiInputBase-root {
+          width: 100%;
+        }
+        .MuiFormControl-root {
+          width: 100%;
+        }
+      }
+    }
+    .btn-area {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+    }
+  }
+}

@@ -1,3 +1,12 @@
 #EmployeePage {
   margin: 120px 60px 0px;
+  .page-header {
+    display: flex;
+    height: 80px;
+    .save-btn {
+      height: 24px;
+      margin: 32px 16px 0px;
+      background-color: #ffd56b;
+    }
+  }
 }

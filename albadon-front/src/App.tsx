@@ -9,6 +9,7 @@ import { StorePage } from "./page/StorePage";
 import { EmployeePage } from "./page/EmployeePage";
 import { currentStoreId } from "./data/Atoms";
 import { storeListState } from "./data/Selectors";
+import { CalculatorPage } from "./page/CalculatorPage";
 
 function App() {
   const storeList = useRecoilValue(storeListState);
@@ -26,24 +27,11 @@ function App() {
       <Sidebar />
       <div id="container">
         <Switch>
-          {/* <Route exact path="/">
-              <Redirect to="/calendar" />
-            </Route> */}
-          <Route path="/calendar">
-            <CalendarPage />
-          </Route>
-          <Route path="/sample">
-            <SamplePage />
-          </Route>
-          <Route path="/employee">
-            <EmployeePage />
-          </Route>
-          <Route path="/store">
-            <StorePage />
-          </Route>
-          <Route>
-            <Redirect to="/" />
-          </Route>
+          <Route exact path="/"></Route>
+          <Route path="/calendar" component={CalendarPage} />
+          <Route path="/employee" component={EmployeePage} />
+          <Route path="/store" component={StorePage} />
+          <Route path="/calculator/:contractId" component={CalculatorPage} />
         </Switch>
       </div>
     </div>

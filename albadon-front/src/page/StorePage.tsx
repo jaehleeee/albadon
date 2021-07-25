@@ -6,6 +6,7 @@ import {
   CommonDataGrid,
 } from "../component/datagrid/CommonDataGrid";
 import "./StorePage.scss";
+import { Button } from "@material-ui/core";
 
 export const StorePage: React.FC = () => {
   const storeList = useRecoilValue(storeListState);
@@ -34,8 +35,7 @@ export const StorePage: React.FC = () => {
 
   return (
     <div id="StorePage">
-      <h1>매장 관리</h1>
-      <CommonDataGrid columns={columnDef} rows={storeList} />
+      <CommonDataGrid title="매장 관리" columns={columnDef} rows={storeList} />
     </div>
   );
 };

@@ -6,11 +6,14 @@ import {
   CommonDataGrid,
 } from "../component/datagrid/CommonDataGrid";
 import "./EmployeePage.scss";
+import { Button } from "@material-ui/core";
+import { CommonDataModal } from "../component/datagrid/CommonDataModal";
 
 export const EmployeePage: React.FC = () => {
   const employeeList = useRecoilValue(employeeListState);
 
   const columnDef = [
+    { key: "contractId", name: "계약ID", maxWidth: 0 },
     {
       key: "employeeName",
       name: "이름",
@@ -21,7 +24,7 @@ export const EmployeePage: React.FC = () => {
       key: "employeePhoneNumber",
       name: "연락처",
       width: 130,
-      type: ColumnType.TEXT,
+      type: ColumnType.PHONE,
       editable: true,
     },
     {
@@ -70,8 +73,14 @@ export const EmployeePage: React.FC = () => {
 
   return (
     <div id="EmployeePage">
-      <h1>직원 관리</h1>
-      <CommonDataGrid columns={columnDef} rows={employeeList} />
+      <CommonDataGrid
+        title="직원 관리"
+        columns={columnDef}
+        rows={employeeList}
+        rowLinkable
+        rowLink="/calculator/"
+        rowLinkKey="contractId"
+      />
     </div>
   );
 };

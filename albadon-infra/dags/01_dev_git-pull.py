@@ -28,7 +28,7 @@ with DAG(
 
     git_pull = BashOperator(
         task_id='git_pull',
-        bash_command='echo git-pull',
+        bash_command='git -C /mnt/c/albadon pull',
     )
 
     start >> git_pull >> end

@@ -11,6 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.AllArgsConstructor;
 
 import lombok.Getter;
@@ -22,6 +27,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@TypeDefs({
+	@TypeDef(name = "json", typeClass = JsonStringType.class)
+})
 public class Work extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,4 +53,8 @@ public class Work extends BaseEntity {
 
 	@Column
 	private LocalDateTime endDatetime; // 퇴근 시간
+
+	@Type(type = "json")
+	@Column(name="pause_info", columnDefinition = "json")
+	private PauseInfo pauseInfo; // 휴식시간
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.albadon.albadonapi.dto.cond.EmployeeContractCond;
+import com.albadon.albadonapi.dto.cond.EmployeeContractUpdateDto;
 import com.albadon.albadonapi.dto.cond.WorkCond;
 import com.albadon.albadonapi.persistence.entity.Contract;
 import com.albadon.albadonapi.persistence.entity.ContractDetail;
@@ -39,6 +40,7 @@ public class ContractController {
 
 	@PostMapping
 	public Contract 신규직원계약_생성(@RequestBody EmployeeContractCond employeeContractCond) {
+		contractService.validateNewEmployeeContractCond(employeeContractCond);
 		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
 		return contractService.createNewContract(store, employeeContractCond);
 	}
@@ -47,6 +49,17 @@ public class ContractController {
 	public void 직원_및_계약_정보_수정(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
 		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
 		contractService.updateContract(store, contractId, employeeContractCond);
+	}
+
+	@PutMapping("list")
+	public void 직원_및_계약_정보_리스트_수정(@RequestBody List<EmployeeContractUpdateDto> employeeContractUpdateDtos) {
+		for(EmployeeContractUpdateDto dto : employeeContractUpdateDtos) {
+			Long contractId = dto.getContractId();
+			EmployeeContractCond employeeContractCond = dto.getEmployeeContractCond();
+
+			Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
+			contractService.updateContract(store, contractId, employeeContractCond);
+		}
 	}
 
 	@DeleteMapping("{contractId}")

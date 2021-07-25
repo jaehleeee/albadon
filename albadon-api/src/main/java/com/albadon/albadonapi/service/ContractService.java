@@ -152,14 +152,12 @@ ContractService {
 		Assert.notNull(workCond.getWeekday(), "weekday is required");
 	}
 
-	public void validateContractAndWork(Contract contract, Long workId) {
-		Work work = workService.findById(workId);
-		if(Objects.isNull(work)) {
-			throw new RuntimeException("validateContractAndWork error - work not found by workId");
-		}
-		Assert.isTrue(contract.getStore().getStoreId().equals(work.getStore().getStoreId()), "Store is not matching between work and contract");
-		Assert.isTrue(contract.getEmployee().getEmployeeId().equals(work.getEmployee().getEmployeeId()), "Employee is not matching between work and contract");
+	public void validateNewEmployeeContractCond(EmployeeContractCond cond) {
+		Assert.notNull(cond.getStoreId(), "storeId should not be null in EmployeeContractCond");
+		Assert.notNull(cond.getEmployeeName(), "employeeName should not be null in EmployeeContractCond");
+		Assert.notNull(cond.getStartDate(), "startDate should not be null in EmployeeContractCond");
+		Assert.notNull(cond.getRole(), "role should not be null in EmployeeContractCond");
+		Assert.notNull(cond.getWage(), "wage should not be null in EmployeeContractCond");
+		Assert.isTrue(CollectionUtils.isNotEmpty(cond.getContractDetailCondList()), "contractDetailCondList should not be empty in EmployeeContractCond");
 	}
-
-
 }

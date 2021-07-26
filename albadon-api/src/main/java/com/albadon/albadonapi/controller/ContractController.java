@@ -51,6 +51,7 @@ public class ContractController {
 		contractService.updateContract(store, contractId, employeeContractCond);
 	}
 
+	@Deprecated
 	@PutMapping("list")
 	public void 직원_및_계약_정보_리스트_수정(@RequestBody List<EmployeeContractUpdateDto> employeeContractUpdateDtos) {
 		for(EmployeeContractUpdateDto dto : employeeContractUpdateDtos) {

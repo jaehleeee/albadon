@@ -17,7 +17,6 @@ import com.albadon.albadonapi.persistence.entity.Contract;
 import com.albadon.albadonapi.persistence.entity.ContractDetail;
 import com.albadon.albadonapi.persistence.entity.Employee;
 import com.albadon.albadonapi.persistence.entity.Store;
-import com.albadon.albadonapi.persistence.entity.Work;
 import com.albadon.albadonapi.persistence.repository.ContractDetailRepository;
 import com.albadon.albadonapi.persistence.repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ public class
 ContractService {
 	private final ContractRepository contractRepository;
 	private final ContractDetailRepository contractDetailRepository;
-	private final WorkService workService;
 	private final EmployeeService employeeService;
 
 	@Transactional
@@ -75,9 +73,9 @@ ContractService {
 	public void updateContract(Store store, Long contractId, EmployeeContractCond employeeContractCond) {
 		try {
 			Contract contract = contractRepository.findByContractId(contractId);
-			Assert.notNull(contract, String.format("Contract Not Found by Id({})", contractId));
+			Assert.notNull(contract, String.format("Contract Not Found by Id(%d)", contractId));
 
-			Assert.notNull(store, String.format("Store(StoreId:{}) Not Correct In Contract(storeId:{})", store.getStoreId(), contract.getStore().getStoreId()));
+			Assert.notNull(store, String.format("Store(StoreId:%d) Not Correct In Contract(storeId:%d)", store.getStoreId(), contract.getStore().getStoreId()));
 
 			employeeService.updateEmployee(contract.getEmployee(), employeeContractCond);
 
@@ -131,7 +129,7 @@ ContractService {
 
 	public Contract findContract(Long contractId) {
 		Contract contract = contractRepository.findById(contractId).orElse(null);
-		Assert.notNull(contract, String.format("Contract Not Found by Id({})", contractId));
+		Assert.notNull(contract, String.format("Contract Not Found by Id(%d)", contractId));
 
 		return contract;
 	}

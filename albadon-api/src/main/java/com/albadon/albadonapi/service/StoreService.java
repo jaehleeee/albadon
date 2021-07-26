@@ -27,7 +27,7 @@ public class StoreService {
 
 	public Store retrieveStore(Long storeId) {
 		Store store = storeRepository.findById(storeId).orElse(null);
-		Assert.notNull(store, String.format("Store Not Found by Id({})", storeId));
+		Assert.notNull(store, String.format("Store Not Found by Id(%d)", storeId));
 
 		return store;
 	}

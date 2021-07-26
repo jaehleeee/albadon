@@ -1,5 +1,6 @@
 package com.albadon.albadonapi.persistence.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,5 +11,6 @@ import com.albadon.albadonapi.persistence.entity.Store;
 import com.albadon.albadonapi.persistence.entity.Work;
 
 public interface WorkRepository extends JpaRepository<Work, Long> {
-	List<Work> findByStoreAndEmployeeAndStartDatetimeBetween(Store store, Employee employee, LocalDateTime thisMonth,  LocalDateTime nextMonth);
+	List<Work> findByStoreAndEmployeeAndWorkDateBetween(Store store, Employee employee, LocalDate thisMonth,  LocalDate nextMonth);
+	List<Work> findByWorkDate(LocalDate workDate);
 }

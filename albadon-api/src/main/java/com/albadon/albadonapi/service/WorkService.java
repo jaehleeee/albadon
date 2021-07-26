@@ -1,12 +1,15 @@
 package com.albadon.albadonapi.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.albadon.albadonapi.dto.cond.WorkCond;
 import com.albadon.albadonapi.persistence.entity.Contract;
@@ -21,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class WorkService {
+	private final ContractService contractService;
 	private final WorkRepository workRepository;
 
 	public Work findById(Long workId) {
@@ -37,22 +41,30 @@ public class WorkService {
 			month = cal.get(cal.MONTH) + 1;
 		}
 
-		LocalDateTime thisMonth = LocalDateTime.of(year, month, 1, 0, 0);
-		LocalDateTime nextMonth = LocalDateTime.of(year, month+1, 1, 0, 0);
+		LocalDate thisMonth = LocalDate.of(year, month, 1);
+		LocalDate nextMonth = LocalDate.of(year, month+1, 1);
 
-		return workRepository.findByStoreAndEmployeeAndStartDatetimeBetween(store, employee, thisMonth, nextMonth);
+		return workRepository.findByStoreAndEmployeeAndWorkDateBetween(store, employee, thisMonth, nextMonth);
 	}
 
 	@Transactional
-	public Work saveContractWork(Contract contract, WorkCond workCond) {
+	public Work createNewWork(WorkCond workCond) {
+		Contract contract = contractService.findContract(workCond.getContractId());
+
+		contractService.validateWorkCondByContract(contract, workCond);
+
+		// 해당 날짜에 근무이력이 이미 있는지 체크
+		List<Work> workList = workRepository.findByWorkDate(workCond.getWorkDate());
+		Assert.isTrue(CollectionUtils.isEmpty(workList), String.format("해당 날짜(%s)에 이미 근무 이력이 있습니다.", workCond.getWorkDate()));
+
 		Work work = new Work();
 		work.setStore(contract.getStore());
 		work.setEmployee(contract.getEmployee());
 		work.setWeekday(workCond.getWeekday());
-		work.setStartDatetime(workCond.getStartDatetime());
-		work.setEndDatetime(workCond.getEndDatetime());
-
-		//TODO 근무이력이 1개라면, 동일한 날짜에 근무이력이 생성되지 않도록 할 필요가 있음.
+		work.setStartTime(workCond.getStartTime());
+		work.setEndTime(workCond.getEndTime());
+		work.setWorkDate(workCond.getWorkDate());
+		work.setPauseInfo(workCond.getPauseInfo());
 
 		return workRepository.save(work);
 	}
@@ -61,8 +73,8 @@ public class WorkService {
 	public void updateContractWork(Long workId, WorkCond workCond) {
 		Work work = workRepository.findById(workId).orElseThrow();
 		work.setWeekday(workCond.getWeekday());
-		work.setStartDatetime(workCond.getStartDatetime());
-		work.setEndDatetime(workCond.getEndDatetime());
+		work.setStartTime(workCond.getStartTime());
+		work.setEndTime(workCond.getEndTime());
 
 		workRepository.save(work);
 	}

@@ -21,7 +21,7 @@ public class BossService {
 
 	public Boss retrieveBoss(Long bossId) {
 		Boss boss = bossRepository.findById(bossId).orElse(null);
-		Assert.notNull(boss, String.format("Boss Not found by id({})", bossId));
+		Assert.notNull(boss, String.format("Boss Not found by id(%d)", bossId));
 
 		return boss;
 	}

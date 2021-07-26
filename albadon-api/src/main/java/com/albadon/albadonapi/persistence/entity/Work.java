@@ -1,6 +1,8 @@
 package com.albadon.albadonapi.persistence.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,10 +51,13 @@ public class Work extends BaseEntity {
 	private Integer weekday; // 근무 요일
 
 	@Column
-	private LocalDateTime startDatetime; // 출근 시간
+	private LocalDate workDate; // 출근 날짜
 
 	@Column
-	private LocalDateTime endDatetime; // 퇴근 시간
+	private LocalTime startTime; // 출근 시간
+
+	@Column
+	private LocalTime endTime; // 퇴근 시간
 
 	@Type(type = "json")
 	@Column(name="pause_info", columnDefinition = "json")

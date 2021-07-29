@@ -156,6 +156,5 @@ ContractService {
 		Assert.notNull(cond.getStartDate(), "startDate should not be null in EmployeeContractCond");
 		Assert.notNull(cond.getRole(), "role should not be null in EmployeeContractCond");
 		Assert.notNull(cond.getWage(), "wage should not be null in EmployeeContractCond");
-		Assert.isTrue(CollectionUtils.isNotEmpty(cond.getContractDetailCondList()), "contractDetailCondList should not be empty in EmployeeContractCond");
 	}
 }

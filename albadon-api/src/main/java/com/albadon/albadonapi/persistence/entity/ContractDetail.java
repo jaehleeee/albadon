@@ -37,8 +37,11 @@ public class ContractDetail extends BaseEntity {
 	@Column
 	private LocalTime endTime; // 퇴근 시간
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="contract_id", foreignKey = @ForeignKey(name = "contract_detail_fk"))
-	@JsonBackReference
-	private Contract contract;
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name="contract_id", foreignKey = @ForeignKey(name = "contract_detail_fk"))
+	// @JsonBackReference
+	// private Contract contract;
+
+	@Column
+	private Long contractId;
 }

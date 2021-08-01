@@ -2,7 +2,6 @@ package com.albadon.albadonapi.controller;
 
 import java.util.List;
 
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.albadon.albadonapi.dto.cond.ContractDetailCond;
 import com.albadon.albadonapi.dto.cond.EmployeeContractCond;
-import com.albadon.albadonapi.dto.cond.EmployeeContractUpdateDto;
-import com.albadon.albadonapi.dto.cond.WorkCond;
 import com.albadon.albadonapi.persistence.entity.Contract;
 import com.albadon.albadonapi.persistence.entity.ContractDetail;
 import com.albadon.albadonapi.persistence.entity.Store;
@@ -24,6 +22,7 @@ import com.albadon.albadonapi.persistence.entity.Work;
 import com.albadon.albadonapi.service.ContractService;
 import com.albadon.albadonapi.service.StoreService;
 import com.albadon.albadonapi.service.WorkService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("contract")
 @CrossOrigin(origins = "*")
+@Api("Contract Controller API V1")
 public class ContractController {
 	private final ContractService contractService;
 	private final WorkService workService;
@@ -46,21 +46,9 @@ public class ContractController {
 	}
 
 	@PutMapping("{contractId}")
-	public void 직원_및_계약_정보_수정(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
+	public Contract 직원_및_계약_정보_수정(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
 		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
-		contractService.updateContract(store, contractId, employeeContractCond);
-	}
-
-	@Deprecated
-	@PutMapping("list")
-	public void 직원_및_계약_정보_리스트_수정(@RequestBody List<EmployeeContractUpdateDto> employeeContractUpdateDtos) {
-		for(EmployeeContractUpdateDto dto : employeeContractUpdateDtos) {
-			Long contractId = dto.getContractId();
-			EmployeeContractCond employeeContractCond = dto.getEmployeeContractCond();
-
-			Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
-			contractService.updateContract(store, contractId, employeeContractCond);
-		}
+		return contractService.updateContract(store, contractId, employeeContractCond);
 	}
 
 	@DeleteMapping("{contractId}")
@@ -74,7 +62,7 @@ public class ContractController {
 	}
 
 	@GetMapping("{contractId}/contractDetails")
-	public List<ContractDetail> 계약근무상세_조회(@PathVariable Long contractId) {
+	public List<ContractDetail> 계약근무상세_리스트_조회(@PathVariable Long contractId) {
 		return contractService.findContractDetails(contractId);
 	}
 
@@ -86,5 +74,25 @@ public class ContractController {
 		Contract contract = contractService.findContract(contractId);
 
 		return workService.findWorkList(contract.getStore(), contract.getEmployee(), year, month);
+	}
+
+	@GetMapping("/detail/{contractDetailId}")
+	public ContractDetail 계약근무상세_조회(@PathVariable Long contractDetailId) {
+		return contractService.findContractDetail(contractDetailId);
+	}
+
+	@PostMapping("/detail")
+	public ContractDetail 계약근무상세_신규_생성(@RequestBody ContractDetailCond contractDetailCond) {
+		return contractService.createContractDetail(contractDetailCond);
+	}
+
+	@PutMapping("/detail/{contractDetailId}")
+	public ContractDetail 계약근무상세_수정(@PathVariable Long contractDetailId, @RequestBody ContractDetailCond contractDetailCond) {
+		return contractService.updateContractDetail(contractDetailId, contractDetailCond);
+	}
+
+	@DeleteMapping("/detail/{contractDetailId}")
+	public void 계약근무상세_삭제(@PathVariable Long contractDetailId) {
+		contractService.deleteContractDetail(contractDetailId);
 	}
 }

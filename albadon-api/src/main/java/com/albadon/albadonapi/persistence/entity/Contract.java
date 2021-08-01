@@ -54,7 +54,7 @@ public class Contract extends BaseEntity {
 	@Column
 	private LocalDate endDate;
 
-	@OneToMany(mappedBy = "contract", targetEntity = ContractDetail.class, fetch = FetchType.LAZY)
-	@JsonManagedReference
-	private List<ContractDetail> contractDetailList;
+	// @OneToMany(mappedBy = "contract", targetEntity = ContractDetail.class, fetch = FetchType.LAZY)
+	// @JsonManagedReference
+	// private List<ContractDetail> contractDetailList;
 }

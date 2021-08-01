@@ -42,10 +42,8 @@ public class Work extends BaseEntity {
 		foreignKey = @ForeignKey(name = "contract_store_fk"))
 	private Store store;
 
-	@OneToOne(optional = false)
-	@JoinColumn(name="employee_id", nullable = false,
-		foreignKey = @ForeignKey(name = "contract_employee_fk"))
-	private Employee employee;
+	@Column
+	private Long employeeId;
 
 	@Column
 	private Integer weekday; // 근무 요일

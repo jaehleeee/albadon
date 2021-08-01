@@ -28,26 +28,23 @@ public class WorkController {
 	private final WorkService workService;
 
 	@PostMapping
-	@Transactional
-	public Work 실근무이력_신규등록(@RequestBody WorkCond workCond) {
+	public Work 근무이력_신규등록(@RequestBody WorkCond workCond) {
 		return workService.createNewWork(workCond);
 	}
 
 	@PutMapping("{workId}")
-	@Transactional
-	public void 실근무이력_수정(@PathVariable Long workId, @RequestBody WorkCond workCond) {
+	public void 근무이력_수정(@PathVariable Long workId, @RequestBody WorkCond workCond) {
 		workService.updateContractWork(workId, workCond);
 	}
 
 	@DeleteMapping("{workId}")
-	@Transactional
-	public void 실근무이력_삭제(@PathVariable Long workId) {
+	public void 근무이력_삭제(@PathVariable Long workId) {
 		workService.deleteWork(workId);
 	}
 
 	@PostMapping("list")
 	@Transactional
-	public void 실근무이력_리스트_추가_및_수정(@RequestBody List<WorkCond> workConds) {
+	public void 근무이력_리스트_추가_및_수정(@RequestBody List<WorkCond> workConds) {
 		for(WorkCond cond : workConds) {
 			// workId가 없으면 신규생성, 있으면 업데이트
 			if (Objects.isNull(cond.getWorkId())) {

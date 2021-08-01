@@ -1,7 +1,6 @@
 package com.albadon.albadonapi.persistence.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;

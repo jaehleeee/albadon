@@ -1,26 +1,14 @@
-export interface EmployeeCreateRequest {
-  //   contractDetailCondList: [
-  //     {
-  //       endTime: {
-  //         hour: number;
-  //         minute: number;
-  //         nano: number;
-  //         second: number;
-  //       };
-  //       startTime: {
-  //         hour: number;
-  //         minute: number;
-  //         nano: number;
-  //         second: number;
-  //       };
-  //       weekday: number;
-  //     }
-  //   ];
-  employeeBirthday: string;
+export interface EmployeeUpsertRequest {
+  contractDetailCondList: {
+    endTime: string;
+    startTime: string;
+    weekday: number;
+  }[];
+  employeeBirthday?: string;
   employeeName: string;
   employeePhoneNumber: string;
-  employeeSex: string;
-  endDate: string;
+  employeeSex?: string;
+  endDate?: string;
   holidayWage: number;
   nightWage: number;
   role: string;
@@ -33,4 +21,18 @@ export interface WorkListGetRequest {
   contractId: number;
   month: number;
   year: number;
+}
+
+export interface StoreInsertRequest {
+  bossId: number;
+  storeAddress: string;
+  storeName: string;
+  storePhoneNumber: string;
+}
+
+export interface ContractDetailRequest {
+  contractId: number;
+  endTime: string;
+  startTime: string;
+  weekday: number;
 }

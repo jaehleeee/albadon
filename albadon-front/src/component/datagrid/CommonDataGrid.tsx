@@ -1,9 +1,9 @@
-import { Button, Input, MenuItem, Select, TextField } from "@material-ui/core";
+import { Input, MenuItem, Select, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import DataGrid from "react-data-grid";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import "./CommonDataGrid.scss";
-import { CommonDataModal } from "./CommonDataModal";
 
 export enum ColumnType {
   TEXT = "TEXT",
@@ -11,27 +11,9 @@ export enum ColumnType {
   COMBO = "COMBO",
   NUMBER = "NUMBER",
   PHONE = "PHONE",
-}
-
-export interface CommonColumnI {
-  key: string;
-  name: string;
-  type?: ColumnType;
-  width?: number;
-  minWidth?: number;
-  comboArray?: { value: string; label: string }[];
-  editable?: boolean;
-}
-
-export interface CommonDataGridI {
-  columns: CommonColumnI[];
-  rows: any[];
-  title: string;
-  insertable?: boolean;
-  deleteable?: boolean;
-  rowLinkable?: boolean;
-  rowLink?: string;
-  rowLinkKey?: string;
+  START_TIME = "START_TIME",
+  END_TIME = "END_TIME",
+  APPENDABLE_LIST = "APPENDABLE_LIST",
 }
 
 export const DateEditor = (p: any) => (
@@ -49,6 +31,49 @@ export const DateEditor = (p: any) => (
     }}
   />
 );
+
+export const TimeIntervalEditor = (p: any) => {
+  const value: string = p.row[p.column.key] || "0:0";
+  const splited: string[] = value.split("-");
+  return splited.length === 3 ? (
+    <div className="interval-editor">
+      <Input
+        autoFocus
+        type="text"
+        id={`${p.column.key}-${p.rowIdx}-1`}
+        value={splited[0] || ""}
+        onChange={(e) => {
+          splited[0] = e.target.value;
+          p.onRowChange({ ...p.row, [p.column.key]: splited.join("-") });
+        }}
+      />
+      -
+      <Input
+        autoFocus
+        type="text"
+        id={`${p.column.key}-${p.rowIdx}-2`}
+        value={splited[1] || ""}
+        onChange={(e) => {
+          splited[1] = e.target.value;
+          p.onRowChange({ ...p.row, [p.column.key]: splited.join("-") });
+        }}
+      />
+      -
+      <Input
+        autoFocus
+        type="text"
+        id={`${p.column.key}-${p.rowIdx}-3`}
+        value={splited[2] || ""}
+        onChange={(e) => {
+          splited[2] = e.target.value;
+          p.onRowChange({ ...p.row, [p.column.key]: splited.join("-") });
+        }}
+      />
+    </div>
+  ) : (
+    <></>
+  );
+};
 
 export const TextEditor = (p: any) => (
   <Input
@@ -116,12 +141,35 @@ export const PhoneEditor = (p: any) => {
   );
 };
 
+export const TimeEditor = (defaultValue?: string) => (p: any) =>
+  (
+    <TextField
+      id={`${p.column.key}-${p.rowIdx}`}
+      type="time"
+      value={p.row[p.column.key] || ""}
+      defaultValue={defaultValue}
+      InputLabelProps={{
+        shrink: true,
+      }}
+      inputProps={{
+        step: 60, // 5 min
+      }}
+      onChange={(e) => {
+        p.onRowChange({ ...p.row, [p.column.key]: e.target.value });
+      }}
+    />
+  );
+
 export const ComboEditor =
   (comboArray?: { value: string; label: string }[]) => (p: any) =>
     comboArray ? (
       <Select
         autoFocus
-        value={p.row[p.column.key] || ""}
+        value={
+          p.row[p.column.key] === undefined || p.row[p.column.key] === null
+            ? ""
+            : p.row[p.column.key]
+        }
         onChange={(e) =>
           p.onRowChange({ ...p.row, [p.column.key]: e.target.value })
         }
@@ -140,17 +188,45 @@ export const ComboEditor =
       <></>
     );
 
+export const AppendableListEditor =
+  (appendableRowKeys?: string[]) => (p: any) => {
+    return <></>;
+  };
+
+export interface CommonColumnI {
+  key: string;
+  name: string;
+  type?: ColumnType;
+  width?: number;
+  minWidth?: number;
+  maxWidth?: number;
+  comboArray?: { value: string; label: string }[];
+  appendableListKey?: string[];
+  editable?: boolean;
+  visible?: boolean;
+}
+
+export interface CommonDataGridI {
+  columns: CommonColumnI[];
+  rows: any[];
+  title: React.ReactNode;
+  rowLinkable?: boolean;
+  rowLink?: string;
+  rowLinkKey?: string;
+  additionalProps?: any; //prop for custom option
+}
+
 export const CommonDataGrid: React.FC<CommonDataGridI> = ({
   columns,
   rows,
   title,
-  insertable = true,
-  deleteable = true,
   rowLinkable = false,
   rowLink = "",
   rowLinkKey = "",
+  additionalProps,
 }) => {
   const [editedRows, setEditedRows] = useState<any[]>([]);
+  const [editTarget, setEditTarget] = useState<any>(null);
   const history = useHistory();
   useEffect(() => {
     setEditedRows(rows);
@@ -175,6 +251,12 @@ export const CommonDataGrid: React.FC<CommonDataGridI> = ({
         case ColumnType.COMBO:
           editor = ComboEditor(column.comboArray);
           break;
+        case ColumnType.START_TIME:
+          editor = TimeEditor(additionalProps?.defaultStartTime);
+          break;
+        case ColumnType.END_TIME:
+          editor = TimeEditor(additionalProps?.defaultEndTime);
+          break;
       }
 
       const getClassName = (p: any) => {
@@ -191,37 +273,35 @@ export const CommonDataGrid: React.FC<CommonDataGridI> = ({
       };
       return {
         ...column,
+        maxWidth:
+          column.visible !== undefined && !column.visible ? 0 : column.maxWidth,
         editor,
         formatter: (p: any) => {
           return column.key === "deleteFlag" ? (
             <div>
-              {deleteable &&
-                (p.row.deleteFlag ? (
-                  <button
-                    onClick={() => {
-                      p.onRowChange({ ...p.row, deleteFlag: false });
-                    }}
-                  >
-                    삭제취소
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      p.onRowChange({ ...p.row, deleteFlag: true });
-                    }}
-                  >
-                    삭제
-                  </button>
-                ))}
               {rowLinkable && rowLink && rowLinkKey && (
                 <button
                   onClick={() => {
                     history.push(`${rowLink}${p.row[rowLinkKey]}`);
                   }}
                 >
-                  상세
+                  근무이력
                 </button>
-              )}
+              )}{" "}
+              <button
+                onClick={() => {
+                  setEditTarget({ ...p.row });
+                }}
+              >
+                수정
+              </button>{" "}
+              <button
+                onClick={() => {
+                  p.onRowChange({ ...p.row, deleteFlag: true });
+                }}
+              >
+                삭제
+              </button>
             </div>
           ) : (
             <div className={getClassName(p)}>{p.row[column.key]}</div>
@@ -233,28 +313,9 @@ export const CommonDataGrid: React.FC<CommonDataGridI> = ({
 
   return (
     <div id="CommonDataGrid">
-      <div className="page-header">
-        <h1>{title}</h1>
-        {insertable && (
-          <CommonDataModal
-            label="신규등록"
-            onSave={(newDataRow: any) => {
-              setEditedRows([...editedRows, newDataRow]);
-            }}
-            colDef={columns}
-          />
-        )}
-        <Button className="save-btn">저장 😀</Button>
-      </div>
+      <div className="page-header">{title}</div>
       <DataGrid
-        columns={getColumns([
-          {
-            key: "deleteFlag",
-            name: "",
-            minWidth: 40,
-          },
-          ...columns,
-        ])}
+        columns={columns}
         rows={editedRows.map((row) => {
           return { ...row, deleteFlag: row.deleteFlag ? true : false };
         })}

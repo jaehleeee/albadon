@@ -1,5 +1,7 @@
 import { Button, Modal } from "@material-ui/core";
 import React, { useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { infoModalState } from "../../data/Atoms";
 import {
   ColumnType,
   ComboEditor,
@@ -8,27 +10,28 @@ import {
   PhoneEditor,
   NumberEditor,
   TextEditor,
+  AppendableListEditor,
+  TimeEditor,
 } from "./CommonDataGrid";
 import "./CommonDataModal.scss";
 export interface Props {
-  label: string;
-  onClose?: () => void;
-  onSave?: (newRow: any) => void;
+  onClose: () => void;
+  onSave: (newRow: any) => void;
   colDef: CommonColumnI[];
-  initialRow?: any;
+  initialRow: any;
+  title: string;
 }
 export const CommonDataModal: React.FC<Props> = ({
-  label,
   onClose,
   onSave,
   colDef,
   initialRow,
+  title,
 }) => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const setInfoModal = useSetRecoilState(infoModalState);
   const [newRowState, setNewRowState] = useState<any>(initialRow || {});
   const handleModalClose = () => {
-    setNewRowState({});
-    setOpenModal(false);
+    setNewRowState(initialRow);
     onClose && onClose();
   };
 
@@ -52,22 +55,20 @@ export const CommonDataModal: React.FC<Props> = ({
         return PhoneEditor(newRow);
       case ColumnType.COMBO:
         return ComboEditor(column.comboArray)(newRow);
+      case ColumnType.START_TIME:
+        return TimeEditor()(newRow);
+      case ColumnType.END_TIME:
+        return TimeEditor()(newRow);
     }
   };
 
   return (
-    <>
-      <Button
-        onClick={() => {
-          setOpenModal(!openModal);
-        }}
-      >
-        {label}
-      </Button>
-      {openModal && (
-        <Modal id="CommonDataModal" open={openModal} onClose={handleModalClose}>
-          <div className="data-modal-container">
-            {colDef.map((col) => {
+    <div id="CommonDataModal">
+      <Modal id="commonDataModalPopup" open={true} onClose={handleModalClose}>
+        <div className="data-modal-container">
+          <div className="data-modal-title">{title}</div>
+          {colDef.map((col) => {
+            if (col.visible === undefined || col.visible) {
               return (
                 <div key={`data-row-${col.key}`} className="data-row">
                   <div key={`data-key-${col.key}`} className="data-key">
@@ -78,27 +79,36 @@ export const CommonDataModal: React.FC<Props> = ({
                   </div>
                 </div>
               );
-            })}
-            <div className="btn-area">
-              <Button
-                onClick={() => {
-                  handleModalClose();
-                }}
-              >
-                취소
-              </Button>
-              <Button
-                onClick={() => {
-                  onSave && onSave(newRowState);
-                  handleModalClose();
-                }}
-              >
-                저장
-              </Button>
-            </div>
+            }
+          })}
+          <div className="btn-area">
+            <Button
+              className="cancel-btn"
+              onClick={() => {
+                handleModalClose();
+              }}
+            >
+              취소
+            </Button>
+            <Button
+              className="save-btn"
+              onClick={() => {
+                setInfoModal({
+                  open: true,
+                  label: "변경사항을 저장하시겠어요?",
+                  onConfirm: () => {
+                    onSave && onSave(newRowState);
+                    handleModalClose();
+                  },
+                  onCancel: () => {},
+                });
+              }}
+            >
+              저장
+            </Button>
           </div>
-        </Modal>
-      )}
-    </>
+        </div>
+      </Modal>
+    </div>
   );
 };

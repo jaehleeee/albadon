@@ -1,86 +1,372 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
-import { employeeListState } from "../data/Selectors";
+import React, { useEffect, useState } from "react";
 import {
-  ColumnType,
-  CommonDataGrid,
-} from "../component/datagrid/CommonDataGrid";
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
+import { infoModalState } from "../data/Atoms";
+import DataGrid from "react-data-grid";
+import { ColumnType } from "../component/datagrid/CommonDataGrid";
 import "./EmployeePage.scss";
-import { Button } from "@material-ui/core";
+
+import {
+  createEmployee,
+  deleteEmployee,
+  getContract,
+  getEmployeeListByStoreId,
+  modifyEmployee,
+} from "../service/EmployeeService";
 import { CommonDataModal } from "../component/datagrid/CommonDataModal";
+import { ContractDetail, Employee } from "../data/Interfaces";
+import { useHistory } from "react-router";
+import {
+  contractDetailState,
+  contractScheduleListQuerySeqState,
+  contractScheduleListState,
+  contractSummaryState,
+} from "../data/ContractAtoms";
+import {
+  employeeListQuerySeqState,
+  employeeListState,
+  storeDetailState,
+} from "../data/StoreAtoms";
+import {
+  createContractDetail,
+  deleteContractDetail,
+  updateContractDetail,
+} from "../service/ContractService";
+import { ContractDetailRequest } from "../service/Interfaces";
 
 export const EmployeePage: React.FC = () => {
+  const history = useHistory();
+
+  const store = useRecoilValue(storeDetailState);
   const employeeList = useRecoilValue(employeeListState);
+  const contractDetail = useRecoilValue(contractDetailState);
+  const contractScheduleList = useRecoilValue(contractScheduleListState);
+  const [contractSummary, setContractSummary] =
+    useRecoilState(contractSummaryState);
+  const setEmployeeListQuerySeq = useSetRecoilState(employeeListQuerySeqState);
+  const setContractScheduleListQuerySeqState = useSetRecoilState(
+    contractScheduleListQuerySeqState
+  );
+  const resetContractSummary = useResetRecoilState(contractSummaryState);
+
+  const [modifyTargetContract, setModifyTargetContract] =
+    useState<Employee | null>(null);
+  const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
+
+  const [modifyTargetDetail, setModifyTargetDetail] =
+    useState<any | null>(null);
+  const [createDetailModalOpen, setCreateDetailModalOpen] =
+    useState<boolean>(false);
+
+  const setInfoModal = useSetRecoilState(infoModalState);
 
   const columnDef = [
-    { key: "contractId", name: "계약ID", maxWidth: 0 },
+    { key: "contractId", name: "계약ID", maxWidth: 0, visible: false },
     {
       key: "employeeName",
       name: "이름",
+      editable: false,
       type: ColumnType.TEXT,
-      editable: true,
     },
     {
       key: "employeePhoneNumber",
       name: "연락처",
       width: 130,
+      editable: false,
       type: ColumnType.PHONE,
-      editable: true,
     },
     {
       key: "wage",
       name: "주간시급",
+      editable: false,
       type: ColumnType.NUMBER,
-      editable: true,
     },
     {
       key: "holidayWage",
       name: "휴일시급",
+      editable: false,
       type: ColumnType.NUMBER,
-      editable: true,
     },
     {
       key: "nightWage",
       name: "야간시급",
+      editable: false,
       type: ColumnType.NUMBER,
-      editable: true,
     },
     {
       key: "startDate",
       name: "근무시작일",
       width: 150,
+      editable: false,
       type: ColumnType.DATE,
-      editable: true,
     },
     {
       key: "endDate",
       name: "근무종료일",
       width: 150,
+      editable: false,
       type: ColumnType.DATE,
-      editable: true,
     },
     {
       key: "role",
       name: "역할",
+      editable: false,
       type: ColumnType.COMBO,
-      editable: true,
       comboArray: [
         { value: "manager", label: "manager" },
         { value: "employee", label: "employee" },
       ],
     },
+    {
+      key: "buttons",
+      name: "",
+      editable: false,
+      formatter: (p: any) => {
+        return (
+          <div>
+            <button
+              className="modify-btn"
+              onClick={() => {
+                setModifyTargetContract(p.row);
+              }}
+            >
+              수정
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => {
+                setInfoModal({
+                  open: true,
+                  label: `${p.row.employeeName} 님을 삭제하시겠어요?`,
+                  onConfirm: () => {
+                    console.log(p.row.contractId);
+                    deleteEmployee(+p.row.contractId).then((res) => {
+                      resetContractSummary();
+                    });
+                  },
+                  onCancel: () => {},
+                });
+              }}
+            >
+              삭제
+            </button>
+          </div>
+        );
+      },
+    },
   ];
-
+  const dateLabel = ["일", "월", "화", "수", "목", "금", "토"];
+  const contractDetailColumnList = [
+    {
+      key: "weekday",
+      name: "요일",
+      editable: false,
+      type: ColumnType.COMBO,
+      comboArray: dateLabel.map((date, idx) => {
+        console.log({ value: `${idx}`, label: dateLabel[idx] });
+        return { value: `${idx}`, label: dateLabel[idx] };
+      }),
+      formatter: (p: any) => {
+        return <div>{`${dateLabel[+p.row["weekday"]]}`}</div>;
+      },
+    },
+    {
+      key: "startTime",
+      name: "시작시간",
+      editable: false,
+      type: ColumnType.START_TIME,
+    },
+    {
+      key: "endTime",
+      name: "종료시간",
+      editable: false,
+      type: ColumnType.END_TIME,
+    },
+    {
+      key: "buttons",
+      name: "",
+      editable: false,
+      formatter: (p: any) => {
+        return (
+          <div>
+            <button
+              className="modify-btn"
+              onClick={() => {
+                setModifyTargetDetail(p.row);
+              }}
+            >
+              수정
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => {
+                setInfoModal({
+                  open: true,
+                  label: `${contractSummary?.employeeName} 님의 ${
+                    dateLabel[p.row.weekday]
+                  }요일 스케줄을 삭제하시겠어요?`,
+                  onConfirm: () => {
+                    deleteContractDetail(+p.row.contractDetailId).then(
+                      (res) => {}
+                    );
+                    deleteEmployee(+p.row.storeId).then((res) => {
+                      setEmployeeListQuerySeq((currVal) => currVal + 1);
+                    });
+                  },
+                  onCancel: () => {},
+                });
+              }}
+            >
+              삭제
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <div id="EmployeePage">
-      <CommonDataGrid
-        title="직원 관리"
-        columns={columnDef}
-        rows={employeeList}
-        rowLinkable
-        rowLink="/calculator/"
-        rowLinkKey="contractId"
-      />
+      {createModalOpen && (
+        <CommonDataModal
+          onClose={() => {
+            setCreateModalOpen(false);
+          }}
+          onSave={(newRow: any) => {
+            createEmployee({ ...newRow, storeId: store.storeId }).then(() => {
+              setEmployeeListQuerySeq((currVal) => currVal + 1);
+            });
+          }}
+          colDef={columnDef}
+          initialRow={{}}
+          title="직원 추가"
+        />
+      )}
+      {modifyTargetContract && (
+        <CommonDataModal
+          onClose={() => {
+            setModifyTargetContract(null);
+          }}
+          onSave={(newRow: any) => {}}
+          colDef={columnDef}
+          initialRow={modifyTargetContract}
+          title="직원 수정"
+        />
+      )}
+      <div className="data-grid">
+        <div className="title">
+          {store.storeName && (
+            <h1 className="highlight">{`${store.storeName}`}</h1>
+          )}
+          <h1>{`직원 관리`}</h1>
+        </div>
+        <button
+          className="add-btn"
+          onClick={() => {
+            setCreateModalOpen(true);
+          }}
+        >
+          직원 추가
+        </button>
+        <DataGrid
+          columns={columnDef}
+          rows={employeeList}
+          defaultColumnOptions={{
+            resizable: true,
+          }}
+          className="common-data-grid"
+          onRowClick={(idx, value) => {
+            setContractSummary(value);
+          }}
+        />
+      </div>
+
+      {contractSummary && createDetailModalOpen && (
+        <CommonDataModal
+          onClose={() => {
+            setCreateDetailModalOpen(false);
+          }}
+          onSave={(newRow: any) => {
+            const request: ContractDetailRequest = {
+              contractId: contractDetail.contractId,
+              endTime: newRow.endTime,
+              startTime: newRow.startTime,
+              weekday: newRow.weekday,
+            };
+            createContractDetail(request).then((res) => {
+              setContractScheduleListQuerySeqState((currVal) => currVal + 1);
+            });
+          }}
+          colDef={contractDetailColumnList}
+          initialRow={{}}
+          title="스케줄 추가"
+        />
+      )}
+      {contractDetail && modifyTargetDetail && (
+        <CommonDataModal
+          onClose={() => {
+            setModifyTargetDetail(null);
+          }}
+          onSave={(newRow: any) => {
+            const request: ContractDetailRequest = {
+              contractId: contractDetail.contractId,
+              endTime: newRow.endTime,
+              startTime: newRow.startTime,
+              weekday: newRow.weekday,
+            };
+            updateContractDetail(
+              modifyTargetDetail.contractDetailId,
+              request
+            ).then((res) => {
+              setContractScheduleListQuerySeqState((currVal) => currVal + 1);
+            });
+          }}
+          colDef={contractDetailColumnList}
+          initialRow={modifyTargetDetail}
+          title="스케줄 수정"
+        />
+      )}
+
+      {contractDetail ? (
+        <div className="data-grid">
+          <div className="title">
+            <h1 className="highlight">{`${contractSummary.employeeName}`}</h1>
+            <h1>{` 님의 스케줄 관리`}</h1>
+          </div>
+
+          <button
+            className="add-btn"
+            onClick={() => {
+              setCreateDetailModalOpen(true);
+            }}
+          >
+            스케줄 추가
+          </button>
+          <button
+            className="add-btn"
+            onClick={() => {
+              history.push(`/calculator/${contractSummary.contractId}`);
+            }}
+          >
+            실근무이력
+          </button>
+          <DataGrid
+            columns={contractDetailColumnList}
+            rows={contractScheduleList}
+            defaultColumnOptions={{
+              resizable: true,
+            }}
+            className="common-data-grid"
+          />
+        </div>
+      ) : (
+        <div className="empty-data-grid">
+          직원을 선택하면 스케줄을 확인할 수 있습니다
+        </div>
+      )}
     </div>
   );
 };

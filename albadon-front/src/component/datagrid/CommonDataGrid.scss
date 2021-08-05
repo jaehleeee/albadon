@@ -19,7 +19,8 @@
           color: #293b5f;
           border-right: 1px solid #dbe6fd;
           border-bottom: 1px solid#dbe6fd;
-          padding: 0px;
+          padding: 0px 4px;
+          font-size: 12px;
           .editied-cell {
             padding: 0px 8px;
             background-color: lightgreen;
@@ -72,26 +73,6 @@
             }
           }
         }
-      }
-    }
-    .MuiFormControl-root {
-      margin: 3px -1px;
-      width: 100%;
-    }
-    .MuiInputBase-root {
-      .MuiInputBase-input {
-        padding: 6px 8px 7px;
-        font-size: 14px;
-        font-family: "Spoqa Han Sans Neo", "sans-serif";
-      }
-    }
-    .MuiInput-underline {
-      width: 100%;
-      &::before {
-        display: none;
-      }
-      &::after {
-        display: none;
       }
     }
   }

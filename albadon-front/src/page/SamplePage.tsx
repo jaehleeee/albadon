@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React from "react";
 import { ExcelUploadButton } from "../component/ExcelUploadButton";
-import {ExcelDownloadButton} from "../component/ExcelDownloadButton"
+import { ExcelDownloadButton } from "../component/ExcelDownloadButton";
 import { SampleComponent } from "../component/SampleComponent";
-import { currentStoreId } from "../data/Atoms";
 
 export const SamplePage: React.FC = () => {
-
-  const [storeId, setStoreId] = useRecoilState(currentStoreId);
-
   return (
     <div id="SamplePage">
-      <ExcelUploadButton/>
-     <ExcelDownloadButton/>
+      <ExcelUploadButton />
+      <ExcelDownloadButton />
       {[1, 2, 3, 4, 5].map((item) => {
         return <SampleComponent title={`${item}번째 sampleComponent`} />;
       })}
@@ -23,9 +18,7 @@ export const SamplePage: React.FC = () => {
           }}
         >
           storeId 늘리기
-
         </button>
-
       </div>
     </div>
   );

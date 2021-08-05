@@ -1,23 +1,33 @@
 @import "../variables.scss";
 
-#Sidebar{
+#Sidebar {
   width: $sidebarWidth;
   position: absolute;
   height: 100%;
-  background-color:  $navi;
-  color : $white;
-
-  #storeSelect{
-    position: absolute;
-    right: 20px;
-    top: 100px;
+  background-color: $navi;
+  color: $white;
+  #storeSelect {
+    font-size: 12px;
+    margin: 120px 15px;
+    width: 150px;
+    border-radius: 4px;
   }
-  #navigationBar{
-    padding:  180px 20px;
-    .navi-btn{
-      padding: 4px 0px;
+  #navigationBar {
+    padding: 100px 15px;
+    .navi-btn {
+      padding: 8px 4px;
       text-align: right;
       cursor: pointer;
+      font-size: 18px;
+      &.active {
+        background-color: $yellow;
+        color: $navi;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      &:hover {
+        font-weight: bold;
+      }
     }
   }
 }

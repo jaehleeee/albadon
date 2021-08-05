@@ -1,14 +1,21 @@
-#CommonDataModal {
+#commonDataModalPopup {
   .data-modal-container {
     position: absolute;
-    padding: 80px 120px 80px;
-    height: 320px;
+    padding: 100px 120px 80px;
+    height: 340px;
     width: 280px;
     border-radius: 4px;
     left: calc(50% - 260px);
     top: calc(50% - 240px);
     display: table;
     background-color: white;
+    .data-modal-title {
+      font-size: 24px;
+      font-weight: bolder;
+      height: 24px;
+      position: absolute;
+      top: 60px;
+    }
     .data-row {
       display: table-row;
       .data-key {
@@ -52,8 +59,32 @@
     }
     .btn-area {
       position: absolute;
-      right: 20px;
-      bottom: 20px;
+      right: 40px;
+      bottom: 40px;
+      .MuiButton-root {
+        &.cancel-btn {
+          &:hover {
+            font-weight: bold;
+          }
+          background-color: lightgrey;
+          margin-right: 4px;
+        }
+        &.save-btn {
+          &:hover {
+            font-weight: bold;
+          }
+          background-color: #ffd56b;
+        }
+      }
     }
+  }
+}
+#CommonDataModal {
+  .create-btn {
+    font-size: 18px;
+    height: 40px;
+    margin: 20px 20px;
+    right: 0;
+    background-color: #ffd56b;
   }
 }

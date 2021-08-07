@@ -67,3 +67,16 @@ export interface ContractSchedule {
   startTime: string; //HH:mm:dd
   endTime: string;
 }
+
+export interface WorkDetail {
+  createdDatetime?: string;
+  endTime?: string; //hh:mm:ss
+  pauseInfo?: {
+    duration: string; //hhmm
+  };
+  pauseMinutes?: number;
+  startTime?: string; //hh:mm:ss
+  weekday: number;
+  workDate: string; //YYYY-MM-DD
+  workId?: number;
+}

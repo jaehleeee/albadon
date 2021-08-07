@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValueLoadable,
+  useResetRecoilState,
+} from "recoil";
 import { storeListState } from "../data/BossAtoms";
 import { contractSummaryState } from "../data/ContractAtoms";
+import { Store } from "../data/Interfaces";
 import { storeDetailState } from "../data/StoreAtoms";
 import "./Sidebar.scss";
 
@@ -12,7 +17,7 @@ export enum NavOption {
   EMPLOYEE = "EMPLOYEE",
 }
 export const Sidebar: React.FC = () => {
-  const storeList = useRecoilValue(storeListState);
+  const storeList = useRecoilValueLoadable(storeListState);
   const [store, setStore] = useRecoilState(storeDetailState);
   const resetContractDetail = useResetRecoilState(contractSummaryState);
 
@@ -40,16 +45,28 @@ export const Sidebar: React.FC = () => {
     }
   }, [history.location.pathname]);
 
+  useEffect(() => {
+    if (
+      storeList.state === "hasValue" &&
+      (!store?.storeId ||
+        !storeList.contents.some(
+          (item: Store) => item.storeId === store.storeId
+        ))
+    ) {
+      setStore(storeList.contents[0]);
+    }
+  }, [storeList]);
+
   const handleStoreSelect = (e: any) => {
-    const store = storeList.filter(
-      (store) => +store.storeId === +e.target.value
+    const store = storeList.contents.filter(
+      (store: Store) => +store.storeId === +e.target.value
     );
 
     if (store.length > 0) {
       setStore(store[0]);
+      history.push("/employee");
+      resetContractDetail();
     }
-
-    resetContractDetail();
   };
 
   return (
@@ -58,15 +75,16 @@ export const Sidebar: React.FC = () => {
         id="storeSelect"
         title="매장을 선택해주세요"
         onChange={handleStoreSelect}
-        value={store.storeId}
+        value={store?.storeId}
       >
-        {storeList.map((store) => {
-          return (
-            <option key={store.storeName} value={store.storeId}>
-              {store.storeName}
-            </option>
-          );
-        })}
+        {storeList.state === "hasValue" &&
+          storeList.contents.map((store: Store) => {
+            return (
+              <option key={store.storeName} value={store.storeId}>
+                {store.storeName}
+              </option>
+            );
+          })}
       </select>
       <div id="navigationBar">
         {Object.keys(NavOption).map((option) => {

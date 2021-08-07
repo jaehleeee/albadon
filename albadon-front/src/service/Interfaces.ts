@@ -23,6 +23,19 @@ export interface WorkListGetRequest {
   year: number;
 }
 
+export interface WorkUpdateRequest {
+  contractId: number;
+  endTime?: string; //HHmm
+  pauseInfo?: {
+    duration: string; //HHmm
+  };
+  startTime?: string; //HHmm
+  storeId: number;
+  weekday: number;
+  workDate: string; //YYYY-MM-DD
+  workId?: number;
+}
+
 export interface StoreInsertRequest {
   bossId: number;
   storeAddress: string;

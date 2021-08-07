@@ -15,8 +15,13 @@ export const employeeListQuerySeqState = atom({
 export const employeeListState = selector({
   key: "employeeListState",
   get: async ({ get }) => {
+    get(employeeListQuerySeqState);
     const store = get(storeDetailState);
-    const res = await getEmployeeListByStoreId(store.storeId);
-    return res.data as Employee[];
+    if (store?.storeId) {
+      const res = await getEmployeeListByStoreId(store.storeId);
+      return res.data as Employee[];
+    } else {
+      return [];
+    }
   },
 });

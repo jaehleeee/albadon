@@ -17,8 +17,11 @@ export const storeListState = selector({
   get: async ({ get }) => {
     get(storeListQuerySeqState);
     const bossId = get(bossIdState);
-    const res = await getStoreListByMemberId(bossId);
-
-    return res.data as Store[];
+    if (bossId) {
+      const res = await getStoreListByMemberId(bossId);
+      return res.data as Store[];
+    } else {
+      return [];
+    }
   },
 });

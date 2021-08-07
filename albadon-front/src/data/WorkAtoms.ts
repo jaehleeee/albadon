@@ -3,6 +3,7 @@ import { atom, selector } from "recoil";
 import { WorkListGetRequest } from "../service/Interfaces";
 import { getWorkList } from "../service/WorkService";
 import { contractDetailState } from "./ContractAtoms";
+import { WorkDetail } from "./Interfaces";
 
 export const targetYearState = atom({
   key: "targetYearState",
@@ -26,38 +27,50 @@ export const workListState = selector({
     const contract = get(contractDetailState);
     const year = get(targetYearState);
     const month = get(targetMonthState);
-    const request: WorkListGetRequest = {
-      contractId: contract.contractId,
-      month,
-      year,
-    };
 
-    const target = moment(`${year}${month}`, "YYYYMM");
+    if (contract?.contractId) {
+      const request: WorkListGetRequest = {
+        contractId: contract.contractId,
+        month,
+        year,
+      };
 
-    const emptyWorkList: any[] = [];
+      const target = moment(`${year}${month}`, "YYYYMM");
 
-    const DAY_LIST = [
-      "일요일",
-      "월요일",
-      "화요일",
-      "수요일",
-      "목요일",
-      "금요일",
-      "토요일",
-    ];
+      const workList: WorkDetail[] = [];
 
-    for (let i = 0; i < target.daysInMonth(); i++) {
-      const targetMoment = target.startOf("month").add(i, "day");
-      emptyWorkList.push({
-        workDate: targetMoment.format("YYYY년 MM월 DD일"),
-        weekday: DAY_LIST[targetMoment.day()],
-        startTime: "",
-        endTime: "",
-        pauseInfo: "",
+      for (let i = 0; i < target.daysInMonth(); i++) {
+        const targetMoment = target.startOf("month").add(i, "day");
+        workList.push({
+          weekday: targetMoment.day(),
+          workDate: targetMoment.format("YYYY-MM-DD"),
+        });
+      }
+
+      const res = await getWorkList(request);
+
+      (res.data as WorkDetail[]).forEach((work) => {
+        const idx = workList.findIndex(
+          (item) => item.workDate === work.workDate
+        );
+        if (idx >= 0) {
+          let pauseMinutes = 0;
+          if (work.pauseInfo?.duration) {
+            pauseMinutes =
+              +work.pauseInfo?.duration.substring(0, 2) * 60 +
+              +work.pauseInfo?.duration.substring(2, 4);
+          }
+
+          workList[idx] = {
+            ...work,
+            pauseMinutes,
+          };
+        }
       });
-    }
 
-    const res = await getWorkList(request);
-    return res.data;
+      return workList;
+    } else {
+      return [] as WorkDetail[];
+    }
   },
 });

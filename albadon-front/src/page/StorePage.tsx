@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import {
   useRecoilState,
   useRecoilValue,
+  useRecoilValueLoadable,
   useResetRecoilState,
   useSetRecoilState,
 } from "recoil";
-import {
-  ColumnType,
-  CommonDataGrid,
-} from "../component/datagrid/CommonDataGrid";
+import { ColumnType } from "../component/datagrid/CommonDataGrid";
 import DataGrid from "react-data-grid";
 import "./StorePage.scss";
 import { Store } from "../data/Interfaces";
@@ -28,7 +26,7 @@ import {
 
 export const StorePage: React.FC = () => {
   const bossId = useRecoilValue(bossIdState);
-  const storeList = useRecoilValue(storeListState);
+  const storeList = useRecoilValueLoadable(storeListState);
   const setStoreListQuerySeq = useSetRecoilState(storeListQuerySeqState);
 
   const setInfoModal = useSetRecoilState(infoModalState);
@@ -81,7 +79,9 @@ export const StorePage: React.FC = () => {
                   open: true,
                   label: `${p.row.storeName} 매장을 삭제하시겠어요?`,
                   onConfirm: () => {
-                    deleteStore(+p.row.storeId).then((res) => {});
+                    deleteStore(+p.row.storeId).then((res) => {
+                      setStoreListQuerySeq((currVal) => currVal + 1);
+                    });
                   },
                   onCancel: () => {},
                 });
@@ -149,7 +149,7 @@ export const StorePage: React.FC = () => {
         )}
         <DataGrid
           columns={columnDef}
-          rows={storeList}
+          rows={storeList.state === "hasValue" ? storeList.contents : []}
           defaultColumnOptions={{
             resizable: true,
           }}

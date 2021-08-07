@@ -12,12 +12,10 @@ import { Loading } from "./layout/Loading";
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <React.Suspense fallback={<Loading />}>
-        <RecoilizeDebugger />
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </React.Suspense>
+      <RecoilizeDebugger />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")

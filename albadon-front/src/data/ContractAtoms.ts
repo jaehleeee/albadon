@@ -9,15 +9,19 @@ import {
 
 export const contractSummaryState = atom({
   key: "contractSummaryState",
-  default: {} as ContractSummary,
+  default: {} as Partial<ContractSummary>,
 });
 
 export const contractDetailState = selector({
   key: "contractDetailState",
   get: async ({ get }) => {
     const contract = get(contractSummaryState);
-    const res = await getContract(contract.contractId);
-    return res.data as ContractDetail;
+    if (contract?.contractId) {
+      const res = await getContract(contract.contractId);
+      return res.data as ContractDetail;
+    } else {
+      return {} as ContractDetail;
+    }
   },
 });
 
@@ -29,8 +33,13 @@ export const contractScheduleListQuerySeqState = atom({
 export const contractScheduleListState = selector({
   key: "contractScheduleListState",
   get: async ({ get }) => {
+    get(contractScheduleListQuerySeqState);
     const contract = get(contractSummaryState);
-    const res = await getContractDetailList(contract.contractId);
-    return res.data as ContractSchedule[];
+    if (contract?.contractId) {
+      const res = await getContractDetailList(contract.contractId);
+      return res.data as ContractSchedule[];
+    } else {
+      return [] as ContractSchedule[];
+    }
   },
 });

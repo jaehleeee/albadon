@@ -2,7 +2,6 @@ import { Input, MenuItem, Select, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import DataGrid from "react-data-grid";
 import { useHistory } from "react-router-dom";
-import { useRecoilValue } from "recoil";
 import "./CommonDataGrid.scss";
 
 export enum ColumnType {
@@ -155,6 +154,7 @@ export const TimeEditor = (defaultValue?: string) => (p: any) =>
         step: 60, // 5 min
       }}
       onChange={(e) => {
+        console.log(e.target.value, p.column.key);
         p.onRowChange({ ...p.row, [p.column.key]: e.target.value });
       }}
     />

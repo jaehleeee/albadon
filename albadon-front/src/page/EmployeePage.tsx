@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   useRecoilState,
   useRecoilValue,
+  useRecoilValueLoadable,
   useResetRecoilState,
   useSetRecoilState,
 } from "recoil";
@@ -10,15 +11,9 @@ import DataGrid from "react-data-grid";
 import { ColumnType } from "../component/datagrid/CommonDataGrid";
 import "./EmployeePage.scss";
 
-import {
-  createEmployee,
-  deleteEmployee,
-  getContract,
-  getEmployeeListByStoreId,
-  modifyEmployee,
-} from "../service/EmployeeService";
+import { createEmployee, deleteEmployee } from "../service/EmployeeService";
 import { CommonDataModal } from "../component/datagrid/CommonDataModal";
-import { ContractDetail, Employee } from "../data/Interfaces";
+import { Employee } from "../data/Interfaces";
 import { useHistory } from "react-router";
 import {
   contractDetailState,
@@ -42,9 +37,11 @@ export const EmployeePage: React.FC = () => {
   const history = useHistory();
 
   const store = useRecoilValue(storeDetailState);
-  const employeeList = useRecoilValue(employeeListState);
-  const contractDetail = useRecoilValue(contractDetailState);
-  const contractScheduleList = useRecoilValue(contractScheduleListState);
+  const employeeList = useRecoilValueLoadable(employeeListState);
+  const contractDetail = useRecoilValueLoadable(contractDetailState);
+  const contractScheduleList = useRecoilValueLoadable(
+    contractScheduleListState
+  );
   const [contractSummary, setContractSummary] =
     useRecoilState(contractSummaryState);
   const setEmployeeListQuerySeq = useSetRecoilState(employeeListQuerySeqState);
@@ -167,7 +164,6 @@ export const EmployeePage: React.FC = () => {
       editable: false,
       type: ColumnType.COMBO,
       comboArray: dateLabel.map((date, idx) => {
-        console.log({ value: `${idx}`, label: dateLabel[idx] });
         return { value: `${idx}`, label: dateLabel[idx] };
       }),
       formatter: (p: any) => {
@@ -211,7 +207,9 @@ export const EmployeePage: React.FC = () => {
                   }요일 스케줄을 삭제하시겠어요?`,
                   onConfirm: () => {
                     deleteContractDetail(+p.row.contractDetailId).then(
-                      (res) => {}
+                      (res) => {
+                        setEmployeeListQuerySeq((currVal) => currVal + 1);
+                      }
                     );
                     deleteEmployee(+p.row.storeId).then((res) => {
                       setEmployeeListQuerySeq((currVal) => currVal + 1);
@@ -273,7 +271,7 @@ export const EmployeePage: React.FC = () => {
         </button>
         <DataGrid
           columns={columnDef}
-          rows={employeeList}
+          rows={employeeList.state === "hasValue" ? employeeList.contents : []}
           defaultColumnOptions={{
             resizable: true,
           }}
@@ -284,35 +282,39 @@ export const EmployeePage: React.FC = () => {
         />
       </div>
 
-      {contractSummary && createDetailModalOpen && (
-        <CommonDataModal
-          onClose={() => {
-            setCreateDetailModalOpen(false);
-          }}
-          onSave={(newRow: any) => {
-            const request: ContractDetailRequest = {
-              contractId: contractDetail.contractId,
-              endTime: newRow.endTime,
-              startTime: newRow.startTime,
-              weekday: newRow.weekday,
-            };
-            createContractDetail(request).then((res) => {
-              setContractScheduleListQuerySeqState((currVal) => currVal + 1);
-            });
-          }}
-          colDef={contractDetailColumnList}
-          initialRow={{}}
-          title="스케줄 추가"
-        />
-      )}
-      {contractDetail && modifyTargetDetail && (
+      {contractSummary &&
+        contractDetail.state === "hasValue" &&
+        createDetailModalOpen && (
+          <CommonDataModal
+            onClose={() => {
+              setCreateDetailModalOpen(false);
+            }}
+            onSave={(newRow: any) => {
+              const request: ContractDetailRequest = {
+                contractId: contractDetail.contents.contractId,
+                endTime: `${newRow.endTime}`.substring(0, 5).replace(":", ""),
+                startTime: `${newRow.startTime}`
+                  .substring(0, 5)
+                  .replace(":", ""),
+                weekday: newRow.weekday,
+              };
+              createContractDetail(request).then((res) => {
+                setContractScheduleListQuerySeqState((currVal) => currVal + 1);
+              });
+            }}
+            colDef={contractDetailColumnList}
+            initialRow={{}}
+            title="스케줄 추가"
+          />
+        )}
+      {contractDetail?.state === "hasValue" && modifyTargetDetail && (
         <CommonDataModal
           onClose={() => {
             setModifyTargetDetail(null);
           }}
           onSave={(newRow: any) => {
             const request: ContractDetailRequest = {
-              contractId: contractDetail.contractId,
+              contractId: contractDetail.contents.contractId,
               endTime: newRow.endTime,
               startTime: newRow.startTime,
               weekday: newRow.weekday,
@@ -330,10 +332,11 @@ export const EmployeePage: React.FC = () => {
         />
       )}
 
-      {contractDetail ? (
+      {contractDetail?.state === "hasValue" &&
+      contractDetail?.contents?.employee?.employeeName ? (
         <div className="data-grid">
           <div className="title">
-            <h1 className="highlight">{`${contractSummary.employeeName}`}</h1>
+            <h1 className="highlight">{`${contractDetail?.contents?.employee?.employeeName}`}</h1>
             <h1>{` 님의 스케줄 관리`}</h1>
           </div>
 
@@ -348,14 +351,18 @@ export const EmployeePage: React.FC = () => {
           <button
             className="add-btn"
             onClick={() => {
-              history.push(`/calculator/${contractSummary.contractId}`);
+              history.push(`employee/calculator/${contractSummary.contractId}`);
             }}
           >
-            실근무이력
+            알바비 계산기
           </button>
           <DataGrid
             columns={contractDetailColumnList}
-            rows={contractScheduleList}
+            rows={
+              contractScheduleList.state === "hasValue"
+                ? contractScheduleList.contents
+                : []
+            }
             defaultColumnOptions={{
               resizable: true,
             }}

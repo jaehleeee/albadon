@@ -15,4 +15,34 @@
       height: 800px;
     }
   }
+  .calculator {
+    margin: 0px 0px 20px;
+    span {
+      font-size: 20px;
+
+      &.total {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+      &.bold {
+        font-weight: bold;
+      }
+    }
+    .more-info {
+      margin: 0px 6px;
+      width: 18px;
+      height: 18px;
+      border: none;
+      background-color: #708fce;
+      border-radius: 50%;
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .calculator-detail {
+      .detail-item {
+      }
+    }
+  }
 }

@@ -20,17 +20,14 @@ import {
   contractScheduleListState,
   contractSummaryState,
 } from "../data/ContractAtoms";
-import {
-  ContractDetail,
-  ContractSchedule,
-  WorkDetail,
-} from "../data/Interfaces";
+import { ContractSchedule, WorkDetail } from "../data/Interfaces";
 import { deleteWork, updateWorkList } from "../service/WorkService";
 import { WorkUpdateRequest } from "../service/Interfaces";
 import { storeDetailState } from "../data/StoreAtoms";
 import { infoModalState } from "../data/Atoms";
 import axios from "axios";
 import moment from "moment";
+import { Collapse } from "@material-ui/core";
 
 export interface CalculatorPageI {
   match: any;
@@ -207,16 +204,16 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
             +target.startTime.substring(3, 5) -
             (target.pauseMinutes || 0);
 
-          satisfied =
-            scheduleInfo.length === 0
-              ? satisfied
-              : scheduleInfo.length > 0 &&
-                target.startTime <= scheduleInfo[0].startTime &&
-                target.endTime >= scheduleInfo[0].endTime &&
-                satisfied;
-        } else if (scheduleInfo.length > 0) {
-          console.log("!!!", scheduleInfo.length > 0, target);
-          satisfied = (!target.startTime || !target.endTime) && satisfied;
+          if (scheduleInfo.length > 0) {
+            satisfied =
+              target.startTime <= scheduleInfo[0].startTime &&
+              target.endTime >= scheduleInfo[0].endTime &&
+              satisfied;
+          }
+        } else {
+          if (scheduleInfo.length > 0) {
+            satisfied = false;
+          }
         }
 
         if (target.weekday === 0 || idx === targetList.length - 1) {
@@ -247,19 +244,71 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
         };
       });
 
-      console.log(totalWageForWeekList);
-      return (
-        <div>
-          {totalWageForMonth.toString()}
-          {totalWageForWeekList.map((week, idx) => {
-            return <div>{week.satisfied}</div>;
-          })}
-        </div>
-      );
+      return {
+        totalWageForMonth,
+        totalWageForWeekList,
+      };
     } else {
-      return <div className="calculating">계산중...</div>;
+      return null;
     }
   }, [contractDetail, contractScheduleList, workList, editedRows]);
+
+  const calculatorView = (
+    totalWageForMonth?: number,
+    totalWageForWeekList?: {
+      weekSeq: number;
+      weekTotalWorkMin: number;
+      satisfied: boolean;
+      totalWage: number;
+    }[]
+  ) => {
+    return (
+      <div className="calculator">
+        {totalWageForMonth && totalWageForWeekList ? (
+          <>
+            <span className="total">{`이번 달 알바비 : 총 `}</span>
+            <span className="bold">{`${totalWageForMonth.toString()}`}</span>
+            <span>{` 원`}</span>
+            <button
+              className="more-info"
+              onClick={() => setShowDetail(!showDetail)}
+            >
+              ?
+            </button>
+            <Collapse in={showDetail}>
+              <div className="calculator-detail">
+                {totalWageForWeekList.map((week, idx) => {
+                  return (
+                    <div className="detail-item">
+                      <div>{`${idx + 1}주차 : 총 근로시간 (${Math.floor(
+                        week.weekTotalWorkMin / 60
+                      )}시간${
+                        week.weekTotalWorkMin % 60
+                          ? " " + (week.weekTotalWorkMin % 60) + "분 "
+                          : ""
+                      }) * 시급(${contractDetail.contents.wage}원)${
+                        week.satisfied
+                          ? ` + 주휴수당 (${
+                              ((week.weekTotalWorkMin / 5) *
+                                contractDetail.contents.wage) /
+                              60
+                            }원)`
+                          : ""
+                      } = ${week.totalWage}원`}</div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Collapse>
+          </>
+        ) : (
+          <span className="total">계산중...</span>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div id="CalculatorPage">
@@ -270,7 +319,12 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
           }`}</h1>
           <h1>{` 님의 알바비 계산기`}</h1>
         </div>
-        <div className="calculator-wrapper">{calculator}</div>
+        <div className="calculator-wrapper">
+          {calculatorView(
+            calculator?.totalWageForMonth,
+            calculator?.totalWageForWeekList
+          )}
+        </div>
         <button
           className="add-btn"
           disabled={editedRows.length === 0}

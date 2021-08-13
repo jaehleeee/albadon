@@ -92,6 +92,9 @@ export const CommonDataModal: React.FC<Props> = ({
             </Button>
             <Button
               className="save-btn"
+              disabled={colDef.some((col) => {
+                return col.mandatory && !newRowState[col.key];
+              })}
               onClick={() => {
                 setInfoModal({
                   open: true,

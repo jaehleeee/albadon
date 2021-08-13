@@ -80,3 +80,14 @@ export interface WorkDetail {
   workDate: string; //YYYY-MM-DD
   workId?: number;
 }
+
+export interface BossDetail {
+  createdDatetime: string;
+  updatedDatetime: string;
+  bossId: number;
+  bossName: string;
+  bossPhoneNumber: string;
+  bossSex: string;
+  bossBirthday: string;
+  storeList: Store[];
+}

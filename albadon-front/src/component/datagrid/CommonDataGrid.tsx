@@ -204,6 +204,7 @@ export interface CommonColumnI {
   appendableListKey?: string[];
   editable?: boolean;
   visible?: boolean;
+  mandatory?: boolean;
 }
 
 export interface CommonDataGridI {
@@ -231,85 +232,6 @@ export const CommonDataGrid: React.FC<CommonDataGridI> = ({
   useEffect(() => {
     setEditedRows(rows);
   }, [rows]);
-
-  const getColumns = (columns: CommonColumnI[]) => {
-    return [...columns].map((column) => {
-      let editor;
-      switch (column.type) {
-        case ColumnType.TEXT:
-          editor = TextEditor;
-          break;
-        case ColumnType.NUMBER:
-          editor = NumberEditor;
-          break;
-        case ColumnType.PHONE:
-          editor = PhoneEditor;
-          break;
-        case ColumnType.DATE:
-          editor = DateEditor;
-          break;
-        case ColumnType.COMBO:
-          editor = ComboEditor(column.comboArray);
-          break;
-        case ColumnType.START_TIME:
-          editor = TimeEditor(additionalProps?.defaultStartTime);
-          break;
-        case ColumnType.END_TIME:
-          editor = TimeEditor(additionalProps?.defaultEndTime);
-          break;
-      }
-
-      const getClassName = (p: any) => {
-        if (p.row.deleteFlag) {
-          return "deleted-cell";
-        } else if (
-          !!!rows[p.rowIdx] ||
-          p.row[column.key] !== rows[p.rowIdx][column.key]
-        ) {
-          return "editied-cell";
-        } else {
-          return "original-cell";
-        }
-      };
-      return {
-        ...column,
-        maxWidth:
-          column.visible !== undefined && !column.visible ? 0 : column.maxWidth,
-        editor,
-        formatter: (p: any) => {
-          return column.key === "deleteFlag" ? (
-            <div>
-              {rowLinkable && rowLink && rowLinkKey && (
-                <button
-                  onClick={() => {
-                    history.push(`${rowLink}${p.row[rowLinkKey]}`);
-                  }}
-                >
-                  근무이력
-                </button>
-              )}{" "}
-              <button
-                onClick={() => {
-                  setEditTarget({ ...p.row });
-                }}
-              >
-                수정
-              </button>{" "}
-              <button
-                onClick={() => {
-                  p.onRowChange({ ...p.row, deleteFlag: true });
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          ) : (
-            <div className={getClassName(p)}>{p.row[column.key]}</div>
-          );
-        },
-      };
-    });
-  };
 
   return (
     <div id="CommonDataGrid">

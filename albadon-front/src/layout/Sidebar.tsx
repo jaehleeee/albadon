@@ -10,6 +10,7 @@ import { storeListState } from "../data/BossAtoms";
 import { contractSummaryState } from "../data/ContractAtoms";
 import { Store } from "../data/Interfaces";
 import { storeDetailState } from "../data/StoreAtoms";
+import { useAPICall } from "../hook/useAPICall";
 import "./Sidebar.scss";
 
 export enum NavOption {
@@ -17,7 +18,7 @@ export enum NavOption {
   EMPLOYEE = "EMPLOYEE",
 }
 export const Sidebar: React.FC = () => {
-  const storeList = useRecoilValueLoadable(storeListState);
+  const storeList = useAPICall<Store[]>(useRecoilValueLoadable(storeListState));
   const [store, setStore] = useRecoilState(storeDetailState);
   const resetContractDetail = useResetRecoilState(contractSummaryState);
 

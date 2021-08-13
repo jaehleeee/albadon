@@ -22,5 +22,6 @@ export const callAPI = async (
     },
     params: params,
     data: data,
+    timeout: 1000,
   });
 };

@@ -13,7 +13,7 @@ import "./EmployeePage.scss";
 
 import { createEmployee, deleteEmployee } from "../service/EmployeeService";
 import { CommonDataModal } from "../component/datagrid/CommonDataModal";
-import { Employee } from "../data/Interfaces";
+import { ContractDetail, ContractSchedule, Employee } from "../data/Interfaces";
 import { useHistory } from "react-router";
 import {
   contractDetailState,
@@ -32,15 +32,20 @@ import {
   updateContractDetail,
 } from "../service/ContractService";
 import { ContractDetailRequest } from "../service/Interfaces";
+import { useAPICall } from "../hook/useAPICall";
 
 export const EmployeePage: React.FC = () => {
   const history = useHistory();
 
   const store = useRecoilValue(storeDetailState);
-  const employeeList = useRecoilValueLoadable(employeeListState);
-  const contractDetail = useRecoilValueLoadable(contractDetailState);
-  const contractScheduleList = useRecoilValueLoadable(
-    contractScheduleListState
+  const employeeList = useAPICall<Employee[]>(
+    useRecoilValueLoadable(employeeListState)
+  );
+  const contractDetail = useAPICall<ContractDetail>(
+    useRecoilValueLoadable(contractDetailState)
+  );
+  const contractScheduleList = useAPICall<ContractSchedule[]>(
+    useRecoilValueLoadable(contractScheduleListState)
   );
   const [contractSummary, setContractSummary] =
     useRecoilState(contractSummaryState);
@@ -68,6 +73,7 @@ export const EmployeePage: React.FC = () => {
       name: "이름",
       editable: false,
       type: ColumnType.TEXT,
+      mandatory: true,
     },
     {
       key: "employeePhoneNumber",
@@ -75,12 +81,14 @@ export const EmployeePage: React.FC = () => {
       width: 130,
       editable: false,
       type: ColumnType.PHONE,
+      mandatory: true,
     },
     {
       key: "wage",
       name: "주간시급",
       editable: false,
       type: ColumnType.NUMBER,
+      mandatory: true,
     },
     {
       key: "holidayWage",
@@ -100,6 +108,7 @@ export const EmployeePage: React.FC = () => {
       width: 150,
       editable: false,
       type: ColumnType.DATE,
+      mandatory: true,
     },
     {
       key: "endDate",
@@ -117,6 +126,7 @@ export const EmployeePage: React.FC = () => {
         { value: "manager", label: "manager" },
         { value: "employee", label: "employee" },
       ],
+      mandatory: true,
     },
     {
       key: "buttons",
@@ -163,9 +173,19 @@ export const EmployeePage: React.FC = () => {
       name: "요일",
       editable: false,
       type: ColumnType.COMBO,
-      comboArray: dateLabel.map((date, idx) => {
-        return { value: `${idx}`, label: dateLabel[idx] };
-      }),
+      comboArray: dateLabel
+        .map((date, idx) => {
+          return { value: `${idx}`, label: dateLabel[idx] };
+        })
+        .filter(
+          (item) =>
+            !(
+              Array.isArray(contractScheduleList.contents) &&
+              contractScheduleList.contents.some(
+                (schedule: ContractSchedule) => schedule.weekday === +item.value
+              )
+            )
+        ),
       formatter: (p: any) => {
         return <div>{`${dateLabel[+p.row["weekday"]]}`}</div>;
       },
@@ -206,13 +226,10 @@ export const EmployeePage: React.FC = () => {
                     dateLabel[p.row.weekday]
                   }요일 스케줄을 삭제하시겠어요?`,
                   onConfirm: () => {
-                    deleteContractDetail(+p.row.contractDetailId).then(
-                      (res) => {
-                        setEmployeeListQuerySeq((currVal) => currVal + 1);
-                      }
-                    );
-                    deleteEmployee(+p.row.storeId).then((res) => {
-                      setEmployeeListQuerySeq((currVal) => currVal + 1);
+                    deleteContractDetail(p.row.contractDetailId).then((res) => {
+                      setContractScheduleListQuerySeqState(
+                        (currVal) => currVal + 1
+                      );
                     });
                   },
                   onCancel: () => {},
@@ -345,6 +362,7 @@ export const EmployeePage: React.FC = () => {
             onClick={() => {
               setCreateDetailModalOpen(true);
             }}
+            disabled={contractScheduleList.contents.length === 7}
           >
             스케줄 추가
           </button>

@@ -23,10 +23,11 @@ import {
   storeListQuerySeqState,
   storeListState,
 } from "../data/BossAtoms";
+import { useAPICall } from "../hook/useAPICall";
 
 export const StorePage: React.FC = () => {
   const bossId = useRecoilValue(bossIdState);
-  const storeList = useRecoilValueLoadable(storeListState);
+  const storeList = useAPICall<Store[]>(useRecoilValueLoadable(storeListState));
   const setStoreListQuerySeq = useSetRecoilState(storeListQuerySeqState);
 
   const setInfoModal = useSetRecoilState(infoModalState);
@@ -43,6 +44,7 @@ export const StorePage: React.FC = () => {
       name: "상호",
       type: ColumnType.TEXT,
       editable: false,
+      mandatory: true,
     },
     {
       key: "storeAddress",

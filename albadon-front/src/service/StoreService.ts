@@ -1,6 +1,9 @@
 import { ApiMethod, callAPI } from "./CommonService";
 import { StoreInsertRequest } from "./Interfaces";
 
+export const getBossDetail = async (bossId: string) => {
+  return await callAPI(ApiMethod.GET, `boss/${bossId}`);
+};
 export const getStoreListByMemberId = async (memberId: string) => {
   return await callAPI(ApiMethod.GET, `boss/${memberId}/stores`);
 };

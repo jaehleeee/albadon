@@ -20,7 +20,11 @@ import {
   contractScheduleListState,
   contractSummaryState,
 } from "../data/ContractAtoms";
-import { ContractSchedule, WorkDetail } from "../data/Interfaces";
+import {
+  ContractDetail,
+  ContractSchedule,
+  WorkDetail,
+} from "../data/Interfaces";
 import { deleteWork, updateWorkList } from "../service/WorkService";
 import { WorkUpdateRequest } from "../service/Interfaces";
 import { storeDetailState } from "../data/StoreAtoms";
@@ -28,6 +32,7 @@ import { infoModalState } from "../data/Atoms";
 import axios from "axios";
 import moment from "moment";
 import { Collapse } from "@material-ui/core";
+import { useAPICall } from "../hook/useAPICall";
 
 export interface CalculatorPageI {
   match: any;
@@ -37,10 +42,14 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
   const [targetYear, setTargetYear] = useRecoilState(targetYearState);
   const [targetMonth, setTargetMonth] = useRecoilState(targetMonthState);
   const store = useRecoilValue(storeDetailState);
-  const workList = useRecoilValueLoadable(workListState);
-  const contractDetail = useRecoilValueLoadable(contractDetailState);
-  const contractScheduleList = useRecoilValueLoadable(
-    contractScheduleListState
+  const workList = useAPICall<WorkDetail[]>(
+    useRecoilValueLoadable(workListState)
+  );
+  const contractDetail = useAPICall<ContractDetail>(
+    useRecoilValueLoadable(contractDetailState)
+  );
+  const contractScheduleList = useAPICall<ContractSchedule[]>(
+    useRecoilValueLoadable(contractScheduleListState)
   );
   const setcontractSummaryState = useSetRecoilState(contractSummaryState);
   const setWorkListQuerySeqState = useSetRecoilState(workListQuerySeqState);

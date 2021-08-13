@@ -1,10 +1,23 @@
 import { atom, selector } from "recoil";
-import { getStoreListByMemberId } from "../service/StoreService";
-import { Store } from "./Interfaces";
+import { getBossDetail, getStoreListByMemberId } from "../service/StoreService";
+import { BossDetail, Store } from "./Interfaces";
 
 export const bossIdState = atom({
   key: "bossIdState",
   default: "1",
+});
+
+export const bossDetailState = selector({
+  key: "bossDetailState",
+  get: async ({ get }) => {
+    const bossId = get(bossIdState);
+    if (bossId) {
+      const res = await getBossDetail(bossId);
+      return res.data as BossDetail;
+    } else {
+      return {};
+    }
+  },
 });
 
 export const storeListQuerySeqState = atom({

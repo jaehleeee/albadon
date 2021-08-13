@@ -6,10 +6,12 @@ import { StorePage } from "./page/StorePage";
 import { EmployeePage } from "./page/EmployeePage";
 import { CalculatorPage } from "./page/CalculatorPage";
 import { InfoModal } from "./component/InfoModal";
+import { InfoBar } from "./component/InfoBar";
 
 function App() {
   return (
     <div className="app">
+      <InfoBar />
       <Sidebar />
       <div id="container">
         <Switch>

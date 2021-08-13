@@ -46,6 +46,9 @@ public class Work extends BaseEntity {
 	private Long employeeId;
 
 	@Column
+	private Integer weekNumber; // 주차
+
+	@Column
 	private Integer weekday; // 근무 요일
 
 	@Column

@@ -1,17 +1,17 @@
 package com.albadon.albadonapi.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.albadon.albadonapi.dto.WorkDto;
 import com.albadon.albadonapi.dto.cond.WorkCond;
 import com.albadon.albadonapi.persistence.entity.Contract;
 import com.albadon.albadonapi.persistence.entity.Employee;
@@ -28,24 +28,37 @@ public class WorkService {
 	private final ContractService contractService;
 	private final WorkRepository workRepository;
 
-	public Work findById(Long workId) {
-		return workRepository.findById(workId).orElse(null);
-	}
-
-	public List<Work> findWorkList(Store store, Employee employee, Integer year, Integer month) {
-		// year, month 비워져있으면 현재 년도와 월로 채우기
-		Calendar cal = Calendar.getInstance();
-		if(Objects.isNull(year)) {
-			year = cal.get(cal.YEAR);
-		}
-		if(Objects.isNull(month)) {
-			month = cal.get(cal.MONTH) + 1;
-		}
-
+	public List<WorkDto> findWorkList(Store store, Employee employee, Integer year, Integer month) {
 		LocalDate thisMonth = LocalDate.of(year, month, 1);
 		LocalDate nextMonth = LocalDate.of(year, month+1, 1);
 
-		return workRepository.findByStoreAndEmployeeIdAndWorkDateBetween(store, employee.getEmployeeId(), thisMonth, nextMonth);
+		List<Work> workList = workRepository.findByStoreAndEmployeeIdAndWorkDateBetween(store, employee.getEmployeeId(), thisMonth, nextMonth);
+
+		return workList.stream()
+			.map(work -> toDtoFromWork(work))
+			.collect(Collectors.toList());
+	}
+
+	public List<WorkDto> findPrevMonthLastWeekWorkList(Store store, Employee employee, Integer year, Integer month) {
+		if (month == 1) {
+			year = year - 1;
+			month = 12;
+		} else {
+			month = month - 1;
+		}
+
+		List<WorkDto> lastMonthWork = findWorkList(store, employee, year, month);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month - 2); // Calendar에서 현재 달은 month - 1
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
+		int lastWeekNumber  = calendar.get(Calendar.WEEK_OF_MONTH);
+
+		return lastMonthWork.stream()
+			.filter(work -> Objects.nonNull(work.getWeekNumber()))
+			.filter(work -> work.getWeekNumber() == lastWeekNumber)
+			.collect(Collectors.toList());
 	}
 
 	@Transactional
@@ -61,6 +74,7 @@ public class WorkService {
 		Work newWork = new Work();
 		newWork.setStore(contract.getStore());
 		newWork.setEmployeeId(contract.getEmployee().getEmployeeId());
+		newWork.setWeekNumber(workCond.getWeekNumber());
 		newWork.setWeekday(workCond.getWeekday());
 		newWork.setStartTime(workCond.getStartTime());
 		newWork.setEndTime(workCond.getEndTime());
@@ -71,14 +85,15 @@ public class WorkService {
 	}
 
 	@Transactional
-	public void updateContractWork(Long workId, WorkCond workCond) {
+	public void updateContractWork(Long workId, WorkCond cond) {
 		Optional<Work> work = workRepository.findById(workId);
 		Assert.isTrue(work.isPresent(), "Work not found by id:" + workId);
 
 		Work updatingWork = work.get();
 
-		updatingWork.setStartTime(workCond.getStartTime());
-		updatingWork.setEndTime(workCond.getEndTime());
+		updatingWork.setStartTime(cond.getStartTime());
+		updatingWork.setEndTime(cond.getEndTime());
+		updatingWork.setPauseInfo(cond.getPauseInfo());
 
 		workRepository.save(updatingWork);
 	}
@@ -86,5 +101,19 @@ public class WorkService {
 	@Transactional
 	public void deleteWork(Long workId) {
 		workRepository.deleteById(workId);
+	}
+
+	public WorkDto toDtoFromWork(Work work) {
+		return WorkDto.builder()
+			.workId(work.getWorkId())
+			.storeId(work.getStore().getStoreId())
+			.employeeId(work.getEmployeeId())
+			.weekNumber(work.getWeekNumber())
+			.weekday(work.getWeekday())
+			.startTime(work.getStartTime())
+			.endTime(work.getEndTime())
+			.pauseInfo(work.getPauseInfo())
+			.workDate(work.getWorkDate())
+			.build();
 	}
 }

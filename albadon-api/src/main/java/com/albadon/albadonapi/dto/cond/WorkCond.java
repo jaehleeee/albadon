@@ -27,6 +27,10 @@ public class WorkCond {
 	private Long workId;
 
 	@NotNull
+	@ApiModelProperty(value = "주차", required = true)
+	private Integer weekNumber;
+
+	@NotNull
 	@ApiModelProperty(value = "근무 요일", required = true)
 	private Integer weekday;
 
@@ -36,12 +40,12 @@ public class WorkCond {
 	private LocalDate workDate;
 
 	@NotNull
-	@ApiModelProperty(value = "출근 시간", required = true)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HHmm")
+	@ApiModelProperty(value = "출근 시간, 패턴:'HH:mm'", required = true)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private LocalTime startTime;
 
-	@ApiModelProperty(value = "퇴근 시간")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HHmm")
+	@ApiModelProperty(value = "퇴근 시간, 패턴:'HH:mm'")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private LocalTime endTime;
 
 	@ApiModelProperty(value = "휴게 시간")

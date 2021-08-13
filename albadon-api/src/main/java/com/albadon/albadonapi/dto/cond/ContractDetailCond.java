@@ -22,12 +22,12 @@ public class ContractDetailCond {
 	private Integer weekday;
 
 	@NotNull
-	@ApiModelProperty(value = "출근 시간", required = true)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HHmm")
+	@ApiModelProperty(value = "출근 시간, 패턴:'HH:mm'", required = true)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private LocalTime startTime;
 
 	@NotNull
-	@ApiModelProperty(value = "퇴근 시간", required = true)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HHmm")
+	@ApiModelProperty(value = "퇴근 시간, 패턴:'HH:mm'", required = true)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private LocalTime endTime;
 }

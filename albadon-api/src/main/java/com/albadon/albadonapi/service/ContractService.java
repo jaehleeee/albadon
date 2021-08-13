@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.albadon.albadonapi.dto.ContractDetailDto;
 import com.albadon.albadonapi.dto.cond.ContractDetailCond;
 import com.albadon.albadonapi.dto.cond.EmployeeContractCond;
 import com.albadon.albadonapi.dto.cond.WorkCond;
@@ -130,16 +131,25 @@ ContractService {
 
 	@Transactional
 	public ContractDetail updateContractDetail(Long contractDetailId, ContractDetailCond cond) {
-		ContractDetail contractDetail = findContractDetail(contractDetailId);
-		Assert.isTrue(cond.getContractId().equals(contractDetail.getContractId())
-			, String.format("ContractId can't be modified - origin:%s, request:%s", contractDetail.getContractId(), cond.getContractId()));
-		Assert.isTrue(contractDetail.getWeekday().equals(cond.getWeekday())
-			, String.format("Weekday can't be modified - origin:%s, request:%s", contractDetail.getWeekday(), cond.getWeekday()));
+		ContractDetail originContractDetail = findContractDetail(contractDetailId);
+		Assert.isTrue(cond.getContractId().equals(originContractDetail.getContractId())
+			, String.format("ContractId can't be modified - origin:%s, request:%s", originContractDetail.getContractId(), cond.getContractId()));
 
-		contractDetail.setEndTime(cond.getEndTime());
-		contractDetail.setStartTime(cond.getStartTime());
+		// 요일(weekday)을 변경하려 한다면, 변경하려는 요일에 이미 스케쥴이 있는지 체크
+		if(!originContractDetail.getWeekday().equals(cond.getWeekday())) {
+			List<ContractDetail> originContractDetailList = findContractDetails(cond.getContractId());
+			for (ContractDetail contractDetail : originContractDetailList) {
+				// 변경하려는 weekday에 contractDetail 객체가 있다면 스케쥴이 있다는 의미
+				Assert.isTrue(contractDetail.getWeekday().equals(cond.getWeekday())
+					, String.format(" modifying weekday(%s) is already scheduled", cond.getWeekday()));
+			}
+		}
 
-		return contractDetailRepository.save(contractDetail);
+		originContractDetail.setWeekday(cond.getWeekday());
+		originContractDetail.setEndTime(cond.getEndTime());
+		originContractDetail.setStartTime(cond.getStartTime());
+
+		return contractDetailRepository.save(originContractDetail);
 	}
 
 	@Transactional
@@ -166,5 +176,14 @@ ContractService {
 		Assert.notNull(cond.getStartDate(), "startDate should not be null in EmployeeContractCond");
 		Assert.notNull(cond.getRole(), "role should not be null in EmployeeContractCond");
 		Assert.notNull(cond.getWage(), "wage should not be null in EmployeeContractCond");
+	}
+
+	public ContractDetailDto toDtoFromContractDetail(ContractDetail contractDetail) {
+		return ContractDetailDto.builder()
+			.contractId(contractDetail.getContractId())
+			.weekday(contractDetail.getWeekday())
+			.startTime(contractDetail.getStartTime())
+			.endTime(contractDetail.getEndTime())
+			.build();
 	}
 }

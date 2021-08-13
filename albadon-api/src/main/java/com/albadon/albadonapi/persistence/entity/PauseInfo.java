@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PauseInfo implements Serializable {
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HHmm")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private LocalTime duration;
 	// private LocalDateTime startTime;
 	// private LocalDateTime endTime;

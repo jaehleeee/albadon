@@ -140,7 +140,7 @@ ContractService {
 			List<ContractDetail> originContractDetailList = findContractDetails(cond.getContractId());
 			for (ContractDetail contractDetail : originContractDetailList) {
 				// 변경하려는 weekday에 contractDetail 객체가 있다면 스케쥴이 있다는 의미
-				Assert.isTrue(contractDetail.getWeekday().equals(cond.getWeekday())
+				Assert.isTrue(!contractDetail.getWeekday().equals(cond.getWeekday())
 					, String.format(" modifying weekday(%s) is already scheduled", cond.getWeekday()));
 			}
 		}
@@ -180,6 +180,7 @@ ContractService {
 
 	public ContractDetailDto toDtoFromContractDetail(ContractDetail contractDetail) {
 		return ContractDetailDto.builder()
+			.contractDetailId(contractDetail.getContractDetailId())
 			.contractId(contractDetail.getContractId())
 			.weekday(contractDetail.getWeekday())
 			.startTime(contractDetail.getStartTime())

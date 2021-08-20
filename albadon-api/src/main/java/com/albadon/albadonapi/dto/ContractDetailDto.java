@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContractDetailDto {
+	private Long contractDetailId;
 	private Long contractId;
 	private Integer weekday;
 	@JsonFormat(pattern = "HH:mm")

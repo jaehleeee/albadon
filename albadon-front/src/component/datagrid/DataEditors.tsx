@@ -1,8 +1,5 @@
 import { Input, MenuItem, Select, TextField } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import DataGrid from "react-data-grid";
-import { useHistory } from "react-router-dom";
-import "./CommonDataGrid.scss";
+import "./DataEditors.scss";
 
 export enum ColumnType {
   TEXT = "TEXT",
@@ -17,7 +14,7 @@ export enum ColumnType {
 
 export const DateEditor = (p: any) => (
   <TextField
-    autoFocus
+    //autoFocus
     className={p.row}
     id={`${p.column.key}-${p.rowIdx}`}
     type="date"
@@ -37,7 +34,7 @@ export const TimeIntervalEditor = (p: any) => {
   return splited.length === 3 ? (
     <div className="interval-editor">
       <Input
-        autoFocus
+        //autoFocus
         type="text"
         id={`${p.column.key}-${p.rowIdx}-1`}
         value={splited[0] || ""}
@@ -48,7 +45,7 @@ export const TimeIntervalEditor = (p: any) => {
       />
       -
       <Input
-        autoFocus
+        //autoFocus
         type="text"
         id={`${p.column.key}-${p.rowIdx}-2`}
         value={splited[1] || ""}
@@ -59,7 +56,7 @@ export const TimeIntervalEditor = (p: any) => {
       />
       -
       <Input
-        autoFocus
+        //autoFocus
         type="text"
         id={`${p.column.key}-${p.rowIdx}-3`}
         value={splited[2] || ""}
@@ -76,7 +73,7 @@ export const TimeIntervalEditor = (p: any) => {
 
 export const TextEditor = (p: any) => (
   <Input
-    autoFocus
+    //autoFocus
     id={`${p.column.key}-${p.rowIdx}`}
     value={p.row[p.column.key] || ""}
     onChange={(e) =>
@@ -87,7 +84,7 @@ export const TextEditor = (p: any) => (
 
 export const NumberEditor = (p: any) => (
   <Input
-    autoFocus
+    //autoFocus
     id={`${p.column.key}-${p.rowIdx}`}
     type="number"
     value={p.row[p.column.key] || ""}
@@ -103,7 +100,7 @@ export const PhoneEditor = (p: any) => {
   return splited.length === 3 ? (
     <div className="phone-editor">
       <Input
-        autoFocus
+        //autoFocus
         type="text"
         id={`${p.column.key}-${p.rowIdx}-1`}
         value={splited[0] || ""}
@@ -114,7 +111,7 @@ export const PhoneEditor = (p: any) => {
       />
       -
       <Input
-        autoFocus
+        //autoFocus
         type="text"
         id={`${p.column.key}-${p.rowIdx}-2`}
         value={splited[1] || ""}
@@ -125,7 +122,7 @@ export const PhoneEditor = (p: any) => {
       />
       -
       <Input
-        autoFocus
+        //autoFocus
         type="text"
         id={`${p.column.key}-${p.rowIdx}-3`}
         value={splited[2] || ""}
@@ -164,7 +161,7 @@ export const ComboEditor =
   (comboArray?: { value: string; label: string }[]) => (p: any) =>
     comboArray ? (
       <Select
-        autoFocus
+        //autoFocus
         value={
           p.row[p.column.key] === undefined || p.row[p.column.key] === null
             ? ""
@@ -188,11 +185,6 @@ export const ComboEditor =
       <></>
     );
 
-export const AppendableListEditor =
-  (appendableRowKeys?: string[]) => (p: any) => {
-    return <></>;
-  };
-
 export interface CommonColumnI {
   key: string;
   name: string;
@@ -206,49 +198,3 @@ export interface CommonColumnI {
   visible?: boolean;
   mandatory?: boolean;
 }
-
-export interface CommonDataGridI {
-  columns: CommonColumnI[];
-  rows: any[];
-  title: React.ReactNode;
-  rowLinkable?: boolean;
-  rowLink?: string;
-  rowLinkKey?: string;
-  additionalProps?: any; //prop for custom option
-}
-
-export const CommonDataGrid: React.FC<CommonDataGridI> = ({
-  columns,
-  rows,
-  title,
-  rowLinkable = false,
-  rowLink = "",
-  rowLinkKey = "",
-  additionalProps,
-}) => {
-  const [editedRows, setEditedRows] = useState<any[]>([]);
-  const [editTarget, setEditTarget] = useState<any>(null);
-  const history = useHistory();
-  useEffect(() => {
-    setEditedRows(rows);
-  }, [rows]);
-
-  return (
-    <div id="CommonDataGrid">
-      <div className="page-header">{title}</div>
-      <DataGrid
-        columns={columns}
-        rows={editedRows.map((row) => {
-          return { ...row, deleteFlag: row.deleteFlag ? true : false };
-        })}
-        defaultColumnOptions={{
-          resizable: true,
-        }}
-        onRowsChange={(rows: any[], data: any) => {
-          setEditedRows(rows);
-        }}
-        className="common-data-grid"
-      />
-    </div>
-  );
-};

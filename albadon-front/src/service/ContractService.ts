@@ -1,7 +1,7 @@
 import { ApiMethod, callAPI } from "./CommonService";
 import { ContractDetailRequest } from "./Interfaces";
 
-export const getContractDetailList = async (contractId: number) => {
+export const getContractDetailListByContractId = async (contractId: number) => {
   return await callAPI(ApiMethod.GET, `contract/${contractId}/contractDetails`);
 };
 

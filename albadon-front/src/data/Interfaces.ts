@@ -69,6 +69,11 @@ export interface ContractSchedule {
 }
 
 export interface WorkDetail {
+  monthWork: WorkDetailItem[];
+  prevMonthLastWeekWork: WorkDetailItem[];
+}
+
+export interface WorkDetailItem {
   createdDatetime?: string;
   endTime?: string; //hh:mm:ss
   pauseInfo?: {
@@ -81,7 +86,7 @@ export interface WorkDetail {
   workId?: number;
 }
 
-export interface BossDetail {
+export interface Boss {
   createdDatetime: string;
   updatedDatetime: string;
   bossId: number;

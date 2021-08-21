@@ -6,9 +6,9 @@ import {
   useResetRecoilState,
   useSetRecoilState,
 } from "recoil";
-import { infoModalState } from "../data/Atoms";
+import { infoBarState, infoModalState } from "../data/Atoms";
 import DataGrid from "react-data-grid";
-import { ColumnType } from "../component/datagrid/CommonDataGrid";
+import { ColumnType } from "../component/datagrid/DataEditors";
 import "./EmployeePage.scss";
 
 import { createEmployee, deleteEmployee } from "../service/EmployeeService";
@@ -37,6 +37,7 @@ import { useAPICall } from "../hook/useAPICall";
 export const EmployeePage: React.FC = () => {
   const history = useHistory();
 
+  const setInfoBar = useSetRecoilState(infoBarState);
   const store = useRecoilValue(storeDetailState);
   const employeeList = useAPICall<Employee[]>(
     useRecoilValueLoadable(employeeListState)
@@ -150,10 +151,24 @@ export const EmployeePage: React.FC = () => {
                   open: true,
                   label: `${p.row.employeeName} 님을 삭제하시겠어요?`,
                   onConfirm: () => {
-                    console.log(p.row.contractId);
-                    deleteEmployee(+p.row.contractId).then((res) => {
-                      resetContractSummary();
-                    });
+                    deleteEmployee(+p.row.contractId)
+                      .then((res) => {
+                        resetContractSummary();
+                      })
+                      .catch((e) => {
+                        setInfoBar({
+                          open: true,
+                          label: "직원 삭제에 실패했어요 😭",
+                          type: "error",
+                        });
+                        setInterval(() => {
+                          setInfoBar({
+                            open: false,
+                            label: "",
+                            type: "",
+                          });
+                        }, 8000);
+                      });
                   },
                   onCancel: () => {},
                 });
@@ -169,23 +184,20 @@ export const EmployeePage: React.FC = () => {
   const dateLabel = ["일", "월", "화", "수", "목", "금", "토"];
   const contractDetailColumnList = [
     {
+      key: "contractDetailId",
+      name: "계약상세ID",
+      maxWidth: 0,
+      visible: false,
+    },
+    {
       key: "weekday",
       name: "요일",
       editable: false,
+      mandatory: true,
       type: ColumnType.COMBO,
-      comboArray: dateLabel
-        .map((date, idx) => {
-          return { value: `${idx}`, label: dateLabel[idx] };
-        })
-        .filter(
-          (item) =>
-            !(
-              Array.isArray(contractScheduleList.contents) &&
-              contractScheduleList.contents.some(
-                (schedule: ContractSchedule) => schedule.weekday === +item.value
-              )
-            )
-        ),
+      comboArray: dateLabel.map((date, idx) => {
+        return { value: `${idx}`, label: dateLabel[idx] };
+      }),
       formatter: (p: any) => {
         return <div>{`${dateLabel[+p.row["weekday"]]}`}</div>;
       },
@@ -194,18 +206,21 @@ export const EmployeePage: React.FC = () => {
       key: "startTime",
       name: "시작시간",
       editable: false,
+      mandatory: true,
       type: ColumnType.START_TIME,
     },
     {
       key: "endTime",
       name: "종료시간",
       editable: false,
+      mandatory: true,
       type: ColumnType.END_TIME,
     },
     {
       key: "buttons",
       name: "",
       editable: false,
+      visible: false,
       formatter: (p: any) => {
         return (
           <div>
@@ -222,15 +237,32 @@ export const EmployeePage: React.FC = () => {
               onClick={() => {
                 setInfoModal({
                   open: true,
-                  label: `${contractSummary?.employeeName} 님의 ${
+                  label: `${
+                    contractDetail?.contents?.employee?.employeeName
+                  } 님의 ${
                     dateLabel[p.row.weekday]
                   }요일 스케줄을 삭제하시겠어요?`,
                   onConfirm: () => {
-                    deleteContractDetail(p.row.contractDetailId).then((res) => {
-                      setContractScheduleListQuerySeqState(
-                        (currVal) => currVal + 1
-                      );
-                    });
+                    deleteContractDetail(p.row.contractDetailId)
+                      .then((res) => {
+                        setContractScheduleListQuerySeqState(
+                          (currVal) => currVal + 1
+                        );
+                      })
+                      .catch(() => {
+                        setInfoBar({
+                          open: true,
+                          label: "스케줄 삭제에 실패했어요 😭",
+                          type: "error",
+                        });
+                        setInterval(() => {
+                          setInfoBar({
+                            open: false,
+                            label: "",
+                            type: "",
+                          });
+                        }, 8000);
+                      });
                   },
                   onCancel: () => {},
                 });
@@ -251,9 +283,24 @@ export const EmployeePage: React.FC = () => {
             setCreateModalOpen(false);
           }}
           onSave={(newRow: any) => {
-            createEmployee({ ...newRow, storeId: store.storeId }).then(() => {
-              setEmployeeListQuerySeq((currVal) => currVal + 1);
-            });
+            createEmployee({ ...newRow, storeId: store.storeId })
+              .then(() => {
+                setEmployeeListQuerySeq((currVal) => currVal + 1);
+              })
+              .catch(() => {
+                setInfoBar({
+                  open: true,
+                  label: "직원 추가에 실패했어요 😭",
+                  type: "error",
+                });
+                setInterval(() => {
+                  setInfoBar({
+                    open: false,
+                    label: "",
+                    type: "",
+                  });
+                }, 8000);
+              });
           }}
           colDef={columnDef}
           initialRow={{}}
@@ -309,15 +356,30 @@ export const EmployeePage: React.FC = () => {
             onSave={(newRow: any) => {
               const request: ContractDetailRequest = {
                 contractId: contractDetail.contents.contractId,
-                endTime: `${newRow.endTime}`.substring(0, 5).replace(":", ""),
-                startTime: `${newRow.startTime}`
-                  .substring(0, 5)
-                  .replace(":", ""),
+                endTime: `${newRow.endTime}`.substring(0, 5),
+                startTime: `${newRow.startTime}`.substring(0, 5),
                 weekday: newRow.weekday,
               };
-              createContractDetail(request).then((res) => {
-                setContractScheduleListQuerySeqState((currVal) => currVal + 1);
-              });
+              createContractDetail(request)
+                .then((res) => {
+                  setContractScheduleListQuerySeqState(
+                    (currVal) => currVal + 1
+                  );
+                })
+                .catch(() => {
+                  setInfoBar({
+                    open: true,
+                    label: "스케줄 추가에 실패했어요 😭",
+                    type: "error",
+                  });
+                  setInterval(() => {
+                    setInfoBar({
+                      open: false,
+                      label: "",
+                      type: "",
+                    });
+                  }, 8000);
+                });
             }}
             colDef={contractDetailColumnList}
             initialRow={{}}
@@ -336,12 +398,24 @@ export const EmployeePage: React.FC = () => {
               startTime: newRow.startTime,
               weekday: newRow.weekday,
             };
-            updateContractDetail(
-              modifyTargetDetail.contractDetailId,
-              request
-            ).then((res) => {
-              setContractScheduleListQuerySeqState((currVal) => currVal + 1);
-            });
+            updateContractDetail(modifyTargetDetail.contractDetailId, request)
+              .then((res) => {
+                setContractScheduleListQuerySeqState((currVal) => currVal + 1);
+              })
+              .catch(() => {
+                setInfoBar({
+                  open: true,
+                  label: "스케줄 수정에 실패했어요 😭",
+                  type: "error",
+                });
+                setInterval(() => {
+                  setInfoBar({
+                    open: false,
+                    label: "",
+                    type: "",
+                  });
+                }, 8000);
+              });
           }}
           colDef={contractDetailColumnList}
           initialRow={modifyTargetDetail}
@@ -388,8 +462,8 @@ export const EmployeePage: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="empty-data-grid">
-          직원을 선택하면 스케줄을 확인할 수 있습니다
+        <div className="info-icon empty-data-grid">
+          직원을 선택하면 스케줄을 확인할 수 있어요
         </div>
       )}
     </div>

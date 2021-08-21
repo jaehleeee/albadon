@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {
-  useRecoilState,
   useRecoilValue,
   useRecoilValueLoadable,
-  useResetRecoilState,
   useSetRecoilState,
 } from "recoil";
-import { ColumnType } from "../component/datagrid/CommonDataGrid";
+import { ColumnType } from "../component/datagrid/DataEditors";
 import DataGrid from "react-data-grid";
 import "./StorePage.scss";
 import { Store } from "../data/Interfaces";
@@ -17,7 +15,7 @@ import {
   getStoreListByMemberId,
   updateStore,
 } from "../service/StoreService";
-import { infoModalState } from "../data/Atoms";
+import { infoBarState, infoModalState } from "../data/Atoms";
 import {
   bossIdState,
   storeListQuerySeqState,
@@ -26,6 +24,8 @@ import {
 import { useAPICall } from "../hook/useAPICall";
 
 export const StorePage: React.FC = () => {
+  const setInfoBar = useSetRecoilState(infoBarState);
+
   const bossId = useRecoilValue(bossIdState);
   const storeList = useAPICall<Store[]>(useRecoilValueLoadable(storeListState));
   const setStoreListQuerySeq = useSetRecoilState(storeListQuerySeqState);
@@ -63,6 +63,7 @@ export const StorePage: React.FC = () => {
       key: "buttons",
       name: "",
       editable: false,
+      visible: false,
       formatter: (p: any) => {
         return (
           <div>
@@ -81,9 +82,24 @@ export const StorePage: React.FC = () => {
                   open: true,
                   label: `${p.row.storeName} 매장을 삭제하시겠어요?`,
                   onConfirm: () => {
-                    deleteStore(+p.row.storeId).then((res) => {
-                      setStoreListQuerySeq((currVal) => currVal + 1);
-                    });
+                    deleteStore(+p.row.storeId)
+                      .then((res) => {
+                        setStoreListQuerySeq((currVal) => currVal + 1);
+                      })
+                      .catch(() => {
+                        setInfoBar({
+                          open: true,
+                          label: "매장 삭제에 실패했어요 😭",
+                          type: "error",
+                        });
+                        setInterval(() => {
+                          setInfoBar({
+                            open: false,
+                            label: "",
+                            type: "",
+                          });
+                        }, 8000);
+                      });
                   },
                   onCancel: () => {},
                 });
@@ -121,9 +137,24 @@ export const StorePage: React.FC = () => {
                 bossId: +bossId,
                 ...newRow,
               }).then((res) => {
-                getStoreListByMemberId(bossId).then((res) => {
-                  setStoreListQuerySeq((currVal) => currVal + 1);
-                });
+                getStoreListByMemberId(bossId)
+                  .then((res) => {
+                    setStoreListQuerySeq((currVal) => currVal + 1);
+                  })
+                  .catch(() => {
+                    setInfoBar({
+                      open: true,
+                      label: "매장 추가에 실패했어요 😭",
+                      type: "error",
+                    });
+                    setInterval(() => {
+                      setInfoBar({
+                        open: false,
+                        label: "",
+                        type: "",
+                      });
+                    }, 8000);
+                  });
               });
             }}
             colDef={columnDef}
@@ -140,9 +171,24 @@ export const StorePage: React.FC = () => {
               updateStore(modifyTargetStore.storeId, {
                 ...newRow,
                 bossId: +bossId,
-              }).then((res) => {
-                setStoreListQuerySeq((currVal) => currVal + 1);
-              });
+              })
+                .then((res) => {
+                  setStoreListQuerySeq((currVal) => currVal + 1);
+                })
+                .catch(() => {
+                  setInfoBar({
+                    open: true,
+                    label: "매장 수정에 실패했어요 😭",
+                    type: "error",
+                  });
+                  setInterval(() => {
+                    setInfoBar({
+                      open: false,
+                      label: "",
+                      type: "",
+                    });
+                  }, 8000);
+                });
             }}
             colDef={columnDef}
             initialRow={modifyTargetStore}

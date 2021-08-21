@@ -6,7 +6,7 @@ import {
   useSetRecoilState,
 } from "recoil";
 import DataGrid from "react-data-grid";
-import { NumberEditor, TimeEditor } from "../component/datagrid/CommonDataGrid";
+import { NumberEditor, TimeEditor } from "../component/datagrid/DataEditors";
 import "./CalculatorPage.scss";
 
 import {
@@ -24,6 +24,7 @@ import {
   ContractDetail,
   ContractSchedule,
   WorkDetail,
+  WorkDetailItem,
 } from "../data/Interfaces";
 import { deleteWork, updateWorkList } from "../service/WorkService";
 import { WorkUpdateRequest } from "../service/Interfaces";
@@ -42,7 +43,7 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
   const [targetYear, setTargetYear] = useRecoilState(targetYearState);
   const [targetMonth, setTargetMonth] = useRecoilState(targetMonthState);
   const store = useRecoilValue(storeDetailState);
-  const workList = useAPICall<WorkDetail[]>(
+  const workList = useAPICall<WorkDetail>(
     useRecoilValueLoadable(workListState)
   );
   const contractDetail = useAPICall<ContractDetail>(
@@ -56,14 +57,20 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
 
   const setInfoModal = useSetRecoilState(infoModalState);
 
-  const [editedRows, setEditedRows] = useState<WorkDetail[]>([]);
+  const [editedRows, setEditedRows] = useState<WorkDetailItem[]>([]);
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const dayList = ["일", "월", "화", "수", "목", "금", "토"];
 
+  const startWeekday = moment(
+    `${targetYear}${targetMonth}`,
+    "YYYYMM"
+  ).weekday();
+
   useEffect(() => {
-    match.params.contractId &&
+    if (match.params.contractId) {
       setcontractSummaryState({ contractId: match.params.contractId });
+    }
   }, [match]);
 
   const columnDef = [
@@ -76,13 +83,26 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
       key: "workDate",
       name: "날짜",
       editable: false,
+      formatter: (p: any) => {
+        return (
+          <div>
+            <span
+              className={`workDate weekday-${p.row.weekday}`}
+            >{`${p.row.workDate}`}</span>
+          </div>
+        );
+      },
     },
     {
       key: "weekday",
       name: "요일",
       editable: false,
       formatter: (p: any) => {
-        return <>{`${dayList[+p.row.weekday]}요일`}</>;
+        return (
+          <div className={`weekday-${p.row.weekday}`}>{`${
+            dayList[+p.row.weekday]
+          }요일`}</div>
+        );
       },
     },
     {
@@ -93,11 +113,12 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
         return (
           <div
             className={
+              editedRows &&
               editedRows.length > 0 &&
               editedRows[p.rowIdx]?.startTime !==
-                workList.contents[p.rowIdx]?.startTime
-                ? "editied-cell"
-                : ""
+                workList.contents.monthWork[p.rowIdx]?.startTime
+                ? `editied-cell`
+                : ``
             }
           >
             {(p.row.startTime || "").substring(0, 5)}
@@ -114,9 +135,10 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
         return (
           <div
             className={
+              editedRows &&
               editedRows.length > 0 &&
               editedRows[p.rowIdx]?.endTime !==
-                workList.contents[p.rowIdx]?.endTime
+                workList.contents.monthWork[p.rowIdx]?.endTime
                 ? "editied-cell"
                 : ""
             }
@@ -133,9 +155,10 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
       formatter: (p: any) => (
         <div
           className={
+            editedRows &&
             editedRows.length > 0 &&
             editedRows[p.rowIdx]?.pauseMinutes !==
-              workList.contents[p.rowIdx]?.pauseMinutes
+              workList.contents.monthWork[p.rowIdx]?.pauseMinutes
               ? "editied-cell"
               : ""
           }
@@ -161,7 +184,7 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
                   if (editedRows.length > 0) {
                     tempRows = [...editedRows];
                   } else if (workList.state === "hasValue") {
-                    tempRows = [...workList.contents];
+                    tempRows = [...workList.contents.monthWork];
                   }
 
                   if (tempRows && tempRows.length > 0) {
@@ -191,22 +214,24 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
       contractScheduleList.state === "hasValue" &&
       workList.state === "hasValue"
     ) {
-      const targetList = editedRows.length > 0 ? editedRows : workList.contents;
+      const workHistory =
+        editedRows.length > 0 ? editedRows : workList.contents.monthWork;
 
-      let weekTotalWorkMin = 0;
-      let satisfied = true;
-      let weekInfoList: {
-        weekTotalWorkMin: number;
-        satisfied: boolean;
+      let weekWages: {
+        workMinutes: number;
+        fullWorked: boolean;
       }[] = [];
 
-      targetList.forEach((target, idx) => {
+      let workMinutes = 0;
+      let fullWorked = true;
+
+      workHistory.forEach((target, idx) => {
         const scheduleInfo = contractScheduleList.contents.filter((item) => {
           return item.weekday === target.weekday;
         });
 
         if (target.startTime && target.endTime) {
-          weekTotalWorkMin +=
+          workMinutes +=
             +target.endTime.substring(0, 2) * 60 +
             +target.endTime.substring(3, 5) -
             +target.startTime.substring(0, 2) * 60 -
@@ -214,48 +239,30 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
             (target.pauseMinutes || 0);
 
           if (scheduleInfo.length > 0) {
-            satisfied =
+            fullWorked =
               target.startTime <= scheduleInfo[0].startTime &&
               target.endTime >= scheduleInfo[0].endTime &&
-              satisfied;
+              fullWorked;
           }
         } else {
           if (scheduleInfo.length > 0) {
-            satisfied = false;
+            fullWorked = false;
           }
         }
 
-        if (target.weekday === 0 || idx === targetList.length - 1) {
-          weekInfoList.push({
-            weekTotalWorkMin,
-            satisfied,
+        if (target.weekday === 0 || idx === workHistory.length - 1) {
+          weekWages.push({
+            workMinutes,
+            fullWorked,
           });
 
-          weekTotalWorkMin = 0;
-          satisfied = true;
+          workMinutes = 0;
+          fullWorked = true;
         }
       });
 
-      let totalWageForMonth = 0;
-      const totalWageForWeekList = weekInfoList.map((week, idx) => {
-        console.log(week, contractDetail.contents.wage);
-        const wageForWeek =
-          week.weekTotalWorkMin >= 15 * 60 && week.satisfied
-            ? (week.weekTotalWorkMin * 1.2 * contractDetail.contents.wage) / 60
-            : (week.weekTotalWorkMin * 1 * contractDetail.contents.wage) / 60;
-        totalWageForMonth += wageForWeek;
-
-        return {
-          weekSeq: idx,
-          weekTotalWorkMin: week.weekTotalWorkMin,
-          satisfied: week.satisfied,
-          totalWage: wageForWeek,
-        };
-      });
-
       return {
-        totalWageForMonth,
-        totalWageForWeekList,
+        totalWageForWeekList: weekWages,
       };
     } else {
       return null;
@@ -263,20 +270,20 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
   }, [contractDetail, contractScheduleList, workList, editedRows]);
 
   const calculatorView = (
-    totalWageForMonth?: number,
-    totalWageForWeekList?: {
-      weekSeq: number;
-      weekTotalWorkMin: number;
-      satisfied: boolean;
-      totalWage: number;
+    weekWorkHistory?: {
+      workMinutes: number;
+      fullWorked: boolean;
     }[]
   ) => {
+    const monthWorkMinutes = 0;
+    const monthWage = (contractDetail.contents.wage / 60) * monthWorkMinutes;
+
     return (
       <div className="calculator">
-        {totalWageForMonth && totalWageForWeekList ? (
+        {weekWorkHistory && weekWorkHistory.length > 0 ? (
           <>
-            <span className="total">{`이번 달 알바비 : 총 `}</span>
-            <span className="bold">{`${totalWageForMonth.toString()}`}</span>
+            <span className="total">{`이번 달 알바비 : `}</span>
+            <span className="bold">{`${monthWage.toLocaleString()}`}</span>
             <span>{` 원`}</span>
             <button
               className="more-info"
@@ -286,24 +293,24 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
             </button>
             <Collapse in={showDetail}>
               <div className="calculator-detail">
-                {totalWageForWeekList.map((week, idx) => {
+                {weekWorkHistory.map((week, idx) => {
                   return (
                     <div className="detail-item">
                       <div>{`${idx + 1}주차 : 총 근로시간 (${Math.floor(
-                        week.weekTotalWorkMin / 60
+                        week.workMinutes / 60
                       )}시간${
-                        week.weekTotalWorkMin % 60
-                          ? " " + (week.weekTotalWorkMin % 60) + "분 "
+                        week.workMinutes % 60
+                          ? " " + (week.workMinutes % 60) + "분 "
                           : ""
                       }) * 시급(${contractDetail.contents.wage}원)${
-                        week.satisfied
+                        week.fullWorked
                           ? ` + 주휴수당 (${
-                              ((week.weekTotalWorkMin / 5) *
+                              ((week.workMinutes / 5) *
                                 contractDetail.contents.wage) /
                               60
                             }원)`
                           : ""
-                      } = ${week.totalWage}원`}</div>
+                      } = ${monthWage}원`}</div>
                       <div></div>
                       <div></div>
                     </div>
@@ -313,7 +320,11 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
             </Collapse>
           </>
         ) : (
-          <span className="total">계산중...</span>
+          <span className="total">
+            {weekWorkHistory && weekWorkHistory.length === 0
+              ? "이번 달 근무 이력이 없어요"
+              : "계산중..."}
+          </span>
         )}
       </div>
     );
@@ -323,16 +334,37 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
     <div id="CalculatorPage">
       <div className="data-grid">
         <div className="title">
+          <select
+            onChange={(e) => setTargetYear(+e.target.value)}
+            value={targetYear}
+          >
+            {[2020, 2021].map((year: number) => {
+              return (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              );
+            })}
+          </select>
+          <select
+            onChange={(e) => setTargetMonth(+e.target.value)}
+            value={targetMonth}
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month: number) => {
+              return (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              );
+            })}
+          </select>
           <h1 className="highlight">{`${
             contractDetail?.contents?.employee?.employeeName || ""
           }`}</h1>
           <h1>{` 님의 알바비 계산기`}</h1>
         </div>
         <div className="calculator-wrapper">
-          {calculatorView(
-            calculator?.totalWageForMonth,
-            calculator?.totalWageForWeekList
-          )}
+          {calculatorView(calculator?.totalWageForWeekList)}
         </div>
         <button
           className="add-btn"
@@ -349,19 +381,19 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
                     request.push({
                       contractId: contractDetail.contents?.contractId,
                       endTime: row.endTime
-                        ? row.endTime.substring(0, 5).replace(":", "")
+                        ? row.endTime.substring(0, 5)
                         : undefined,
                       pauseInfo: {
                         duration: row.pauseMinutes
                           ? `${Math.floor(row.pauseMinutes / 60)
                               .toString()
-                              .padStart(2, "0")}${(row.pauseMinutes % 60)
+                              .padStart(2, "0")}:${(row.pauseMinutes % 60)
                               .toString()
                               .padStart(2, "0")}`
-                          : "0000",
+                          : "00:00",
                       },
                       startTime: row.startTime
-                        ? row.startTime.substring(0, 5).replace(":", "")
+                        ? row.startTime.substring(0, 5)
                         : undefined,
                       storeId: contractDetail.contents.store.storeId,
                       weekday: row.weekday,
@@ -402,13 +434,15 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
           className="add-btn"
           onClick={() => {
             let changedRowCount = 0;
-            const tempRows: WorkDetail[] = [
-              ...(editedRows.length === 0 ? workList.contents : editedRows),
+            const tempRows: WorkDetailItem[] = [
+              ...(editedRows.length === 0
+                ? workList.contents.monthWork
+                : editedRows),
             ];
 
             contractScheduleList.contents.forEach(
               (schedule: ContractSchedule) => {
-                const targets: WorkDetail[] = tempRows.filter(
+                const targets: WorkDetailItem[] = tempRows.filter(
                   (row) => row.weekday === schedule.weekday
                 );
 
@@ -440,7 +474,7 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
           columns={columnDef}
           rows={
             editedRows.length === 0 && workList.state === "hasValue"
-              ? workList.contents
+              ? workList.contents.monthWork
               : editedRows
           }
           defaultColumnOptions={{
@@ -449,7 +483,9 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
           onRowsChange={(rows: any[], data: any) => {
             setEditedRows([...rows]);
           }}
-          className="common-data-grid"
+          className={`common-data-grid start-weekday-${
+            startWeekday === 0 ? 7 : startWeekday
+          }`}
         />
       </div>
     </div>

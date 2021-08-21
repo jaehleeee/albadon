@@ -6,14 +6,38 @@
   height: 100%;
   background-color: $navi;
   color: $white;
+  #bossInfo {
+    padding: 143px 15px 0px;
+    span {
+      font-size: 14px;
+      &.bold {
+        font-weight: bold;
+        font-size: 22px;
+      }
+    }
+  }
+
   #storeSelect {
-    font-size: 12px;
-    margin: 120px 15px;
-    width: 150px;
-    border-radius: 4px;
+    display: flex;
+    margin: 6px 15px;
+    #storeIcon {
+      width: 24px;
+      height: 24px;
+      margin-right: 4px;
+    }
+    select {
+      width: 150px;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+    .no-stores {
+      width: 100%;
+      font-size: 14px;
+      text-align: center;
+    }
   }
   #navigationBar {
-    padding: 100px 15px;
+    padding: 140px 15px;
     .navi-btn {
       padding: 8px 4px;
       text-align: right;

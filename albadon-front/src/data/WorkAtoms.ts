@@ -3,7 +3,7 @@ import { atom, selector } from "recoil";
 import { WorkListGetRequest } from "../service/Interfaces";
 import { getWorkList } from "../service/WorkService";
 import { contractDetailState } from "./ContractAtoms";
-import { WorkDetail } from "./Interfaces";
+import { WorkDetail, WorkDetailItem } from "./Interfaces";
 
 export const targetYearState = atom({
   key: "targetYearState",
@@ -27,6 +27,7 @@ export const workListState = selector({
     const contract = get(contractDetailState);
     const year = get(targetYearState);
     const month = get(targetMonthState);
+    const workList: WorkDetail = { monthWork: [], prevMonthLastWeekWork: [] };
 
     if (contract?.contractId) {
       const request: WorkListGetRequest = {
@@ -37,20 +38,19 @@ export const workListState = selector({
 
       const target = moment(`${year}${month}`, "YYYYMM");
 
-      const workList: WorkDetail[] = [];
-
       for (let i = 0; i < target.daysInMonth(); i++) {
         const targetMoment = target.startOf("month").add(i, "day");
-        workList.push({
+        workList.monthWork.push({
           weekday: targetMoment.day(),
           workDate: targetMoment.format("YYYY-MM-DD"),
         });
       }
 
       const res = await getWorkList(request);
-
-      (res.data as WorkDetail[]).forEach((work) => {
-        const idx = workList.findIndex(
+      workList.prevMonthLastWeekWork = res.data
+        .prevMonthLastWeekWork as WorkDetailItem[];
+      (res.data.monthWork as WorkDetailItem[]).forEach((work) => {
+        const idx = workList.monthWork.findIndex(
           (item) => item.workDate === work.workDate
         );
         if (idx >= 0) {
@@ -58,19 +58,16 @@ export const workListState = selector({
           if (work.pauseInfo?.duration) {
             pauseMinutes =
               +work.pauseInfo?.duration.substring(0, 2) * 60 +
-              +work.pauseInfo?.duration.substring(2, 4);
+              +work.pauseInfo?.duration.substring(3, 5);
           }
 
-          workList[idx] = {
+          workList.monthWork[idx] = {
             ...work,
             pauseMinutes,
           };
         }
       });
-
-      return workList;
-    } else {
-      return [] as WorkDetail[];
     }
+    return workList;
   },
 });

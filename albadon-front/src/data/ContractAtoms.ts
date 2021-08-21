@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { getContractDetailList } from "../service/ContractService";
+import { getContractDetailListByContractId } from "../service/ContractService";
 import { getContract } from "../service/EmployeeService";
 import {
   ContractDetail,
@@ -36,7 +36,8 @@ export const contractScheduleListState = selector({
     get(contractScheduleListQuerySeqState);
     const contract = get(contractSummaryState);
     if (contract?.contractId) {
-      const res = await getContractDetailList(contract.contractId);
+      const res = await getContractDetailListByContractId(contract.contractId);
+      console.log(res.data);
       return res.data as ContractSchedule[];
     } else {
       return [] as ContractSchedule[];

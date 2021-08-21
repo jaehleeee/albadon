@@ -10,9 +10,8 @@ import {
   PhoneEditor,
   NumberEditor,
   TextEditor,
-  AppendableListEditor,
   TimeEditor,
-} from "./CommonDataGrid";
+} from "./DataEditors";
 import "./CommonDataModal.scss";
 export interface Props {
   onClose: () => void;
@@ -71,7 +70,12 @@ export const CommonDataModal: React.FC<Props> = ({
             if (col.visible === undefined || col.visible) {
               return (
                 <div key={`data-row-${col.key}`} className="data-row">
-                  <div key={`data-key-${col.key}`} className="data-key">
+                  <div
+                    key={`data-key-${col.key}`}
+                    className={
+                      col.mandatory ? "mandatory data-key" : "data-key"
+                    }
+                  >
                     {col.name}
                   </div>
                   <div key={`data-editor-${col.key}`} className="data-editor">
@@ -93,7 +97,11 @@ export const CommonDataModal: React.FC<Props> = ({
             <Button
               className="save-btn"
               disabled={colDef.some((col) => {
-                return col.mandatory && !newRowState[col.key];
+                return (
+                  col.mandatory &&
+                  (newRowState[col.key] === null ||
+                    newRowState[col.key] === undefined)
+                );
               })}
               onClick={() => {
                 setInfoModal({

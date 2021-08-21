@@ -1,16 +1,50 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 * {
-  font-family: "Spoqa Han Sans Neo", "sans-serif";
+  //font-family: "Spoqa Han Sans Neo", "sans-serif";
+  font-family: "ELAND_Choice_L";
 }
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
 @import "./variables.scss";
+
+@font-face {
+  font-family: "ELAND_Choice_M";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_M.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ELAND_Choice_L";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_L.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ELAND_Choice_B";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_B.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "LAB디지털";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/LAB디지털.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 .app {
   height: 100%;
   width: 100%;
   min-width: 1100px;
   overflow-x: scroll;
+
   #container {
     margin-left: $sidebarWidth;
   }
@@ -19,7 +53,7 @@
 .add-btn {
   height: 24px;
   padding: 0px 10px;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 10px;
   background-color: white;
   border: 2px solid #293b5f;
@@ -41,7 +75,7 @@
 }
 .modify-btn {
   padding: 0px 4px;
-  font-size: 12px;
+  font-size: 14px;
   border: 0px;
   color: black;
   background-color: #eeeeee;
@@ -60,7 +94,7 @@
 
 .delete-btn {
   padding: 0px 4px;
-  font-size: 12px;
+  font-size: 14px;
   border: 0px;
   color: white;
   background-color: #df5e5e;
@@ -78,12 +112,11 @@
 }
 
 .empty-data-grid {
-  margin: 200px 200px;
+  margin: 60px 200px;
   text-align: center;
   font-size: 16px;
 }
 .data-grid {
-  height: 500px;
   .title {
     display: flex;
 
@@ -184,5 +217,30 @@
     &::after {
       display: none;
     }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    color: #293b5f;
+  }
+  50% {
+    color: #7952b3;
+  }
+  100% {
+    color: #293b5f;
+  }
+}
+
+.info-icon {
+  line-height: 20px;
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 0px 8px -4px 0px;
+    background-size: 18px 18px;
+    background-image: url("./icons/info.svg");
   }
 }

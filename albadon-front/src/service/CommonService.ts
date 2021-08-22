@@ -17,10 +17,11 @@ export const callAPI = async (
     url: `${process.env.REACT_APP_API_URL}/${url}`,
     headers: {
       "Content-Type": "application/json",
-      // "Access-Control-Allow-Origin": "*",
-      // "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
     },
     params: params,
     data: data,
+    timeout: 1000,
   });
 };

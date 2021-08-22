@@ -1,17 +1,253 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 * {
-  font-family: "Spoqa Han Sans Neo", "sans-serif";
+  //font-family: "Spoqa Han Sans Neo", "sans-serif";
+  font-family: "ELAND_Choice_L";
 }
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
 @import "./variables.scss";
+
+@font-face {
+  font-family: "ELAND_Choice_M";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_M.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ELAND_Choice_L";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_L.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ELAND_Choice_B";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_B.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "LAB디지털";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/LAB디지털.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 .app {
   height: 100%;
   width: 100%;
   min-width: 1100px;
   overflow-x: scroll;
+
   #container {
     margin-left: $sidebarWidth;
+  }
+}
+
+.add-btn {
+  height: 24px;
+  padding: 0px 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  background-color: white;
+  border: 2px solid #293b5f;
+
+  border-radius: 4px;
+  color: #293b5f;
+  &:not(:disabled):hover {
+    font-weight: bold;
+  }
+  & + .add-btn {
+    margin-left: 4px;
+  }
+
+  &:disabled {
+    border: 2px solid #a3a3a3;
+    color: #a3a3a3;
+    background-color: #e6e6e6;
+  }
+}
+.modify-btn {
+  padding: 0px 4px;
+  font-size: 14px;
+  border: 0px;
+  color: black;
+  background-color: #eeeeee;
+  border-radius: 4px;
+  padding: 4px;
+  &:hover {
+    font-weight: bold;
+  }
+  &:first-child {
+    margin: 0px 4px;
+  }
+  &:not(:first-child) {
+    margin-right: 4px;
+  }
+}
+
+.delete-btn {
+  padding: 0px 4px;
+  font-size: 14px;
+  border: 0px;
+  color: white;
+  background-color: #df5e5e;
+  border-radius: 4px;
+  padding: 4px;
+  &:hover {
+    font-weight: bold;
+  }
+  &:first-child {
+    margin: 0px 4px;
+  }
+  &:not(:first-child) {
+    margin-right: 4px;
+  }
+}
+
+.empty-data-grid {
+  margin: 60px 200px;
+  text-align: center;
+  font-size: 16px;
+}
+.data-grid {
+  .title {
+    display: flex;
+    h1 {
+      margin-right: 14px;
+    }
+    select {
+      font-size: 14px;
+      height: 20px;
+      margin-top: 32px;
+    }
+    .highlight {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 50%,
+        #ffd56b 50%,
+        #ffd56b 100%
+      );
+      margin-right: 10px;
+    }
+  }
+  div {
+    background-color: white;
+    color: black;
+
+    .c1wupbe700-canary49[aria-selected="true"] {
+      box-shadow: none;
+    }
+
+    &.rdg-row {
+      .rdg-cell {
+        &:first-child {
+          border-left: 1px solid #dbe6fd;
+        }
+        background-color: white;
+        color: #293b5f;
+        border-right: 1px solid #dbe6fd;
+        border-bottom: 1px solid#dbe6fd;
+        padding: 0px 4px;
+        .editied-cell {
+          min-height: 100%;
+          padding: 0px 8px;
+          margin: 0px -8px;
+          background-color: rgb(255, 254, 191);
+        }
+
+        .phone-editor {
+          padding: 0px 8px;
+
+          .MuiInputBase-root {
+            &:first-child {
+              width: 25px;
+            }
+            width: 34px;
+
+            &::after {
+              content: "-";
+            }
+
+            .MuiInputBase-input {
+              padding: 0px;
+              margin: 0px;
+            }
+          }
+        }
+      }
+    }
+
+    &.rdg-header-row {
+      .rdg-cell {
+        &:first-child {
+          border-left: 1px solid ghostwhite;
+        }
+        background-color: #293b5f;
+        color: ghostwhite;
+        border-right: 1px solid ghostwhite;
+        border-bottom: 1px solid ghostwhite;
+        &.rdg-editor-container {
+          div {
+            input {
+              background-color: white;
+              color: black;
+            }
+          }
+        }
+      }
+    }
+  }
+  .MuiFormControl-root {
+    margin: 3px -1px;
+    width: 100%;
+  }
+  .MuiInputBase-root {
+    .MuiInputBase-input {
+      padding: 6px 8px 7px;
+      font-size: 14px;
+      font-family: "Spoqa Han Sans Neo", "sans-serif";
+    }
+  }
+  .MuiInput-underline {
+    width: 100%;
+    &::before {
+      display: none;
+    }
+    &::after {
+      display: none;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    color: #293b5f;
+  }
+  50% {
+    color: #7952b3;
+  }
+  100% {
+    color: #293b5f;
+  }
+}
+
+.info-icon {
+  line-height: 20px;
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 0px 8px -4px 0px;
+    background-size: 18px 18px;
+    background-image: url("./icons/info.svg");
   }
 }

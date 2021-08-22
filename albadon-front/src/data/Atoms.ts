@@ -1,11 +1,20 @@
 import { atom } from "recoil";
 
-export const currentMemberId = atom({
-  key: "currentMemberId",
-  default: "1",
+export const infoModalState = atom({
+  key: "infoModalState",
+  default: {
+    open: false,
+    label: "",
+    onConfirm: () => {},
+    onCancel: () => {},
+  },
 });
 
-export const currentStoreId = atom({
-  key: "currentStoreId",
-  default: -1,
+export const infoBarState = atom({
+  key: "infoBarState",
+  default: {
+    open: false,
+    label: "",
+    type: "",
+  },
 });

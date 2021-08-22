@@ -1,0 +1,79 @@
+#DataEditors {
+  height: 100%;
+  .common-data-grid {
+    height: 600px;
+    div {
+      background-color: white;
+      color: black;
+
+      .c1wupbe700-canary49[aria-selected="true"] {
+        box-shadow: none;
+      }
+
+      &.rdg-row {
+        .rdg-cell {
+          &:first-child {
+            border-left: 1px solid #dbe6fd;
+          }
+          background-color: white;
+          color: #293b5f;
+          border-right: 1px solid #dbe6fd;
+          border-bottom: 1px solid#dbe6fd;
+          padding: 0px 4px;
+          font-size: 12px;
+          .editied-cell {
+            padding: 0px 8px;
+            background-color: lightgreen;
+          }
+          .deleted-cell {
+            padding: 0px 8px;
+            background-color: lightcoral;
+          }
+          .original-cell {
+            padding: 0px 8px;
+          }
+
+          .phone-editor {
+            padding: 0px 8px;
+
+            .MuiInputBase-root {
+              &:first-child {
+                width: 25px;
+              }
+              width: 34px;
+
+              &::after {
+                content: "-";
+              }
+
+              .MuiInputBase-input {
+                padding: 0px;
+                margin: 0px;
+              }
+            }
+          }
+        }
+      }
+
+      &.rdg-header-row {
+        .rdg-cell {
+          &:first-child {
+            border-left: 1px solid ghostwhite;
+          }
+          background-color: #293b5f;
+          color: ghostwhite;
+          border-right: 1px solid ghostwhite;
+          border-bottom: 1px solid ghostwhite;
+          &.rdg-editor-container {
+            div {
+              input {
+                background-color: white;
+                color: black;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

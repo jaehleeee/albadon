@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.14.6",
     "@material-ui/core": "^4.12.1",
+    "@material-ui/lab": "^4.0.0-alpha.60",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -20,6 +21,8 @@
     "i18next": "^20.3.2",
     "moment": "^2.29.1",
     "node-sass": "^6.0.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react": "^17.0.2",
     "react-data-grid": "^7.0.0-canary.49",
     "react-dom": "^17.0.2",
@@ -27,10 +30,12 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "recoil": "^0.3.1",
+    "recoilize": "^2.0.1",
     "typescript": "^4.3.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "postinstall": "patch-package",
     "start": "react-scripts start",
     "build": "react-scripts build && firebase deploy",
     "test": "react-scripts test",
@@ -56,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@types/recoilize": "^0.8.0",
     "husky": "^7.0.0"
   }
 }

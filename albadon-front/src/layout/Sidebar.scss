@@ -1,23 +1,57 @@
 @import "../variables.scss";
 
-#Sidebar{
+#Sidebar {
   width: $sidebarWidth;
   position: absolute;
   height: 100%;
-  background-color:  $navi;
-  color : $white;
-
-  #storeSelect{
-    position: absolute;
-    right: 20px;
-    top: 100px;
+  background-color: $navi;
+  color: $white;
+  #bossInfo {
+    padding: 143px 15px 0px;
+    span {
+      font-size: 14px;
+      &.bold {
+        font-weight: bold;
+        font-size: 22px;
+      }
+    }
   }
-  #navigationBar{
-    padding:  180px 20px;
-    .navi-btn{
-      padding: 4px 0px;
+
+  #storeSelect {
+    display: flex;
+    margin: 6px 15px;
+    #storeIcon {
+      width: 24px;
+      height: 24px;
+      margin-right: 4px;
+    }
+    select {
+      width: 150px;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+    .no-stores {
+      width: 100%;
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+  #navigationBar {
+    padding: 140px 15px;
+    .navi-btn {
+      padding: 8px 4px;
       text-align: right;
       cursor: pointer;
+      font-size: 18px;
+      &.active {
+        background-color: $yellow;
+        color: $navi;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      &:hover {
+        font-weight: bold;
+      }
     }
   }
 }

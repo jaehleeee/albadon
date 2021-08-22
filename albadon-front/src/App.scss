@@ -119,7 +119,14 @@
 .data-grid {
   .title {
     display: flex;
-
+    h1 {
+      margin-right: 14px;
+    }
+    select {
+      font-size: 14px;
+      height: 20px;
+      margin-top: 32px;
+    }
     .highlight {
       background: linear-gradient(
         180deg,

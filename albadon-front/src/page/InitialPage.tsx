@@ -41,7 +41,9 @@ export const InitialPage = () => {
   ];
   return (
     <div id="InitialPage">
-      <div className="title">{`안녕하세요, ${boss.contents.bossName}님`}</div>
+      <div className="title">{`안녕하세요 ${
+        boss.contents.bossName ? `, ${boss.contents.bossName}님` : ""
+      }`}</div>
       <button onClick={() => setCreateModalOpen(true)}>첫 매장 추가하기</button>
       {createModalOpen && (
         <CommonDataModal

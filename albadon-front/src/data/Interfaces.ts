@@ -82,6 +82,7 @@ export interface WorkDetailItem {
   pauseMinutes?: number;
   startTime?: string; //hh:mm:ss
   weekday: number;
+  weekNumber: number;
   workDate: string; //YYYY-MM-DD
   workId?: number;
 }

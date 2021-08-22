@@ -1,5 +1,5 @@
 #CalculatorPage {
-  margin: 100px 60px;
+  margin: 120px 60px;
   .page-header {
     display: flex;
     height: 80px;
@@ -12,6 +12,11 @@
 
   .calculator {
     margin: 0px 0px 20px;
+    .calculator-detail {
+      .detail-item {
+        line-height: 22px;
+      }
+    }
     span {
       font-size: 20px;
 

@@ -425,7 +425,7 @@ export const EmployeePage: React.FC = () => {
 
       {contractDetail?.state === "hasValue" &&
       contractDetail?.contents?.employee?.employeeName ? (
-        <div className="data-grid">
+        <div className="detail data-grid">
           <div className="title">
             <h1 className="highlight">{`${contractDetail?.contents?.employee?.employeeName}`}</h1>
             <h1>{` 님의 스케줄 관리`}</h1>
@@ -458,7 +458,7 @@ export const EmployeePage: React.FC = () => {
             defaultColumnOptions={{
               resizable: true,
             }}
-            className="common-data-grid"
+            className="detail-data-grid"
           />
         </div>
       ) : (

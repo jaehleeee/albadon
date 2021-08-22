@@ -43,6 +43,7 @@ export const workListState = selector({
         workList.monthWork.push({
           weekday: targetMoment.day(),
           workDate: targetMoment.format("YYYY-MM-DD"),
+          weekNumber: targetMoment.week() - target.week() + 2,
         });
       }
 

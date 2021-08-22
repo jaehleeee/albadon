@@ -32,6 +32,7 @@ export interface WorkUpdateRequest {
   startTime?: string; //HHmm
   storeId: number;
   weekday: number;
+  weekNumber: number;
   workDate: string; //YYYY-MM-DD
   workId?: number;
 }

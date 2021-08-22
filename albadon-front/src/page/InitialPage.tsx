@@ -39,6 +39,7 @@ export const InitialPage = () => {
       editable: false,
     },
   ];
+
   return (
     <div id="InitialPage">
       <div className="title">{`안녕하세요 ${

@@ -30,13 +30,21 @@ public class WorkService {
 
 	public List<WorkDto> findWorkList(Store store, Employee employee, Integer year, Integer month) {
 		LocalDate thisMonth = LocalDate.of(year, month, 1);
-		LocalDate nextMonth = LocalDate.of(year, month+1, 1);
+		LocalDate nextMonth = getNextMonth(year, month);
 
 		List<Work> workList = workRepository.findByStoreAndEmployeeIdAndWorkDateBetween(store, employee.getEmployeeId(), thisMonth, nextMonth);
 
 		return workList.stream()
 			.map(work -> toDtoFromWork(work))
 			.collect(Collectors.toList());
+	}
+
+	private LocalDate getNextMonth(Integer year, Integer month) {
+		if(month == 12) {
+			return LocalDate.of(year+1, 1 , 1);
+		}
+
+		return LocalDate.of(year, month+1, 1);
 	}
 
 	public List<WorkDto> findPrevMonthLastWeekWorkList(Store store, Employee employee, Integer year, Integer month) {

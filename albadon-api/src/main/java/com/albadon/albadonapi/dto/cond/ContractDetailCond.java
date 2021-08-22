@@ -3,7 +3,7 @@ package com.albadon.albadonapi.dto.cond;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -3,9 +3,10 @@ package com.albadon.albadonapi.dto.cond;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.validation.constraints.NotNull;
+
 import com.albadon.albadonapi.persistence.entity.PauseInfo;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

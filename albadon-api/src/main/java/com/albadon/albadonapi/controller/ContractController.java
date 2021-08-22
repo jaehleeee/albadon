@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,6 @@ import com.albadon.albadonapi.dto.WorkDto;
 import com.albadon.albadonapi.dto.cond.ContractDetailCond;
 import com.albadon.albadonapi.dto.cond.EmployeeContractCond;
 import com.albadon.albadonapi.persistence.entity.Contract;
-import com.albadon.albadonapi.persistence.entity.ContractDetail;
 import com.albadon.albadonapi.persistence.entity.Store;
 import com.albadon.albadonapi.service.ContractService;
 import com.albadon.albadonapi.service.StoreService;
@@ -43,14 +43,14 @@ public class ContractController {
 	private final StoreService storeService;
 
 	@PostMapping
-	public Contract 신규직원계약_생성(@RequestBody EmployeeContractCond employeeContractCond) {
+	public Contract 신규직원계약_생성(@RequestBody @Validated EmployeeContractCond employeeContractCond) {
 		contractService.validateNewEmployeeContractCond(employeeContractCond);
 		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
 		return contractService.createNewContract(store, employeeContractCond);
 	}
 
 	@PutMapping("{contractId}")
-	public Contract 직원_및_계약_정보_수정(@PathVariable Long contractId, @RequestBody EmployeeContractCond employeeContractCond) {
+	public Contract 직원_및_계약_정보_수정(@PathVariable Long contractId, @RequestBody @Validated EmployeeContractCond employeeContractCond) {
 		Store store = storeService.retrieveStore(employeeContractCond.getStoreId());
 		return contractService.updateContract(store, contractId, employeeContractCond);
 	}
@@ -98,12 +98,12 @@ public class ContractController {
 	}
 
 	@PostMapping("/detail")
-	public ContractDetailDto 계약근무상세_신규_생성(@RequestBody ContractDetailCond contractDetailCond) {
+	public ContractDetailDto 계약근무상세_신규_생성(@RequestBody @Validated ContractDetailCond contractDetailCond) {
 		return contractService.toDtoFromContractDetail(contractService.createContractDetail(contractDetailCond));
 	}
 
 	@PutMapping("/detail/{contractDetailId}")
-	public ContractDetailDto 계약근무상세_수정(@PathVariable Long contractDetailId, @RequestBody ContractDetailCond contractDetailCond) {
+	public ContractDetailDto 계약근무상세_수정(@PathVariable Long contractDetailId, @RequestBody @Validated ContractDetailCond contractDetailCond) {
 		return contractService.toDtoFromContractDetail(contractService.updateContractDetail(contractDetailId, contractDetailCond));
 	}
 

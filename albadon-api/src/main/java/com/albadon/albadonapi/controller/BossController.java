@@ -2,6 +2,7 @@ package com.albadon.albadonapi.controller;
 
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class BossController {
 	}
 
 	@PostMapping
-	public Boss 신규_사장님_생성(@RequestBody BossCond bossCond) {
+	public Boss 신규_사장님_생성(@RequestBody @Validated BossCond bossCond) {
 		return bossService.createBoss(bossCond);
 	}
 

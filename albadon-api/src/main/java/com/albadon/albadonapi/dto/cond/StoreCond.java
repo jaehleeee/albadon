@@ -1,6 +1,6 @@
 package com.albadon.albadonapi.dto.cond;
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

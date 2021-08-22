@@ -2,6 +2,7 @@ package com.albadon.albadonapi.controller;
 
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +38,12 @@ public class StoreController {
 	}
 
 	@PostMapping
-	public Store 신규가계_등록(@RequestBody StoreCond storeCond) {
+	public Store 신규가계_등록(@RequestBody @Validated StoreCond storeCond) {
 		return storeService.createNewStore(storeCond);
 	}
 
 	@PutMapping("{storeId}")
-	public void 가게_정보_수정(@PathVariable Long storeId, @RequestBody StoreCond storeCond) {
+	public void 가게_정보_수정(@PathVariable Long storeId, @RequestBody @Validated StoreCond storeCond) {
 		storeService.updateStore(storeId, storeCond);
 	}
 

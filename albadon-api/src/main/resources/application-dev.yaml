@@ -10,7 +10,7 @@ server:
       pattern: combined
       suffix: ".log"
       fileDateFormat: "yyyy-MM-dd"
-  port: 8080
+  port: 10000
 
 spring:
   application:

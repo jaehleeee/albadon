@@ -20,6 +20,7 @@ public class HealthCheckController {
 	@CrossOrigin("*")
 	@GetMapping("health/project")
 	public String project() {
+		log.info("info log");
 		return applicationName;
 	}
 }

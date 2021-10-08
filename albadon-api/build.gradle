@@ -38,6 +38,9 @@ dependencies {
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
     runtimeOnly("com.vladmihalcea:hibernate-types-52:2.4.3")
+
+    runtimeOnly("org.codehaus.groovy:groovy:2.4.12")
+    compileOnly("org.codehaus.groovy:groovy:2.4.12")
 }
 
 test {

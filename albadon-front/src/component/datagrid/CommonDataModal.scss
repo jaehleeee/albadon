@@ -1,0 +1,94 @@
+#commonDataModalPopup {
+  .data-modal-container {
+    position: absolute;
+    padding: 110px 60px 90px;
+    border-radius: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: table;
+    background-color: white;
+    .data-modal-title {
+      font-size: 24px;
+      font-weight: bolder;
+      height: 24px;
+      position: absolute;
+      top: 55px;
+      &::after {
+        content: "* 항목은 필수";
+        margin-left: 10px;
+        color: #df5e5e;
+        font-size: 12px;
+      }
+    }
+    .data-row {
+      display: table-row;
+      .data-key {
+        display: table-cell;
+        width: 100px;
+        height: 40px;
+
+        &.mandatory::after {
+          content: "*";
+          color: #df5e5e;
+          font-size: 20px;
+        }
+      }
+      .data-editor {
+        display: table-cell;
+
+        .phone-editor {
+          height: 32px;
+          .MuiInputBase-root {
+            height: 100%;
+
+            &:first-child {
+              width: calc(calc(180px - 57px) / 3);
+            }
+
+            & + .MuiInputBase-root {
+              margin-left: 8px;
+            }
+
+            margin-right: 8px;
+            width: calc(calc(180px - 57px) / 3);
+
+            .MuiInputBase-input {
+              padding: 0px;
+              margin: 0px;
+            }
+          }
+        }
+        .MuiInputBase-root {
+          width: 100%;
+        }
+        .MuiFormControl-root {
+          width: 100%;
+        }
+      }
+    }
+    .btn-area {
+      position: absolute;
+      right: 30px;
+      bottom: 20px;
+      .MuiButton-root {
+        &.cancel-btn {
+          &:hover {
+            font-weight: bold;
+          }
+          background-color: lightgrey;
+          margin-right: 4px;
+        }
+        &.save-btn {
+          &:disabled {
+            background-color: rgba(#ffd56b, 0.6);
+          }
+          &:hover {
+            font-weight: bold;
+          }
+          background-color: #ffd56b;
+        }
+      }
+    }
+  }
+}

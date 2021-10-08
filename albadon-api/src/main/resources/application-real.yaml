@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+logging.config: classpath:logback-spring.groovy
+
+spring:
+  application:
+    name: "albadon-api"
+  jpa:
+    open-in-view: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+      hibernate.format_sql: true
+      hibernate.enable_lazy_load_no_trans: true
+      hibernate.connection.handling_mode: DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
+      hibernate.physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      hibernate.implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  datasource:
+    url: jdbc:mysql://13.124.191.33:3306/albadon?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: Albadon123!@#
+    driver-class-name: com.mysql.cj.jdbc.Driver

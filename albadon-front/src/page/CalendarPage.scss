@@ -1,0 +1,127 @@
+$navy: "#293b5f";
+$light-navy: "#47597e";
+$dim-sky: "#dbe6fd";
+$dusty-beige: "#b2ab8c";
+
+$border-color: #dbe6fd;
+
+#CalendarPage {
+  margin: 100px 60px;
+  .yyyymm {
+    width: 140px;
+    margin-left: calc(50% - 70px);
+    .yyyymm-lbl {
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      color: "#47597e";
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 50%,
+        #ffd56b 50%,
+        #ffd56b 100%
+      );
+    }
+    .month-btn {
+      width: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      color: rgba($color: black, $alpha: 0.3);
+      &.prev {
+        margin-right: 10px;
+      }
+      &.next {
+        margin-left: 10px;
+      }
+    }
+  }
+  .week-header {
+    padding-top: 20px;
+    display: flex;
+    .date {
+      min-width: calc(100% / 7);
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      background-color: #293b5f;
+      color: ghostwhite;
+      line-height: 20px;
+
+      & + .date {
+        border-left: 1px solid ghostwhite;
+      }
+    }
+  }
+  .week-wrapper {
+    .week {
+      display: flex;
+      & + .week {
+        border-top: 1px solid $border-color;
+      }
+      &:first-child {
+        border-top: 1px solid $border-color;
+      }
+      &:last-child {
+        border-bottom: 1px solid $border-color;
+      }
+
+      .day {
+        min-width: calc(100% / 7);
+        height: 100px;
+
+        & + .day {
+          border-left: 1px solid $border-color;
+        }
+        &:first-child {
+          border-left: 1px solid $border-color;
+        }
+        &:last-child {
+          border-right: 1px solid $border-color;
+        }
+
+        .day-number {
+          text-align: center;
+          margin-left: auto;
+          height: 20px;
+          width: 20px;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 20px;
+          padding: 3px;
+          color: #293b5f;
+          .circle {
+            display: none;
+            width: 20px;
+            height: 20px;
+            background-color: $border-color;
+            position: absolute;
+            margin-top: -20px;
+            border-radius: 50%;
+            z-index: -1;
+          }
+        }
+
+        .employee-wrapper {
+          display: flex;
+          margin: 0px 6px 2px 6px;
+          .employee-badge {
+            background-color: #47597e;
+            color: ghostwhite;
+            margin: 2px;
+            border-radius: 3px;
+            padding: 2px 8px;
+            text-overflow: ellipsis;
+            text-align: center;
+            font-size: 12px;
+            height: 16px;
+            white-space: nowrap;
+            max-width: 56px;
+            min-width: 30px;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+}

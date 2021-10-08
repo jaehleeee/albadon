@@ -1,16 +1,13 @@
 server:
-  tomcat:
-    basedir: ./
-    accesslog:
-      enabled: true
-      buffered: true
-      #directory: logs/
-      rotate: true
-      prefix: access_
-      pattern: combined
-      suffix: ".log"
-      fileDateFormat: "yyyy-MM-dd"
   port: 8085
+
+logging.config: classpath:logback-spring.groovy
+
+#logging:
+#  level:
+#    root: info
+#    com.naver: debug
+#    org.springframework.web.client: debug
 
 spring:
   application:

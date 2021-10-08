@@ -1,16 +1,7 @@
 server:
-  tomcat:
-    basedir: ./
-    accesslog:
-      enabled: true
-      buffered: true
-      #directory: logs/
-      rotate: true
-      prefix: access_
-      pattern: combined
-      suffix: ".log"
-      fileDateFormat: "yyyy-MM-dd"
   port: 8080
+
+logging.config: classpath:logback-spring.groovy
 
 spring:
   application:
@@ -29,7 +20,7 @@ spring:
       hibernate.physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       hibernate.implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
   datasource:
-    url: jdbc:mysql://localhost:3307/albadon?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://13.124.191.33:3306/albadon?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: root
-    password: password
+    password: Albadon123!@#
     driver-class-name: com.mysql.cj.jdbc.Driver

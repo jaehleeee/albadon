@@ -51,9 +51,9 @@
 }
 
 .add-btn {
-  height: 24px;
+  height: 28px;
   padding: 0px 10px;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 10px;
   background-color: white;
   border: 2px solid #293b5f;
@@ -71,6 +71,13 @@
     border: 2px solid #a3a3a3;
     color: #a3a3a3;
     background-color: #e6e6e6;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin: 0px 6px 0px -2px;
   }
 }
 .modify-btn {

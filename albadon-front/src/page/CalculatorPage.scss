@@ -1,5 +1,7 @@
 #CalculatorPage {
   margin: 120px 60px;
+  height: calc(100vh - 240px);
+  position: relative;
   .page-header {
     display: flex;
     height: 80px;
@@ -10,6 +12,17 @@
     }
   }
 
+  .no-employee {
+    width: 410px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    button {
+      width: 160px;
+      margin: 10px 125px;
+    }
+  }
   .calculator {
     margin: 0px 0px 20px;
     .calculator-detail {

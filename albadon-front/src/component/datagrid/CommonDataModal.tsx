@@ -11,6 +11,7 @@ import {
   NumberEditor,
   TextEditor,
   TimeEditor,
+  CheckboxEditor,
 } from "./DataEditors";
 import "./CommonDataModal.scss";
 export interface Props {
@@ -58,6 +59,8 @@ export const CommonDataModal: React.FC<Props> = ({
         return TimeEditor()(newRow);
       case ColumnType.END_TIME:
         return TimeEditor()(newRow);
+      case ColumnType.CHECKBOX:
+        return CheckboxEditor(column.checkboxArray)(newRow);
     }
   };
 

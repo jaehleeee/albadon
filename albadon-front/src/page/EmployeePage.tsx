@@ -34,6 +34,8 @@ import {
 import { ContractDetailRequest } from "../service/Interfaces";
 import { useAPICall } from "../hook/useAPICall";
 
+import calculatorIcon from "../icons/calculator.svg";
+
 export const EmployeePage: React.FC = () => {
   const history = useHistory();
 
@@ -111,13 +113,13 @@ export const EmployeePage: React.FC = () => {
       type: ColumnType.DATE,
       mandatory: true,
     },
-    {
-      key: "endDate",
-      name: "근무종료일",
-      width: 150,
-      editable: false,
-      type: ColumnType.DATE,
-    },
+    // {
+    //   key: "endDate",
+    //   name: "근무종료일",
+    //   width: 150,
+    //   editable: false,
+    //   type: ColumnType.DATE,
+    // },
     {
       key: "role",
       name: "역할",
@@ -443,9 +445,10 @@ export const EmployeePage: React.FC = () => {
           <button
             className="add-btn"
             onClick={() => {
-              history.push(`employee/calculator/${contractSummary.contractId}`);
+              history.push(`calculator/${contractSummary.contractId}`);
             }}
           >
+            <img id="calculatorIcon" alt="cal" src={calculatorIcon} />
             알바비 계산기
           </button>
           <DataGrid

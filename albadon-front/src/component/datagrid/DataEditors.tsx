@@ -1,4 +1,10 @@
-import { Input, MenuItem, Select, TextField } from "@material-ui/core";
+import {
+  Checkbox,
+  Input,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 
 import "./DataEditors.scss";
 
@@ -11,6 +17,7 @@ export enum ColumnType {
   START_TIME = "START_TIME",
   END_TIME = "END_TIME",
   APPENDABLE_LIST = "APPENDABLE_LIST",
+  CHECKBOX = "CHECKBOX",
 }
 
 export const DateEditor = (p: any) => (
@@ -186,6 +193,21 @@ export const ComboEditor =
       <></>
     );
 
+export const CheckboxEditor =
+  (checkboxArray?: { value: string; label: string }[]) => (p: any) =>
+    checkboxArray ? (
+      checkboxArray.map((option, i) => (
+        <button
+          key={`${p.column.key}-${i}th-option`}
+          className="checkbox-label"
+        >
+          {option.label}
+        </button>
+      ))
+    ) : (
+      <></>
+    );
+
 export interface CommonColumnI {
   key: string;
   name: string;
@@ -194,6 +216,7 @@ export interface CommonColumnI {
   minWidth?: number;
   maxWidth?: number;
   comboArray?: { value: string; label: string }[];
+  checkboxArray?: { value: string; label: string }[];
   appendableListKey?: string[];
   editable?: boolean;
   visible?: boolean;

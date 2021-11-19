@@ -192,7 +192,7 @@ export const CalculatorPage: React.FC<RouteComponentProps> = (
           {p.row.pauseMinutes}
         </div>
       ),
-      editor: NumberEditor,
+      editor: NumberEditor(),
       editable: true,
     },
     {

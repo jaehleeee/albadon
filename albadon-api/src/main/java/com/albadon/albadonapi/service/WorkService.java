@@ -59,7 +59,7 @@ public class WorkService {
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, year);
-		calendar.set(Calendar.MONTH, month - 2); // Calendar에서 현재 달은 month - 1
+		calendar.set(Calendar.MONTH, month - 1); // Calendar에서 현재 달은 month - 1
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
 		int lastWeekNumber  = calendar.get(Calendar.WEEK_OF_MONTH);
 

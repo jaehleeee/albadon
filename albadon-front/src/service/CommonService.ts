@@ -25,3 +25,7 @@ export const callAPI = async (
     timeout: 1000,
   });
 };
+
+export const getCommonValue = async (commonCode: string) => {
+  return await callAPI(ApiMethod.GET, `commonValue/codeName/${commonCode}`);
+};

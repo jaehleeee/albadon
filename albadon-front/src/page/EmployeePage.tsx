@@ -13,8 +13,14 @@ import "./EmployeePage.scss";
 
 import { createEmployee, deleteEmployee } from "../service/EmployeeService";
 import { CommonDataModal } from "../component/datagrid/CommonDataModal";
-import { ContractDetail, ContractSchedule, Employee } from "../data/Interfaces";
+import {
+  ContractDetail,
+  ContractSchedule,
+  Employee,
+  MinWage,
+} from "../data/Interfaces";
 import { useHistory } from "react-router";
+import { minWageState } from "../data/BossAtoms";
 import {
   contractDetailState,
   contractScheduleListQuerySeqState,
@@ -41,6 +47,7 @@ export const EmployeePage: React.FC = () => {
 
   const setInfoBar = useSetRecoilState(infoBarState);
   const store = useRecoilValue(storeDetailState);
+  const minWage = useAPICall<MinWage>(useRecoilValueLoadable(minWageState));
   const employeeList = useAPICall<Employee[]>(
     useRecoilValueLoadable(employeeListState)
   );
@@ -62,8 +69,9 @@ export const EmployeePage: React.FC = () => {
     useState<Employee | null>(null);
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
 
-  const [modifyTargetDetail, setModifyTargetDetail] =
-    useState<any | null>(null);
+  const [modifyTargetDetail, setModifyTargetDetail] = useState<any | null>(
+    null
+  );
   const [createDetailModalOpen, setCreateDetailModalOpen] =
     useState<boolean>(false);
 
@@ -91,20 +99,21 @@ export const EmployeePage: React.FC = () => {
       name: "주간시급",
       editable: false,
       type: ColumnType.NUMBER,
+      defaultValue: minWage.contents.value,
       mandatory: true,
     },
-    {
-      key: "holidayWage",
-      name: "휴일시급",
-      editable: false,
-      type: ColumnType.NUMBER,
-    },
-    {
-      key: "nightWage",
-      name: "야간시급",
-      editable: false,
-      type: ColumnType.NUMBER,
-    },
+    // {
+    //   key: "holidayWage",
+    //   name: "휴일시급",
+    //   editable: false,
+    //   type: ColumnType.NUMBER,
+    // },
+    // {
+    //   key: "nightWage",
+    //   name: "야간시급",
+    //   editable: false,
+    //   type: ColumnType.NUMBER,
+    // },
     {
       key: "startDate",
       name: "근무시작일",

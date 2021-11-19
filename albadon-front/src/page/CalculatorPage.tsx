@@ -188,7 +188,7 @@ export const CalculatorPage: React.FC<CalculatorPageI> = ({ match }) => {
           {p.row.pauseMinutes}
         </div>
       ),
-      editor: NumberEditor,
+      editor: NumberEditor(),
       editable: true,
     },
     {

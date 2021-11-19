@@ -22,8 +22,12 @@ import {
   storeListState,
 } from "../data/BossAtoms";
 import { useAPICall } from "../hook/useAPICall";
+import { RouteComponentProps } from "react-router-dom";
+import { Sidebar } from "../layout/Sidebar";
 
-export const StorePage: React.FC = () => {
+export const StorePage: React.FC<RouteComponentProps> = (
+  routeProps: RouteComponentProps
+) => {
   const setInfoBar = useSetRecoilState(infoBarState);
 
   const bossId = useRecoilValue(bossIdState);
@@ -114,37 +118,73 @@ export const StorePage: React.FC = () => {
   ];
 
   return (
-    <div id="StorePage">
-      <div className="data-grid">
-        <div className="title">
-          <h1>{`매장 관리`}</h1>
-        </div>
-        <button
-          className="add-btn"
-          onClick={() => {
-            setCreateModalOpen(true);
-          }}
-        >
-          매장 추가
-        </button>
-        {createModalOpen && (
-          <CommonDataModal
-            onClose={() => {
-              setCreateModalOpen(false);
+    <>
+      <Sidebar {...routeProps} />
+      <div id="StorePage">
+        <div className="data-grid">
+          <div className="title">
+            <h1>{`매장 관리`}</h1>
+          </div>
+          <button
+            className="add-btn"
+            onClick={() => {
+              setCreateModalOpen(true);
             }}
-            onSave={(newRow: any) => {
-              createStore({
-                bossId: +bossId,
-                ...newRow,
-              }).then((res) => {
-                getStoreListByMemberId(bossId)
+          >
+            매장 추가
+          </button>
+          {createModalOpen && (
+            <CommonDataModal
+              onClose={() => {
+                setCreateModalOpen(false);
+              }}
+              onSave={(newRow: any) => {
+                createStore({
+                  bossId: +bossId,
+                  ...newRow,
+                }).then((res) => {
+                  getStoreListByMemberId(bossId)
+                    .then((res) => {
+                      setStoreListQuerySeq((currVal) => currVal + 1);
+                    })
+                    .catch(() => {
+                      setInfoBar({
+                        open: true,
+                        label: "매장 추가에 실패했어요 😭",
+                        type: "error",
+                      });
+                      setInterval(() => {
+                        setInfoBar({
+                          open: false,
+                          label: "",
+                          type: "",
+                        });
+                      }, 8000);
+                    });
+                });
+              }}
+              colDef={columnDef}
+              initialRow={{}}
+              title="매장 추가"
+            />
+          )}
+          {modifyTargetStore && (
+            <CommonDataModal
+              onClose={() => {
+                setModifyTargetStore(null);
+              }}
+              onSave={(newRow: any) => {
+                updateStore(modifyTargetStore.storeId, {
+                  ...newRow,
+                  bossId: +bossId,
+                })
                   .then((res) => {
                     setStoreListQuerySeq((currVal) => currVal + 1);
                   })
                   .catch(() => {
                     setInfoBar({
                       open: true,
-                      label: "매장 추가에 실패했어요 😭",
+                      label: "매장 수정에 실패했어요 😭",
                       type: "error",
                     });
                     setInterval(() => {
@@ -155,55 +195,22 @@ export const StorePage: React.FC = () => {
                       });
                     }, 8000);
                   });
-              });
+              }}
+              colDef={columnDef}
+              initialRow={modifyTargetStore}
+              title="매장 수정"
+            />
+          )}
+          <DataGrid
+            columns={columnDef}
+            rows={storeList.state === "hasValue" ? storeList.contents : []}
+            defaultColumnOptions={{
+              resizable: true,
             }}
-            colDef={columnDef}
-            initialRow={{}}
-            title="매장 추가"
+            className="common-data-grid"
           />
-        )}
-        {modifyTargetStore && (
-          <CommonDataModal
-            onClose={() => {
-              setModifyTargetStore(null);
-            }}
-            onSave={(newRow: any) => {
-              updateStore(modifyTargetStore.storeId, {
-                ...newRow,
-                bossId: +bossId,
-              })
-                .then((res) => {
-                  setStoreListQuerySeq((currVal) => currVal + 1);
-                })
-                .catch(() => {
-                  setInfoBar({
-                    open: true,
-                    label: "매장 수정에 실패했어요 😭",
-                    type: "error",
-                  });
-                  setInterval(() => {
-                    setInfoBar({
-                      open: false,
-                      label: "",
-                      type: "",
-                    });
-                  }, 8000);
-                });
-            }}
-            colDef={columnDef}
-            initialRow={modifyTargetStore}
-            title="매장 수정"
-          />
-        )}
-        <DataGrid
-          columns={columnDef}
-          rows={storeList.state === "hasValue" ? storeList.contents : []}
-          defaultColumnOptions={{
-            resizable: true,
-          }}
-          className="common-data-grid"
-        />
+        </div>
       </div>
-    </div>
+    </>
   );
 };

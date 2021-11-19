@@ -19,7 +19,6 @@ function App() {
         {storeList.state === "hasValue" &&
           (storeList.contents.length > 0 ? (
             <>
-              <Sidebar />
               <div id="container">
                 <Route exact path="/">
                   <Redirect to="/store" />

@@ -39,21 +39,40 @@
   font-style: normal;
 }
 
-.app {
-  height: 100%;
-  width: 100%;
-  min-width: 1100px;
-  overflow-x: scroll;
+@media (max-width: 800px) {
+  .app {
+    height: 100%;
+    width: 100%;
 
-  #container {
-    margin-left: $sidebarWidth;
+    overflow-x: scroll;
+  }
+  h1 {
+    font-size: 24px;
   }
 }
 
+@media (min-width: 800px) {
+  .app {
+    height: 100%;
+    width: 100%;
+    min-width: 1100px;
+    overflow-x: scroll;
+
+    #container {
+      margin-left: $sidebarWidth;
+    }
+  }
+}
 .add-btn {
-  height: 28px;
   padding: 0px 10px;
-  font-size: 16px;
+  @media (min-width: 800px) {
+    font-size: 16px;
+    height: 28px;
+  }
+  @media (max-width: 800px) {
+    font-size: 16px;
+    height: 24px;
+  }
   margin-bottom: 10px;
   background-color: white;
   border: 2px solid #293b5f;
@@ -118,12 +137,24 @@
   }
 }
 
-.empty-data-grid {
-  margin: 60px 200px;
-  text-align: center;
-  font-size: 16px;
+@media (min-width: 800px) {
+  .empty-data-grid {
+    margin: 60px 200px;
+    text-align: center;
+    font-size: 16px;
+  }
+}
+@media (max-width: 800px) {
+  .empty-data-grid {
+    margin: 60px 10px;
+    text-align: center;
+    font-size: 14px;
+  }
 }
 .data-grid {
+  @media (max-width: 800px) {
+    padding-top: 30px;
+  }
   .title {
     display: flex;
     h1 {
@@ -133,6 +164,15 @@
       font-size: 14px;
       height: 20px;
       margin-top: 32px;
+      @media (max-width: 800px) {
+        position: absolute;
+        left: 0px;
+        top: -20px;
+
+        & + select {
+          left: 70px;
+        }
+      }
     }
     .highlight {
       background: linear-gradient(

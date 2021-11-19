@@ -20,7 +20,7 @@ import "./Sidebar.scss";
 export enum NavOption {
   STORE = "STORE",
   EMPLOYEE = "EMPLOYEE",
-  // CALCULATOR = "CALCULATOR",
+  CALCULATOR = "CALCULATOR",
 }
 export const Sidebar: React.FC = () => {
   const boss = useAPICall<Boss>(useRecoilValueLoadable(bossState));
@@ -34,14 +34,14 @@ export const Sidebar: React.FC = () => {
 
   useEffect(() => {
     const path = history.location.pathname;
+    console.log(path);
     if (path.startsWith("/store")) {
       setNavOption(NavOption.STORE);
     } else if (path.startsWith("/employee")) {
       setNavOption(NavOption.EMPLOYEE);
+    } else if (path.startsWith("/calculator")) {
+      setNavOption(NavOption.CALCULATOR);
     }
-    // else if (path.startsWith("/calculator")) {
-    //   setNavOption(NavOption.CALCULATOR);
-    // }
   }, [history.location.pathname]);
 
   useEffect(() => {
@@ -78,9 +78,9 @@ export const Sidebar: React.FC = () => {
       case NavOption.STORE:
         history.push("/store");
         break;
-      // case NavOption.CALCULATOR:
-      //   history.push("/calculator");
-      //   break;
+      case NavOption.CALCULATOR:
+        history.push("/calculator");
+        break;
     }
   };
 

@@ -36,7 +36,13 @@
       }
       .data-editor {
         display: table-cell;
-
+        .checkbox-label {
+          font-size: 14px;
+          padding: 4px 10px;
+          + .checkbox-label {
+            margin-left: 4px;
+          }
+        }
         .phone-editor {
           height: 32px;
           .MuiInputBase-root {

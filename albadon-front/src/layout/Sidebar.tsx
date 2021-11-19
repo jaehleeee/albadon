@@ -1,7 +1,7 @@
 import { url } from "inspector";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
+import { RouteChildrenProps, useHistory } from "react-router-dom";
 import {
   useRecoilState,
   useRecoilValueLoadable,
@@ -22,7 +22,9 @@ export enum NavOption {
   EMPLOYEE = "EMPLOYEE",
   CALCULATOR = "CALCULATOR",
 }
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FC<RouteChildrenProps> = ({
+  location,
+}: RouteChildrenProps) => {
   const boss = useAPICall<Boss>(useRecoilValueLoadable(bossState));
   const storeList = useAPICall<Store[]>(useRecoilValueLoadable(storeListState));
   const [store, setStore] = useRecoilState(storeDetailState);
@@ -33,16 +35,14 @@ export const Sidebar: React.FC = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const path = history.location.pathname;
-    console.log(path);
-    if (path.startsWith("/store")) {
+    if (location.pathname.startsWith("/store")) {
       setNavOption(NavOption.STORE);
-    } else if (path.startsWith("/employee")) {
+    } else if (location.pathname.startsWith("/employee")) {
       setNavOption(NavOption.EMPLOYEE);
-    } else if (path.startsWith("/calculator")) {
+    } else if (location.pathname.startsWith("/calculator")) {
       setNavOption(NavOption.CALCULATOR);
     }
-  }, [history.location.pathname]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (

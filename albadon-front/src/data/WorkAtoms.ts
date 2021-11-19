@@ -39,11 +39,14 @@ export const workListState = selector({
       const target = moment(`${year}${month}`, "YYYYMM");
 
       for (let i = 0; i < target.daysInMonth(); i++) {
-        const targetMoment = target.startOf("month").add(i, "day");
+        const targetMoment = target.startOf("month").clone();
+        targetMoment.add(i, "day");
+        console.log(target.week(), targetMoment.week());
+
         workList.monthWork.push({
           weekday: targetMoment.day(),
           workDate: targetMoment.format("YYYY-MM-DD"),
-          weekNumber: targetMoment.week() - target.week() + 2,
+          weekNumber: targetMoment.week() - target.week() + 1,
         });
       }
 
@@ -64,11 +67,13 @@ export const workListState = selector({
 
           workList.monthWork[idx] = {
             ...work,
+            weekNumber: workList.monthWork[idx].weekNumber,
             pauseMinutes,
           };
         }
       });
     }
+
     return workList;
   },
 });

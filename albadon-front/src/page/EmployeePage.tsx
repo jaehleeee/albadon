@@ -19,7 +19,7 @@ import {
   Employee,
   MinWage,
 } from "../data/Interfaces";
-import { useHistory } from "react-router";
+import { RouteComponentProps, useHistory } from "react-router";
 import { minWageState } from "../data/BossAtoms";
 import {
   contractDetailState,
@@ -41,8 +41,11 @@ import { ContractDetailRequest } from "../service/Interfaces";
 import { useAPICall } from "../hook/useAPICall";
 
 import calculatorIcon from "../icons/calculator.svg";
+import { Sidebar } from "../layout/Sidebar";
 
-export const EmployeePage: React.FC = () => {
+export const EmployeePage: React.FC<RouteComponentProps> = (
+  routeProps: RouteComponentProps
+) => {
   const history = useHistory();
 
   const setInfoBar = useSetRecoilState(infoBarState);
@@ -165,6 +168,7 @@ export const EmployeePage: React.FC = () => {
                     deleteEmployee(+p.row.contractId)
                       .then((res) => {
                         resetContractSummary();
+                        setEmployeeListQuerySeq((currVal) => currVal + 1);
                       })
                       .catch((e) => {
                         setInfoBar({
@@ -287,91 +291,133 @@ export const EmployeePage: React.FC = () => {
     },
   ];
   return (
-    <div id="EmployeePage">
-      {createModalOpen && (
-        <CommonDataModal
-          onClose={() => {
-            setCreateModalOpen(false);
-          }}
-          onSave={(newRow: any) => {
-            createEmployee({ ...newRow, storeId: store.storeId })
-              .then(() => {
-                setEmployeeListQuerySeq((currVal) => currVal + 1);
-              })
-              .catch(() => {
-                setInfoBar({
-                  open: true,
-                  label: "직원 추가에 실패했어요 😭",
-                  type: "error",
-                });
-                setInterval(() => {
-                  setInfoBar({
-                    open: false,
-                    label: "",
-                    type: "",
-                  });
-                }, 8000);
-              });
-          }}
-          colDef={columnDef}
-          initialRow={{}}
-          title="직원 추가"
-        />
-      )}
-      {modifyTargetContract && (
-        <CommonDataModal
-          onClose={() => {
-            setModifyTargetContract(null);
-          }}
-          onSave={(newRow: any) => {}}
-          colDef={columnDef}
-          initialRow={modifyTargetContract}
-          title="직원 수정"
-        />
-      )}
-      <div className="data-grid">
-        <div className="title">
-          {store.storeName && (
-            <h1 className="highlight">{`${store.storeName}`}</h1>
-          )}
-          <h1>{`직원 관리`}</h1>
-        </div>
-        <button
-          className="add-btn"
-          onClick={() => {
-            setCreateModalOpen(true);
-          }}
-        >
-          직원 추가
-        </button>
-        <DataGrid
-          columns={columnDef}
-          rows={employeeList.state === "hasValue" ? employeeList.contents : []}
-          defaultColumnOptions={{
-            resizable: true,
-          }}
-          className="common-data-grid"
-          onRowClick={(idx, value) => {
-            setContractSummary(value);
-          }}
-        />
-      </div>
-
-      {contractSummary &&
-        contractDetail.state === "hasValue" &&
-        createDetailModalOpen && (
+    <>
+      <Sidebar {...routeProps} />
+      <div id="EmployeePage">
+        {createModalOpen && (
           <CommonDataModal
             onClose={() => {
-              setCreateDetailModalOpen(false);
+              setCreateModalOpen(false);
+            }}
+            onSave={(newRow: any) => {
+              createEmployee({ ...newRow, storeId: store.storeId })
+                .then(() => {
+                  setEmployeeListQuerySeq((currVal) => currVal + 1);
+                })
+                .catch(() => {
+                  setInfoBar({
+                    open: true,
+                    label: "직원 추가에 실패했어요 😭",
+                    type: "error",
+                  });
+                  setInterval(() => {
+                    setInfoBar({
+                      open: false,
+                      label: "",
+                      type: "",
+                    });
+                  }, 8000);
+                });
+            }}
+            colDef={columnDef}
+            initialRow={{}}
+            title="직원 추가"
+          />
+        )}
+        {modifyTargetContract && (
+          <CommonDataModal
+            onClose={() => {
+              setModifyTargetContract(null);
+            }}
+            onSave={(newRow: any) => {}}
+            colDef={columnDef}
+            initialRow={modifyTargetContract}
+            title="직원 수정"
+          />
+        )}
+        <div className="data-grid">
+          <div className="title">
+            {store.storeName && (
+              <h1 className="highlight">{`${store.storeName}`}</h1>
+            )}
+            <h1>{`직원 관리`}</h1>
+          </div>
+          <button
+            className="add-btn"
+            onClick={() => {
+              setCreateModalOpen(true);
+            }}
+          >
+            직원 추가
+          </button>
+          <DataGrid
+            columns={columnDef}
+            rows={
+              employeeList.state === "hasValue" ? employeeList.contents : []
+            }
+            defaultColumnOptions={{
+              resizable: true,
+            }}
+            className="common-data-grid"
+            onRowClick={(idx, value) => {
+              setContractSummary(value);
+            }}
+          />
+        </div>
+
+        {contractSummary &&
+          contractDetail.state === "hasValue" &&
+          createDetailModalOpen && (
+            <CommonDataModal
+              onClose={() => {
+                setCreateDetailModalOpen(false);
+              }}
+              onSave={(newRow: any) => {
+                const request: ContractDetailRequest = {
+                  contractId: contractDetail.contents.contractId,
+                  endTime: `${newRow.endTime}`.substring(0, 5),
+                  startTime: `${newRow.startTime}`.substring(0, 5),
+                  weekday: newRow.weekday,
+                };
+                createContractDetail(request)
+                  .then((res) => {
+                    setContractScheduleListQuerySeqState(
+                      (currVal) => currVal + 1
+                    );
+                  })
+                  .catch(() => {
+                    setInfoBar({
+                      open: true,
+                      label: "스케줄 추가에 실패했어요 😭",
+                      type: "error",
+                    });
+                    setInterval(() => {
+                      setInfoBar({
+                        open: false,
+                        label: "",
+                        type: "",
+                      });
+                    }, 8000);
+                  });
+              }}
+              colDef={contractDetailColumnList}
+              initialRow={{}}
+              title="스케줄 추가"
+            />
+          )}
+        {contractDetail?.state === "hasValue" && modifyTargetDetail && (
+          <CommonDataModal
+            onClose={() => {
+              setModifyTargetDetail(null);
             }}
             onSave={(newRow: any) => {
               const request: ContractDetailRequest = {
                 contractId: contractDetail.contents.contractId,
-                endTime: `${newRow.endTime}`.substring(0, 5),
-                startTime: `${newRow.startTime}`.substring(0, 5),
+                endTime: newRow.endTime,
+                startTime: newRow.startTime,
                 weekday: newRow.weekday,
               };
-              createContractDetail(request)
+              updateContractDetail(modifyTargetDetail.contractDetailId, request)
                 .then((res) => {
                   setContractScheduleListQuerySeqState(
                     (currVal) => currVal + 1
@@ -380,7 +426,7 @@ export const EmployeePage: React.FC = () => {
                 .catch(() => {
                   setInfoBar({
                     open: true,
-                    label: "스케줄 추가에 실패했어요 😭",
+                    label: "스케줄 수정에 실패했어요 😭",
                     type: "error",
                   });
                   setInterval(() => {
@@ -393,91 +439,56 @@ export const EmployeePage: React.FC = () => {
                 });
             }}
             colDef={contractDetailColumnList}
-            initialRow={{}}
-            title="스케줄 추가"
+            initialRow={modifyTargetDetail}
+            title="스케줄 수정"
           />
         )}
-      {contractDetail?.state === "hasValue" && modifyTargetDetail && (
-        <CommonDataModal
-          onClose={() => {
-            setModifyTargetDetail(null);
-          }}
-          onSave={(newRow: any) => {
-            const request: ContractDetailRequest = {
-              contractId: contractDetail.contents.contractId,
-              endTime: newRow.endTime,
-              startTime: newRow.startTime,
-              weekday: newRow.weekday,
-            };
-            updateContractDetail(modifyTargetDetail.contractDetailId, request)
-              .then((res) => {
-                setContractScheduleListQuerySeqState((currVal) => currVal + 1);
-              })
-              .catch(() => {
-                setInfoBar({
-                  open: true,
-                  label: "스케줄 수정에 실패했어요 😭",
-                  type: "error",
-                });
-                setInterval(() => {
-                  setInfoBar({
-                    open: false,
-                    label: "",
-                    type: "",
-                  });
-                }, 8000);
-              });
-          }}
-          colDef={contractDetailColumnList}
-          initialRow={modifyTargetDetail}
-          title="스케줄 수정"
-        />
-      )}
 
-      {contractDetail?.state === "hasValue" &&
-      contractDetail?.contents?.employee?.employeeName ? (
-        <div className="detail data-grid">
-          <div className="title">
-            <h1 className="highlight">{`${contractDetail?.contents?.employee?.employeeName}`}</h1>
-            <h1>{` 님의 스케줄 관리`}</h1>
+        {contractDetail?.state === "hasValue" &&
+        contractDetail?.contents?.employee?.employeeName ? (
+          <div className="detail data-grid">
+            <div className="title">
+              <h1 className="highlight">{`${contractDetail?.contents?.employee?.employeeName}`}</h1>
+              <h1>{` 님의 스케줄 관리`}</h1>
+            </div>
+
+            <button
+              className="add-btn"
+              onClick={() => {
+                setCreateDetailModalOpen(true);
+              }}
+              disabled={contractScheduleList.contents.length === 7}
+            >
+              스케줄 추가
+            </button>
+            <button
+              className="add-btn"
+              onClick={() => {
+                history.push(`calculator/${contractSummary.contractId}`);
+              }}
+            >
+              <img id="calculatorIcon" alt="cal" src={calculatorIcon} />
+              알바비 계산기
+            </button>
+            <DataGrid
+              columns={contractDetailColumnList}
+              rows={
+                contractScheduleList.state === "hasValue"
+                  ? contractScheduleList.contents
+                  : []
+              }
+              defaultColumnOptions={{
+                resizable: true,
+              }}
+              className="detail-data-grid"
+            />
           </div>
-
-          <button
-            className="add-btn"
-            onClick={() => {
-              setCreateDetailModalOpen(true);
-            }}
-            disabled={contractScheduleList.contents.length === 7}
-          >
-            스케줄 추가
-          </button>
-          <button
-            className="add-btn"
-            onClick={() => {
-              history.push(`calculator/${contractSummary.contractId}`);
-            }}
-          >
-            <img id="calculatorIcon" alt="cal" src={calculatorIcon} />
-            알바비 계산기
-          </button>
-          <DataGrid
-            columns={contractDetailColumnList}
-            rows={
-              contractScheduleList.state === "hasValue"
-                ? contractScheduleList.contents
-                : []
-            }
-            defaultColumnOptions={{
-              resizable: true,
-            }}
-            className="detail-data-grid"
-          />
-        </div>
-      ) : (
-        <div className="info-icon empty-data-grid">
-          직원을 선택하면 스케줄을 확인할 수 있어요
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="info-icon empty-data-grid">
+            직원을 선택하면 스케줄을 확인할 수 있어요
+          </div>
+        )}
+      </div>
+    </>
   );
 };

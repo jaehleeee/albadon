@@ -1,56 +1,130 @@
 @import "../variables.scss";
 
-#Sidebar {
-  width: $sidebarWidth;
-  position: absolute;
-  height: 100%;
-  background-color: $navi;
-  color: $white;
-  #bossInfo {
-    padding: 143px 15px 0px;
-    span {
-      font-size: 16px;
-      &.bold {
-        font-weight: bold;
-        font-size: 24px;
-      }
-    }
-  }
-
-  #storeSelect {
+@media (max-width: 800px) {
+  #Sidebar {
+    z-index: 1000;
+    position: absolute;
+    height: 110px;
     display: flex;
-    margin: 6px 15px;
-    #storeIcon {
-      width: 24px;
-      height: 24px;
-      margin-right: 4px;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background-color: $navi;
+    color: $white;
+    #bossInfo {
+      padding: 24px 15px 0px;
+      span {
+        font-size: 16px;
+        &.bold {
+          font-weight: bold;
+          font-size: 16px;
+        }
+      }
     }
-    select {
-      width: 150px;
-      font-size: 16px;
-      border-radius: 4px;
+
+    #storeSelect {
+      display: flex;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      #storeIcon {
+        width: 24px;
+        height: 24px;
+        margin-right: 4px;
+      }
+      select {
+        width: 150px;
+        font-size: 12px;
+        border-radius: 4px;
+        height: 24px;
+      }
+      .no-stores {
+        width: 100%;
+        font-size: 16px;
+        text-align: center;
+      }
     }
-    .no-stores {
-      width: 100%;
-      font-size: 16px;
-      text-align: center;
+    #navigationBar {
+      display: flex;
+      position: fixed;
+      top: 60px;
+      left: 15px;
+
+      .navi-btn {
+        padding: 8px 4px;
+        text-align: right;
+        cursor: pointer;
+        font-size: 16px;
+        &.active {
+          background-color: $yellow;
+          color: $navi;
+          border-radius: 4px;
+          font-weight: bold;
+        }
+        &:hover {
+          font-weight: bold;
+        }
+      }
     }
   }
-  #navigationBar {
-    padding: 140px 15px;
-    .navi-btn {
-      padding: 8px 4px;
-      text-align: right;
-      cursor: pointer;
-      font-size: 18px;
-      &.active {
-        background-color: $yellow;
-        color: $navi;
-        border-radius: 4px;
-        font-weight: bold;
+}
+
+@media (min-width: 800px) {
+  #Sidebar {
+    width: $sidebarWidth;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: $navi;
+    color: $white;
+    #bossInfo {
+      padding: 143px 15px 0px;
+      span {
+        font-size: 16px;
+        &.bold {
+          font-weight: bold;
+          font-size: 24px;
+        }
       }
-      &:hover {
-        font-weight: bold;
+    }
+
+    #storeSelect {
+      display: flex;
+      margin: 6px 15px;
+      #storeIcon {
+        width: 24px;
+        height: 24px;
+        margin-right: 4px;
+      }
+      select {
+        width: 150px;
+        font-size: 16px;
+        border-radius: 4px;
+      }
+      .no-stores {
+        width: 100%;
+        font-size: 16px;
+        text-align: center;
+      }
+    }
+    #navigationBar {
+      padding: 140px 15px;
+      .navi-btn {
+        padding: 8px 4px;
+        text-align: right;
+        cursor: pointer;
+        font-size: 18px;
+        &.active {
+          background-color: $yellow;
+          color: $navi;
+          border-radius: 4px;
+          font-weight: bold;
+        }
+        &:hover {
+          font-weight: bold;
+        }
       }
     }
   }

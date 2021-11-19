@@ -1,3 +1,8 @@
 #StorePage {
-  margin: 120px 60px;
+  @media (min-width: 800px) {
+    margin: 120px 60px;
+  }
+  @media (max-width: 800px) {
+    margin: 120px 30px;
+  }
 }

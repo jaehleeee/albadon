@@ -1,5 +1,10 @@
 #commonDataModalPopup {
   .data-modal-container {
+    @media (max-width: 800px) {
+      padding: 110px 30px 90px;
+      width: calc(100vw - 80px);
+    }
+
     position: absolute;
     padding: 110px 60px 90px;
     border-radius: 10px;

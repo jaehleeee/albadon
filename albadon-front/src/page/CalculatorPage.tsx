@@ -152,6 +152,7 @@ export const CalculatorPage: React.FC<RouteComponentProps> = (
         );
       },
       editable: true,
+      editorOptions: { editOnClick: true },
     },
     {
       key: "endTime",
@@ -174,6 +175,7 @@ export const CalculatorPage: React.FC<RouteComponentProps> = (
         );
       },
       editable: true,
+      editorOptions: { editOnClick: true },
     },
     {
       key: "pauseMinutes",
@@ -194,6 +196,7 @@ export const CalculatorPage: React.FC<RouteComponentProps> = (
       ),
       editor: NumberEditor(),
       editable: true,
+      editorOptions: { editOnClick: true },
     },
     {
       key: "buttons",

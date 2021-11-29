@@ -48,7 +48,9 @@ export const CommonDataModal: React.FC<Props> = ({
       case ColumnType.TEXT:
         return TextEditor(newRow);
       case ColumnType.NUMBER:
-        return NumberEditor(newRow);
+        return column.defaultValue
+          ? NumberEditor(column.defaultValue)(newRow)
+          : NumberEditor()(newRow);
       case ColumnType.DATE:
         return DateEditor(newRow);
       case ColumnType.PHONE:

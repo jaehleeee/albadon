@@ -6,7 +6,12 @@ $dusty-beige: "#b2ab8c";
 $border-color: #dbe6fd;
 
 #CalendarPage {
-  margin: 100px 60px;
+  @media (min-width: 800px) {
+    margin: 100px 60px;
+  }
+  @media (max-width: 800px) {
+    margin: 120px 30px;
+  }
   .yyyymm {
     width: 140px;
     margin-left: calc(50% - 70px);

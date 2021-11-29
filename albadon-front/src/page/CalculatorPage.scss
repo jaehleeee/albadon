@@ -1,5 +1,10 @@
 #CalculatorPage {
-  margin: 120px 60px;
+  @media (min-width: 800px) {
+    margin: 120px 60px;
+  }
+  @media (max-width: 800px) {
+    margin: 120px 30px;
+  }
   height: calc(100vh - 240px);
   position: relative;
   .page-header {
@@ -11,16 +16,32 @@
       background-color: #ffd56b;
     }
   }
-
-  .no-employee {
-    width: 410px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    button {
-      width: 160px;
-      margin: 10px 125px;
+  @media (min-width: 800px) {
+    .no-employee {
+      width: 410px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      button {
+        width: 160px;
+        margin: 10px 125px;
+      }
+    }
+  }
+  @media (max-width: 800px) {
+    .no-employee {
+      width: calc(100vw - 40px);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      margin-bottom: 20px;
+      a {
+        width: 160px;
+        margin: 10px 0px;
+      }
     }
   }
   .calculator {
@@ -31,7 +52,13 @@
       }
     }
     span {
-      font-size: 20px;
+      @media (max-width: 800px) {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      @media (min-width: 800px) {
+        font-size: 20px;
+      }
 
       &.total {
         display: inline-block;

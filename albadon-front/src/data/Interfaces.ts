@@ -97,3 +97,7 @@ export interface Boss {
   bossBirthday: string;
   storeList: Store[];
 }
+
+export interface MinWage {
+  value: number;
+}

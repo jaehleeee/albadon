@@ -1,7 +1,8 @@
 import { atom, selector } from "recoil";
 import { selectBoss } from "../service/BossService";
 import { getStoreListByMemberId } from "../service/StoreService";
-import { Boss, Store } from "./Interfaces";
+import { Boss, Store, MinWage } from "./Interfaces";
+import { getCommonValue } from "../service/CommonService";
 
 export const bossIdState = atom({
   key: "bossIdState",
@@ -36,6 +37,19 @@ export const storeListState = selector({
       return res.data as Store[];
     } else {
       return [];
+    }
+  },
+});
+
+export const minWageState = selector({
+  key: "minWageState",
+  get: async ({ get }) => {
+    const bossId = get(bossIdState);
+    if (bossId) {
+      const res = await getCommonValue("minimum_hourly_wage");
+      return res.data as MinWage;
+    } else {
+      return {} as MinWage;
     }
   },
 });

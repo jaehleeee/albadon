@@ -90,17 +90,29 @@ export const TextEditor = (p: any) => (
   />
 );
 
-export const NumberEditor = (p: any) => (
-  <Input
-    //autoFocus
-    id={`${p.column.key}-${p.rowIdx}`}
-    type="number"
-    value={p.row[p.column.key] || ""}
-    onChange={(e) => {
-      p.onRowChange({ ...p.row, [p.column.key]: e.target.value });
-    }}
-  />
-);
+export const NumberEditor = (defaultValue?: any) => (p: any) =>
+  (
+    <>
+      <Input
+        //autoFocus
+        id={`${p.column.key}-${p.rowIdx}`}
+        type="number"
+        value={p.row[p.column.key] || ""}
+        onChange={(e) => {
+          p.onRowChange({ ...p.row, [p.column.key]: e.target.value });
+        }}
+      />
+      {defaultValue && (
+        <button
+          onClick={() => {
+            p.onRowChange({ ...p.row, [p.column.key]: defaultValue });
+          }}
+        >
+          Defualt
+        </button>
+      )}
+    </>
+  );
 
 export const PhoneEditor = (p: any) => {
   const value: string = p.row[p.column.key] || "--";
@@ -221,4 +233,5 @@ export interface CommonColumnI {
   editable?: boolean;
   visible?: boolean;
   mandatory?: boolean;
+  defaultValue?: number;
 }

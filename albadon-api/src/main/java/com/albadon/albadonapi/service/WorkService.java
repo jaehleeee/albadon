@@ -2,6 +2,7 @@ package com.albadon.albadonapi.service;
 
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class WorkService {
 		List<Work> workList = workRepository.findByStoreAndEmployeeIdAndWorkDateBetween(store, employee.getEmployeeId(), thisMonth, nextMonth);
 
 		return workList.stream()
+			.sorted(Comparator.comparing(Work::getWorkDate))
 			.map(work -> toDtoFromWork(work))
 			.collect(Collectors.toList());
 	}
